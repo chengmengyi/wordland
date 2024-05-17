@@ -18,7 +18,7 @@ import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
 class AnswerCon extends RootController{
-  var _largeIndex=0,_smallIndex=0,smallAnswerIndex=0,_levelStatus=LevelStatus.current,canClick=true,downCountTime=30,_totalCountTime=30;
+  var _largeIndex=0,_smallIndex=0,smallAnswerIndex=0,_levelStatus=LevelStatus.current,canClick=true,downCountTime=30,_totalCountTime=30,_pause=false;
   final List<QuestionBean> _questionList=[];
   QuestionBean? currentQuestion;
   List<String> chooseList=[];
@@ -144,10 +144,14 @@ class AnswerCon extends RootController{
   clickBottom(index){
     switch(index){
       case 0:
+        _pause=true;
         RoutersUtils.dialog(
             child: PauseDialog(
               quitCall: (){
                 RoutersUtils.back();
+              },
+              dialogClose: (){
+                _pause=false;
               },
             )
         );
@@ -215,17 +219,19 @@ class AnswerCon extends RootController{
     downCountTime=30;
     _totalCountTime=30;
     _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-      downCountTime--;
-      update(["time"]);
-      if(downCountTime<=0){
-        timer.cancel();
-        RoutersUtils.dialog(
-          child: TimeOutDialog(
-            clickCall: (){
-              RoutersUtils.back();
-            },
-          )
-        );
+      if(!_pause){
+        downCountTime--;
+        update(["time"]);
+        if(downCountTime<=0){
+          timer.cancel();
+          RoutersUtils.dialog(
+              child: TimeOutDialog(
+                clickCall: (){
+                  RoutersUtils.back();
+                },
+              )
+          );
+        }
       }
     });
   }

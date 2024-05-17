@@ -13,4 +13,6 @@ class StorageName {
   static const String receiveTask4="receiveTask4";
   static const String userRemoveFailNum="userRemoveFailNum";
   static const String useTimeNum="useTimeNum";
+  static const String headName="headName";
+  static const String userName="userName";
 }

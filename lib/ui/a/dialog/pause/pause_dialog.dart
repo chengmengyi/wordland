@@ -9,7 +9,8 @@ import 'package:wordland/widget/text_widget.dart';
 
 class PauseDialog extends RootDialog<PauseCon>{
   Function() quitCall;
-  PauseDialog({required this.quitCall});
+  Function() dialogClose;
+  PauseDialog({required this.quitCall,required this.dialogClose});
 
   @override
   PauseCon setController() => PauseCon();
@@ -37,7 +38,7 @@ class PauseDialog extends RootDialog<PauseCon>{
 
   _itemWidget(index)=>InkWell(
     onTap: (){
-      rootController.clickIndex(index,quitCall);
+      rootController.clickIndex(index,quitCall,dialogClose);
     },
     child: Column(
       mainAxisSize: MainAxisSize.min,

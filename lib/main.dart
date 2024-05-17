@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wordland/routers/routers_data.dart';
+import 'package:wordland/utils/cloak_utils.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,7 @@ void main() async{
 
 initInfo()async{
   await GetStorage.init();
+  CloakUtils.instance.request();
 }
 
 class MyApp extends StatelessWidget {

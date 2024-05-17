@@ -44,6 +44,7 @@ dependencies:
   fluttertoast: 8.0.9
   assets_audio_player: 3.1.1
   flutter_tba_info: 0.0.7
+  dio: 5.4.0
 
 dev_dependencies:
   flutter_test:

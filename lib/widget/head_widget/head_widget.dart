@@ -13,18 +13,18 @@ class HeadWidget extends BaseWidget<HeadCon>{
 
   @override
   Widget contentWidget() =>SizedBox(
-    width: 170.w,
+    width: 160.w,
     height: 44.h,
     child: Stack(
       alignment: Alignment.bottomLeft,
       children: [
-        ImageWidget(image: "home8",width: 170.w,height: 38.h,fit: BoxFit.fill,),
-        ImageWidget(image: "head1",width: 44.w,height: 44.h,),
+        ImageWidget(image: "home8",width: 160.w,height: 38.h,fit: BoxFit.fill,),
+        ImageWidget(image: rootController.headName,width: 44.w,height: 44.h,),
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
             margin: EdgeInsets.only(left: 48.w,top: 6.h),
-            child: TextWidget(text: "Player-290329", color: colorFFFFFF, size: 14.sp,fontWeight: FontWeight.w600,),
+            child: TextWidget(text: rootController.userName, color: colorFFFFFF, size: 14.sp,fontWeight: FontWeight.w600,),
           ),
         )
       ],
