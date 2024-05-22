@@ -12,6 +12,8 @@ abstract class RootPage<T extends RootController>extends StatelessWidget{
     return Scaffold(
       body: Stack(
         children: [
+          bgName().isEmpty?
+          const SizedBox():
           ImageWidget(image: bgName(),width: double.infinity,height: double.infinity,fit: BoxFit.fill,),
           SafeArea(
             top: true,
@@ -29,7 +31,7 @@ abstract class RootPage<T extends RootController>extends StatelessWidget{
 
   T setController();
 
-  String bgName();
+  String bgName()=> "";
 
   Widget contentWidget();
 }

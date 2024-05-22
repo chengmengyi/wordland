@@ -6,13 +6,15 @@ class TextWidget extends StatelessWidget{
   double size;
   FontWeight? fontWeight;
   TextAlign? textAlign;
+  double? height;
 
   TextWidget({
     required this.text,
     required this.color,
     required this.size,
     this.fontWeight,
-    this.textAlign
+    this.textAlign,
+    this.height,
   });
 
   @override
@@ -22,6 +24,7 @@ class TextWidget extends StatelessWidget{
       color: color,
       fontSize: size,
       fontWeight: fontWeight,
+      height: height
     ),
     textAlign: textAlign,
   );

@@ -54,3 +54,29 @@ showToast(String text){
       fontSize: 16
   );
 }
+
+extension RandomIntList on List<int> {
+  int random() {
+    return this[Random().nextInt(length)];
+  }
+}
+
+extension String2Double on String {
+  double toDouble() {
+    try{
+      return double.parse(this);
+    }catch(e){
+      return 0.0;
+    }
+  }
+}
+
+extension String2Int on String{
+  int toInt({int defaultNum=0}){
+    try{
+      return int.parse(this);
+    }catch(e){
+      return defaultNum;
+    }
+  }
+}

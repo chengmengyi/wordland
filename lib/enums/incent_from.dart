@@ -1,0 +1,3 @@
+enum IncentFrom{
+  newUserGuide,other
+}

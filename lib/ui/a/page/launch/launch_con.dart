@@ -29,7 +29,7 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
       }
       if(_count>=_totalCount){
         timer.cancel();
-        RoutersUtils.offNamed(router: RoutersData.home);
+        RoutersUtils.offNamed(router: RoutersData.bHome);
       }
     });
   }

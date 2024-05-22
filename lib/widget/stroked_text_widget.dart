@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StrokedTextWidget extends StatelessWidget{
   String text;
   double fontSize;
   Color textColor;
   Color strokeColor;
-  double strokeWidth;
+  double? strokeWidth;
 
   StrokedTextWidget({
     required this.text,
     required this.fontSize,
     required this.textColor,
     required this.strokeColor,
-    required this.strokeWidth,
+    this.strokeWidth,
   });
 
 
@@ -27,7 +28,7 @@ class StrokedTextWidget extends StatelessWidget{
             fontWeight: FontWeight.bold,
             foreground: Paint()
               ..style = PaintingStyle.stroke
-              ..strokeWidth = strokeWidth
+              ..strokeWidth = strokeWidth??2.w
               ..color = strokeColor
         ),
       ),

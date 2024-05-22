@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wordland/enums/incent_from.dart';
+import 'package:wordland/enums/sign_from.dart';
+import 'package:wordland/ui/b/dialog/incent/incent_dialog.dart';
+import 'package:wordland/ui/b/dialog/sign/sign_dialog.dart';
+import 'package:wordland/utils/color_utils.dart';
 
 class RoutersUtils{
 
@@ -39,8 +44,20 @@ class RoutersUtils{
     Get.dialog(
       child,
       arguments: arguments,
-      barrierColor: barrierColor,
+      barrierColor: barrierColor??color000000.withOpacity(0.8),
       barrierDismissible: barrierDismissible ?? false,
+    );
+  }
+
+  static showIncentDialog({required IncentFrom incentFrom}){
+    dialog(
+      child: IncentDialog(incentFrom: incentFrom,)
+    );
+  }
+
+  static showSignDialog({required SignFrom signFrom}){
+    dialog(
+        child: SignDialog(signFrom: signFrom,)
     );
   }
 }

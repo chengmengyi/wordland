@@ -19,12 +19,13 @@ class QuestionUtils{
   }
 
   final List<QuestionBean> _questionList=[];
-  var currentLevel=1,currentAnswerIndex=0;
+  var currentLevel=1,currentAnswerIndex=0,bAnswerIndex=0;
 
   QuestionUtils._internal(){
     _initQuestionList();
     currentLevel=StorageUtils.read<int>(StorageName.currentLevel)??1;
     currentAnswerIndex=StorageUtils.read<int>(StorageName.currentAnswerIndex)??0;
+    bAnswerIndex=StorageUtils.read<int>(StorageName.bAnswerIndex)??0;
   }
 
   _initQuestionList(){
@@ -80,5 +81,18 @@ class QuestionUtils{
   updateCurrentAnswerIndex(int largeIndex,int smallIndex,int answerIndex){
     currentAnswerIndex=largeIndex*30+smallIndex*3+answerIndex;
     StorageUtils.write(StorageName.currentAnswerIndex, currentAnswerIndex);
+  }
+
+  QuestionBean getBQuestion(){
+    if(bAnswerIndex>=_questionList.length){
+      bAnswerIndex=-1;
+      updateBAnswerIndex();
+    }
+    return _questionList[bAnswerIndex];
+  }
+
+  updateBAnswerIndex(){
+    bAnswerIndex++;
+    StorageUtils.write(StorageName.bAnswerIndex, bAnswerIndex);
   }
 }

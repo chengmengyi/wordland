@@ -1,3 +1,7 @@
 enum EventCode{
-  unlockNewLevel,updateRemoveFailNum,updateTimeNum,updateCoinNum
+  unlockNewLevel,
+  updateRemoveFailNum,
+  updateTimeNum,
+  updateCoinNum,
+  updatePayType
 }

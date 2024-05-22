@@ -15,4 +15,10 @@ class StorageName {
   static const String useTimeNum="useTimeNum";
   static const String headName="headName";
   static const String userName="userName";
+  static const String bAnswerIndex="bAnswerIndex";
+  static const String payType="payType";
+  static const String newUserGuideStep="newUserGuideStep";
+  static const String localValueConf="localValueConf";
+  static const String localADConf="localADConf";
+  static const String signInfo="signInfo";
 }
