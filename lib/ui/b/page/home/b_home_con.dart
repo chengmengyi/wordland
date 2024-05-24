@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:wordland/bean/home_bottom_bean.dart';
 import 'package:wordland/event/event_code.dart';
@@ -35,9 +36,18 @@ class BHomeCon extends RootController{
       case EventCode.oldUserShowBubbleGuide:
         clickBottom(1);
         break;
+      case EventCode.showWithdrawChild:
+        clickBottom(2);
+        break;
       default:
 
         break;
     }
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    AppTrackingTransparency.requestTrackingAuthorization();
   }
 }

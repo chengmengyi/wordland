@@ -75,6 +75,13 @@ class IncentCon extends RootController{
   clickDouble(Function()? dismissDialog){
     AdUtils.instance.showAd(
         adType: AdType.reward,
+        cancelShow: (){
+          RoutersUtils.back();
+          if(_incentFrom==IncentFrom.newUserGuide){
+            NumUtils.instance.updateCoinNum(addNum);
+            GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+          }
+        },
         adShowListener: AdShowListener(
             onAdHidden: (MaxAd? ad) {
               RoutersUtils.back();

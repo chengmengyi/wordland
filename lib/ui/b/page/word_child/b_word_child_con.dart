@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
@@ -37,6 +38,7 @@ import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/value_conf_utils.dart';
 
 class BWordChildCon extends RootController{
   var canClick=true,downCountTime=30,_totalCountTime=30,_pause=false,showBubble=true;
@@ -275,7 +277,7 @@ class BWordChildCon extends RootController{
         break;
       case EventCode.showNewUserWordsGuide:
         _showWordsGuide();
-        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.completeNewUserGuide,fromNewUserStep: true);
+        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.completeNewUserGuide);
         break;
       case EventCode.showWordsGuideFromOther:
         _showWordsGuide();
@@ -333,6 +335,7 @@ class BWordChildCon extends RootController{
       adShowListener: AdShowListener(
           onAdHidden: (ad){
             _showOrHideBubble(true);
+            NumUtils.instance.updateCoinNum(ValueConfUtils.instance.getCommonAddNum());
           },
           showAdFail: (ad,err){
             _showOrHideBubble(true);

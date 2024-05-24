@@ -32,9 +32,14 @@ class NewUserCon extends RootController{
     update(["pay_type"]);
   }
 
-  clickDouble(){
+  clickDouble()async{
     AdUtils.instance.showAd(
       adType: AdType.reward,
+      cancelShow: (){
+        RoutersUtils.back();
+        NumUtils.instance.updateCoinNum(addNum);
+        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
+      },
       adShowListener: AdShowListener(
           onAdHidden: (MaxAd? ad) {
             RoutersUtils.back();

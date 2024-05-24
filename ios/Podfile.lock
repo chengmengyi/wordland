@@ -5,6 +5,8 @@ PODS:
   - adjust_sdk (4.31.0):
     - Adjust (= 4.31.0)
     - Flutter
+  - app_tracking_transparency (0.0.1):
+    - Flutter
   - applovin_max (3.9.2):
     - AppLovinSDK (= 12.4.1)
     - Flutter
@@ -89,6 +91,7 @@ PODS:
 
 DEPENDENCIES:
   - adjust_sdk (from `.symlinks/plugins/adjust_sdk/ios`)
+  - app_tracking_transparency (from `.symlinks/plugins/app_tracking_transparency/ios`)
   - applovin_max (from `.symlinks/plugins/applovin_max/ios`)
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
@@ -125,6 +128,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   adjust_sdk:
     :path: ".symlinks/plugins/adjust_sdk/ios"
+  app_tracking_transparency:
+    :path: ".symlinks/plugins/app_tracking_transparency/ios"
   applovin_max:
     :path: ".symlinks/plugins/applovin_max/ios"
   assets_audio_player:
@@ -155,6 +160,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Adjust: 8d4c9da5bb1d161db5d35dd091e34a641c9511ef
   adjust_sdk: 5e02361d2ccc4b1fd9dcd9a9fffa744b17f65f28
+  app_tracking_transparency: e169b653478da7bb15a6c61209015378ca73e375
   applovin_max: f4c696080f11d8c361c7130ca1a6af8c144b99d8
   AppLovinSDK: c57ad0d34625c971d2db127f8ef60570b28ff51a
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917

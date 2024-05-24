@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_max_ad/ad/ad_type.dart';
-import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
 import 'package:wordland/utils/num_utils.dart';

@@ -11,6 +11,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/no_wheel/no_wheel_dialog.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/value_conf_utils.dart';
 
 class WheelCon extends RootController{
   late AnimationController animationController;
@@ -25,7 +26,6 @@ class WheelCon extends RootController{
   @override
   void onInit() {
     super.onInit();
-    print("onInit");
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
     FlutterMaxAd.instance.loadAdByType(AdType.inter);
   }
@@ -33,7 +33,6 @@ class WheelCon extends RootController{
   @override
   void onReady() {
     super.onReady();
-    print("onReady");
     if(RoutersUtils.getParams()["auto"]==true){
       clickPlay();
     }
@@ -64,7 +63,10 @@ class WheelCon extends RootController{
           adType: AdType.inter,
           adShowListener: AdShowListener(
             onAdHidden: (ad){
-              RoutersUtils.showIncentDialog(incentFrom: IncentFrom.wheel);
+              RoutersUtils.showIncentDialog(
+                incentFrom: IncentFrom.wheel,
+                addNum: ValueConfUtils.instance.getWheelAddNum()
+              );
             },
           )
       );
@@ -75,6 +77,7 @@ class WheelCon extends RootController{
   void onClose() {
     _timer?.cancel();
     _timer=null;
+    animationController.stop();
     animationController.dispose();
     super.onClose();
   }

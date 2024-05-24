@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:wordland/bean/value_conf_bean.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
@@ -26,6 +27,23 @@ class ValueConfUtils{
 
   int getCommonAddNum(){
     var common = _valueConfBean?.rewardWord??[];
+    if(common.isEmpty){
+      return 2000;
+    }
+    var coinNum = NumUtils.instance.coinNum;
+    if(coinNum>(common.last.endNumber??1000000)){
+      return (common.last.wordReward??[2000]).random();
+    }
+    for (var value in common) {
+      if(coinNum>=(value.firstNumber??0)&&coinNum<(value.endNumber??0)){
+        return (value.wordReward??[2000]).random();
+      }
+    }
+    return 2000;
+  }
+
+  int getWheelAddNum(){
+    var common = _valueConfBean?.wheel??[];
     if(common.isEmpty){
       return 2000;
     }
@@ -69,5 +87,12 @@ class ValueConfUtils{
       return s;
     }
     return valueConfStr.base64();
+  }
+
+  getFirebaseInfo()async{
+    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers");
+    if(s.isNotEmpty){
+      StorageUtils.write(StorageName.localValueConf, s);
+    }
   }
 }

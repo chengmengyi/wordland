@@ -12,4 +12,7 @@ enum EventCode{
   showWordsGuideFromOther,
   oldUserShowBubbleGuide,
   oldUserShowWordsGuide,
+  signSuccess,
+  showMoneyLottie,
+  showWithdrawChild,
 }

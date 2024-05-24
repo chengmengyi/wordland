@@ -1,6 +1,7 @@
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
+import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
@@ -79,7 +80,7 @@ class NumUtils{
   updateCoinNum(int addNum){
     coinNum+=addNum;
     StorageUtils.write(StorageName.coinNum, coinNum);
-    EventCode.updateCoinNum.sendMsg();
+    EventCode.showMoneyLottie.sendMsg();
   }
 
   String getNewUserBg() => "new_bg${payType+1}";
@@ -106,6 +107,7 @@ class NumUtils{
     signDays++;
     todaySigned=true;
     StorageUtils.write(StorageName.signInfo, "${getTodayTime()}_$signDays");
+    EventCode.signSuccess.sendMsg();
   }
 
   getFirebaseConfInfo()async{
@@ -118,14 +120,14 @@ class NumUtils{
   updateHasUserCount(){
     hasNewUserCount++;
     if(hasNewUserCount%newUserInt==0){
-      AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
+      _showInterAd();
     }
   }
 
   updateHasWlandIntCount(){
     hasWlandIntCount++;
     if(hasWlandIntCount%wlandInt==0){
-      AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
+      _showInterAd();
     }
   }
 
@@ -138,8 +140,12 @@ class NumUtils{
   updateHasWheelCount(){
     hasWheelCount++;
     if(hasWheelCount%wheelInt==0){
-      AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
+      _showInterAd();
     }
+  }
+
+  _showInterAd(){
+    FlutterMaxAd.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
   }
 
   updateCollectBubbleNum(){

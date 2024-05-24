@@ -41,7 +41,7 @@ class AdUtils{
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
         secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
-      testDeviceAdvertisingIds: ["E49D56F2-A690-4801-86C0-260396FEFA9D"]
+      testDeviceAdvertisingIds: ["EC9E8B35-C29F-4785-92E2-6854BB1FB33A","D068A2E7-1402-4D73-A063-6F2096DFE739"]
     );
   }
 
@@ -67,7 +67,7 @@ class AdUtils{
               child: LoadFailDialog(
                 result: (again){
                   if(again){
-                    showAd(adType: adType, adShowListener: adShowListener);
+                    showAd(adType: adType, adShowListener: adShowListener,cancelShow: cancelShow);
                   }else{
                     cancelShow?.call();
                   }

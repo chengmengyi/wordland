@@ -26,7 +26,7 @@ class GuideUtils{
 
   OverlayEntry? _overlayEntry;
 
-  checkNewUserGuide({bool fromNewUserStep=false}){
+  checkNewUserGuide(){
     var newUserGuideStep = StorageUtils.read<int>(StorageName.newUserGuideStep)??NewUserGuideStep.showNewUserDialog;
     switch(newUserGuideStep){
       case NewUserGuideStep.showNewUserDialog:
@@ -42,7 +42,8 @@ class GuideUtils{
         EventCode.showNewUserWordsGuide.sendMsg();
         break;
       case NewUserGuideStep.completeNewUserGuide:
-        if(!fromNewUserStep){
+        var completeNewUserGuideTimer = StorageUtils.read<String>(StorageName.completeNewUserGuideTimer)??"";
+        if(completeNewUserGuideTimer!=getTodayTime()){
           _checkOldUserGuide();
         }
         break;
@@ -62,9 +63,12 @@ class GuideUtils{
 
   _checkHasCompleteOldUserGuide()=>(StorageUtils.read<String>(StorageName.lastOldUserGuideTimer)??"")==getTodayTime();
 
-  updateNewUserGuideStep(int step,{bool fromNewUserStep=false}){
+  updateNewUserGuideStep(int step){
     StorageUtils.write(StorageName.newUserGuideStep, step);
-    checkNewUserGuide(fromNewUserStep: fromNewUserStep);
+    if(step==NewUserGuideStep.completeNewUserGuide){
+      StorageUtils.write(StorageName.completeNewUserGuideTimer, getTodayTime());
+    }
+    checkNewUserGuide();
   }
 
   updateOldUserGuideStep(int step){

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -11,8 +13,14 @@ import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
 class BWithdrawChildCon extends RootController{
-  var chooseIndex=0;
+  var chooseIndex=0,marqueeStr="";
   List<int> withdrawNumList=ValueConfUtils.instance.getWithdrawList();
+
+  @override
+  void onInit() {
+    super.onInit();
+    _initMarqueeStr();
+  }
 
   @override
   bool initEventbus() => true;
@@ -65,11 +73,20 @@ class BWithdrawChildCon extends RootController{
   void receiveBusMsg(EventCode code) {
     switch(code){
       case EventCode.updateCoinNum:
+      case EventCode.signSuccess:
         update(["child"]);
         break;
       default:
 
         break;
+    }
+  }
+
+  _initMarqueeStr(){
+    for(var index=0; index<5;index++){
+      var phone = "${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}";
+      var cash = ValueConfUtils.instance.getWithdrawList().random();
+      marqueeStr+="Congratulations 1*******$phone just cashed out \$$cash     ";
     }
   }
 }

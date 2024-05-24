@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:wordland/enums/level_status.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/task_child/b_task_child_con.dart';
-import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/widget/heart/heart_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
-import 'package:wordland/widget/text_widget.dart';
+import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
 
 class BTaskChildPage extends RootChild<BTaskChildCon>{
@@ -22,14 +20,19 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
   Widget contentWidget() => SafeArea(
     top: true,
     bottom: true,
-    child: Column(
+    child: Stack(
       children: [
-        SizedBox(height: 10.h,),
-        _topWidget(),
-        SizedBox(height: 16.h,),
-        _achWidget(),
-        SizedBox(height: 16.h,),
-        _listWidget(),
+        Column(
+          children: [
+            SizedBox(height: 10.h,),
+            _topWidget(),
+            SizedBox(height: 16.h,),
+            _achWidget(),
+            SizedBox(height: 16.h,),
+            _listWidget(),
+          ],
+        ),
+        MoneyAnimatorWidget()
       ],
     ),
   );

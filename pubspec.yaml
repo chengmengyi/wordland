@@ -48,6 +48,8 @@ dependencies:
   flutter_check_adjust_cloak: 0.1.8
   flutter_max_ad: 0.1.7
   lottie: 2.6.0
+  marquee: 2.2.3
+  app_tracking_transparency: 2.0.5
 
 dev_dependencies:
   flutter_test:

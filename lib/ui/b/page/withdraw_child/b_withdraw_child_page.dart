@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:marquee/marquee.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_con.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -56,7 +57,19 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
               ImageWidget(image: "cash3",width: 24.w,height: 24.h,),
               SizedBox(width: 4.w,),
               Expanded(
-                child: TextWidget(text: "kkkkkk", color: colorAAAAAA, size: 12.sp,),
+                child: Marquee(
+                  text: rootController.marqueeStr,
+                  style: TextStyle(
+                    fontSize: 12.sp,
+                    color: colorAAAAAA,
+                  ),
+                  scrollAxis: Axis.horizontal,
+                  blankSpace: 20.0,
+                  velocity: 100.0,
+                  startPadding: 10.0,
+                  accelerationCurve: Curves.linear,
+                  decelerationCurve: Curves.easeOut,
+                ),
               )
             ],
           ),

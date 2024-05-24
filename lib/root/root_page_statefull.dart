@@ -12,10 +12,8 @@ abstract class RootPageState<T extends RootPageStatefull,K extends RootControlle
 
   @override
   void initState() {
-    var c = setController();
-    var tag = c.runtimeType.toString();
-    Get.put(c,tag: tag);
-    rootController = Get.find<K>(tag: tag);
+    Get.put(setController(),tag: controllerTag());
+    rootController = Get.find<K>(tag: controllerTag());
     super.initState();
   }
 
@@ -45,6 +43,8 @@ abstract class RootPageState<T extends RootPageStatefull,K extends RootControlle
   K setController();
 
   String bgName()=> "";
+
+  String controllerTag();
 
   Widget contentWidget();
 }

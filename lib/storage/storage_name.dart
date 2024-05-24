@@ -28,4 +28,5 @@ class StorageName {
   static const String oldUserGuideStep="oldUserGuideStep";
   static const String receivedBubble="receivedBubble";
   static const String collectBubbleNum="collectBubbleNum";
+  static const String completeNewUserGuideTimer="completeNewUserGuideTimer";
 }

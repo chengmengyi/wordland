@@ -1,6 +1,8 @@
 import 'package:adjust_sdk/adjust_event_success.dart';
 import 'package:flutter_check_adjust_cloak/util/check_listener.dart';
+import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/value_conf_utils.dart';
 
 class UserCheckImpl implements CheckListener{
   @override
@@ -36,6 +38,8 @@ class UserCheckImpl implements CheckListener{
   @override
   initFirebaseSuccess() {
     NumUtils.instance.getFirebaseConfInfo();
+    AdUtils.instance.getFirebaseInfo();
+    ValueConfUtils.instance.getFirebaseInfo();
   }
 
   @override
