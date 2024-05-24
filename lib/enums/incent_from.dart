@@ -1,3 +1,7 @@
 enum IncentFrom{
-  newUserGuide,other
+  newUserGuide,
+  wheel,
+  task,
+  ach,
+  other
 }

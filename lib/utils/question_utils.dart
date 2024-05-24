@@ -19,13 +19,14 @@ class QuestionUtils{
   }
 
   final List<QuestionBean> _questionList=[];
-  var currentLevel=1,currentAnswerIndex=0,bAnswerIndex=0;
+  var currentLevel=1,currentAnswerIndex=0,bAnswerIndex=0,bAnswerRightNum=0;
 
   QuestionUtils._internal(){
     _initQuestionList();
     currentLevel=StorageUtils.read<int>(StorageName.currentLevel)??1;
     currentAnswerIndex=StorageUtils.read<int>(StorageName.currentAnswerIndex)??0;
     bAnswerIndex=StorageUtils.read<int>(StorageName.bAnswerIndex)??0;
+    bAnswerRightNum=StorageUtils.read<int>(StorageName.bAnswerRightNum)??0;
   }
 
   _initQuestionList(){
@@ -46,6 +47,8 @@ class QuestionUtils{
   int getQuestionListLength() => (_questionList.length/30).ceil();
 
   int getQuestionNum()=>_questionList.length;
+
+  int getLevel() => QuestionUtils.instance.bAnswerRightNum~/3+1;
 
   LevelStatus getLevelStatus(int largeIndex,int smallIndex){
     var i = largeIndex*10+smallIndex+1;
@@ -91,8 +94,17 @@ class QuestionUtils{
     return _questionList[bAnswerIndex];
   }
 
-  updateBAnswerIndex(){
+  updateBAnswerIndex({bool updateAnswerRight=false}){
     bAnswerIndex++;
     StorageUtils.write(StorageName.bAnswerIndex, bAnswerIndex);
+    if(updateAnswerRight){
+      bAnswerRightNum++;
+      StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);
+    }
   }
+
+  // updateAnswerRightNum(){
+  //   bAnswerRightNum++;
+  //   StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);
+  // }
 }

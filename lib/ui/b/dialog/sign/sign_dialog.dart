@@ -99,9 +99,13 @@ class SignDialog extends RootDialog<SignCon>{
   );
 
   _signItemWidget(index)=>InkWell(
+    onTap: (){
+      rootController.clickItem(index);
+    },
     child: Container(
       width: 60.w,
       height: 72.w,
+      key: rootController.globalList[index],
       margin: EdgeInsets.only(left: 2.w,right: 2.w),
       child: Stack(
         children: [

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/root/root_controller.dart';
+import 'package:wordland/routers/routers_utils.dart';
 
 class LoadingCon extends RootController{
   AdType? _adType;
@@ -27,7 +28,9 @@ class LoadingCon extends RootController{
       update(["pro"]);
       if(_count>=600){
         _stopProgress();
+        RoutersUtils.back();
         _result?.call(false);
+        return;
       }
       _checkHasAd();
     });
@@ -40,6 +43,7 @@ class LoadingCon extends RootController{
     var hasCache = FlutterMaxAd.instance.checkHasCache(_adType??AdType.reward);
     if(hasCache){
       _stopProgress();
+      RoutersUtils.back();
       _result?.call(true);
     }
   }

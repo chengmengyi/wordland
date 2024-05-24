@@ -8,6 +8,9 @@ import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class AddHintDialog extends RootDialog<AddHintCon>{
+  // Function() addNumCall;
+  // AddHintDialog({required this.addNumCall});
+
   @override
   AddHintCon setController() => AddHintCon();
 
@@ -47,6 +50,9 @@ class AddHintDialog extends RootDialog<AddHintCon>{
               ),
               SizedBox(height: 28.h,),
               InkWell(
+                onTap: (){
+                  rootController.clickGet();
+                },
                 child: ImageWidget(image: "icon_watch",width: 180.w,height: 36.h,),
               )
             ],

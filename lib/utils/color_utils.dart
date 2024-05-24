@@ -39,3 +39,5 @@ const colorFFFEFA=Color(0xFFFFFEFA);
 const colorE8DEC8=Color(0xFFE8DEC8);
 const colorB5AE9B=Color(0xFFB5AE9B);
 const colorB6B6B6=Color(0xFFB6B6B6);
+const colorFFDF37=Color(0xFFFFDF37);
+const colorF35F1C=Color(0xFFF35F1C);

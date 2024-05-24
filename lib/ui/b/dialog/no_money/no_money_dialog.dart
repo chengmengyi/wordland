@@ -36,7 +36,7 @@ class NoMoneyDialog extends RootDialog<NoMoneyCon>{
           child: TextWidget(text: "Your account balance is insufficient and withdrawal is temporarily unavailable.Go and earn cash！", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
         ),
         SizedBox(height: 8.h,),
-        BtnWidget(text: "Earn More Cash", click: (){})
+        BtnWidget(text: "Earn More Cash", click: (){rootController.clickMore();})
       ],
     ),
   );
@@ -45,7 +45,7 @@ class NoMoneyDialog extends RootDialog<NoMoneyCon>{
     alignment: Alignment.topRight,
     child: InkWell(
       onTap: (){
-        RoutersUtils.back();
+        rootController.clickClose();
       },
       child: Padding(
         padding: EdgeInsets.all(7.w),

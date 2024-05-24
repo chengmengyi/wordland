@@ -5,6 +5,7 @@ import 'package:wordland/ui/a/page/home/home_page.dart';
 import 'package:wordland/ui/a/page/launch/launch_page.dart';
 import 'package:wordland/ui/a/page/set/set_page.dart';
 import 'package:wordland/ui/a/page/web/web_page.dart';
+import 'package:wordland/ui/b/page/ach/ach_page.dart';
 import 'package:wordland/ui/b/page/home/b_home_page.dart';
 import 'package:wordland/ui/b/page/wheel/wheel_page.dart';
 
@@ -17,6 +18,7 @@ class RoutersData{
   static const String web="/web";
   static const String bHome="/bHome";
   static const String wheel="/wheel";
+  static const String bAch="/bAch";
 
   static final routersList=[
     GetPage(
@@ -57,6 +59,11 @@ class RoutersData{
     GetPage(
         name: wheel,
         page: () => WheelPage(),
+        transition: Transition.fadeIn
+    ),
+    GetPage(
+        name: bAch,
+        page: () => AchPage(),
         transition: Transition.fadeIn
     ),
   ];

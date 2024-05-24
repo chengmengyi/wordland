@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/new_user/new_user_con.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -15,23 +16,32 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
   NewUserCon setController() => NewUserCon();
 
   @override
-  Widget contentWidget() => Container(
-    margin: EdgeInsets.only(left: 36.w,right: 36.w),
-    child: Stack(
-      children: [
-        GetBuilder<NewUserCon>(
-          id: "pay_type",
-          builder: (_)=>ImageWidget(
-            image: NumUtils.instance.getNewUserBg(),
-            width: double.infinity,
-            height: 421.h,
-            fit: BoxFit.fill,
-          ),
+  Widget contentWidget() => Stack(
+    alignment: Alignment.bottomRight,
+    children: [
+      Container(
+        margin: EdgeInsets.only(left: 36.w,right: 36.w),
+        child: Stack(
+          children: [
+            GetBuilder<NewUserCon>(
+              id: "pay_type",
+              builder: (_)=>ImageWidget(
+                image: NumUtils.instance.getNewUserBg(),
+                width: double.infinity,
+                height: 421.h,
+                fit: BoxFit.fill,
+              ),
+            ),
+            _closeWidget(),
+            _contentWidget(),
+          ],
         ),
-        _closeWidget(),
-        _contentWidget(),
-      ],
-    ),
+      ),
+      Container(
+        margin: EdgeInsets.only(right: 60.w),
+        child: Lottie.asset("assets/guide1.json",width: 52.w,height: 52.w),
+      )
+    ],
   );
 
   _contentWidget()=>Container(
@@ -83,7 +93,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         BtnWidget(
           text: "Claim Now",
           click: (){
-
+            rootController.clickDouble();
           },
         )
       ],

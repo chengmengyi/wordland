@@ -32,7 +32,7 @@ class LoadFailDialog extends RootDialog<LoadFailCon>{
           ),
         ),
       ),
-      ImageWidget(image: "icon_money1",width: 120.w,height: 120.h,),
+      ImageWidget(image: "icon_fail",width: 120.w,height: 120.h,),
       SizedBox(height: 12.h,),
       TextWidget(text: "Ads are loading, please try again later", color: colorFFFFFF, size: 16.sp),
       SizedBox(height: 36.h,),

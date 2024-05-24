@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/level_status.dart';
 import 'package:wordland/root/root_child.dart';
+import 'package:wordland/routers/routers_data.dart';
+import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/task_child/b_task_child_con.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/widget/heart/heart_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -22,9 +26,9 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
       children: [
         SizedBox(height: 10.h,),
         _topWidget(),
-        SizedBox(height: 30.h,),
+        SizedBox(height: 16.h,),
         _achWidget(),
-        SizedBox(height: 30.h,),
+        SizedBox(height: 16.h,),
         _listWidget(),
       ],
     ),
@@ -40,7 +44,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
 
 
   _listWidget()=>SizedBox(
-    height: 356.h,
+    height: 416.h,
     child: GetBuilder<BTaskChildCon>(
       id: "list",
       builder: (_)=>ListView.builder(
@@ -53,12 +57,15 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
 
   _listItemWidget(int largeIndex)=>SizedBox(
     width: 545.w,
-    height: 356.h,
+    height: 416.h,
     child: Stack(
       children: [
-        Container(
-          margin: EdgeInsets.only(left: 15.w,top: 26.h),
-          child: ImageWidget(image: "home3",width: 530.w,height: 310.h,fit: BoxFit.fill,),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            margin: EdgeInsets.only(left: 15.w,top: 26.h),
+            child: ImageWidget(image: "home3",width: 530.w,height: 310.h,fit: BoxFit.fill,),
+          ),
         ),
         _stepWidget(largeIndex,0),
         Container(
@@ -68,7 +75,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
         Align(
           alignment: Alignment.bottomLeft,
           child: Container(
-            margin: EdgeInsets.only(left: 72.w,bottom: 92.h),
+            margin: EdgeInsets.only(left: 72.w,bottom: 112.h),
             child: _stepWidget(largeIndex,2),
           ),
         ),
@@ -93,28 +100,28 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.only(right: 206.w,top: 150.h),
+            margin: EdgeInsets.only(right: 120.w,top: 150.h),
             child: _stepWidget(largeIndex,6),
           ),
         ),
         Align(
           alignment: Alignment.bottomRight,
           child: Container(
-            margin: EdgeInsets.only(right: 208.w),
+            margin: EdgeInsets.only(right: 120.w),
             child: _stepWidget(largeIndex,7),
           ),
         ),
         Align(
           alignment: Alignment.bottomRight,
           child: Container(
-            margin: EdgeInsets.only(right: 100.w,bottom: 32.h),
+            margin: EdgeInsets.only(right: 20.w,bottom: 66.h),
             child: _stepWidget(largeIndex,8),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.only(right: 48.w,top: 110.h),
+            margin: EdgeInsets.only(top: 110.h),
             child: _stepWidget(largeIndex,9),
           ),
         ),
@@ -126,16 +133,42 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     var show = rootController.getShowOrHideTask(largeIndex, smallIndex);
     var completeTask = rootController.getCompleteTask(largeIndex, smallIndex);
     var currentTask = rootController.isCurrentTask(largeIndex, smallIndex);
+    var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
     return Offstage(
       offstage: !show,
       child: InkWell(
         onTap: (){
-
-          },
-        child: ImageWidget(
-          image: currentTask?"home9":completeTask?"home10":"home6",
-          width: 66.w,
-          height: currentTask?100.h:66.h,
+          rootController.clickItem(completeTask,currentTask,showBubble,largeIndex,smallIndex);
+        },
+        child: SizedBox(
+          width: 150.h,
+          height: 106.h,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: ImageWidget(
+                  image: currentTask?"home9":completeTask?"home10":"home6",
+                  width: 66.h,
+                  height: currentTask?100.h:66.h,
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Visibility(
+                  visible: showBubble&&completeTask,
+                  maintainAnimation: true,
+                  maintainState: true,
+                  maintainSize: true,
+                  child: SizedBox(
+                    key: rootController.getGlobalKey(largeIndex, smallIndex),
+                    child: ImageWidget(image: "task1",width: 92.h,height: 72.h,),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -154,9 +187,13 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
           alignment: Alignment.bottomRight,
           child: InkWell(
             onTap: (){
-              // RoutersUtils.toNamed(routerName: RoutersData.achieve);
+              RoutersUtils.toNamed(routerName: RoutersData.bAch);
             },
-            child: ImageWidget(image: "home12",width: 80.w,height: 60.h,),
+            child: Lottie.asset(
+                "assets/receive_ach.json",
+                width: 80.w,
+                height: 60.h
+            ),
           ),
         ),
       ],

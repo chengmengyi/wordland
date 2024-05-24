@@ -47,6 +47,7 @@ dependencies:
 #  dio: 5.4.0
   flutter_check_adjust_cloak: 0.1.8
   flutter_max_ad: 0.1.7
+  lottie: 2.6.0
 
 dev_dependencies:
   flutter_test:

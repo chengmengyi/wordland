@@ -16,8 +16,25 @@ class TaskUtils{
     _instance ??= TaskUtils._internal();
     return _instance!;
   }
+  final List<String> _receivedBubbleList=[];
 
-  TaskUtils._internal();
+  var largeIndex=0,smallIndex=0;
+
+  TaskUtils._internal(){
+    var list = StorageUtils.read<List>(StorageName.receivedBubble)??[];
+    for (var element in list) {
+      if(element is String){
+        _receivedBubbleList.add(element);
+      }
+    }
+  }
+
+  bool showBubble(int largeIndex,int smallIndex)=>!_receivedBubbleList.contains("${largeIndex}_$smallIndex");
+
+  updateBubbleList(int largeIndex,int smallIndex){
+    _receivedBubbleList.add("${largeIndex}_$smallIndex");
+    StorageUtils.write(StorageName.receivedBubble, _receivedBubbleList);
+  }
 
   List<TaskBean> getTaskList(){
     List<TaskBean> list=[];
@@ -42,4 +59,23 @@ class TaskUtils{
   }
 
   _getReceivedByType(TaskType taskType)=>StorageUtils.read<bool>(taskType.name)??false;
+
+
+  List<TaskBean> getBTaskList(){
+    List<TaskBean> list=[];
+    if(!_getReceivedByType(TaskType.useRemove)){
+      list.add(TaskBean(text: "The “Erase”prop was used 2 times in total", canReceive: NumUtils.instance.userRemoveFailNum>=2, addNum: 5000,taskType: TaskType.useRemove));
+    }
+    if(!_getReceivedByType(TaskType.useTime)){
+      list.add(TaskBean(text: "The “Time”prop was used 2 times in total", canReceive: NumUtils.instance.useTimeNum>=2, addNum: 5000,taskType: TaskType.useTime));
+    }
+    if(!_getReceivedByType(TaskType.collect5Bubble)){
+      list.add(TaskBean(text: "Acquire 50 Diamond", canReceive: NumUtils.instance.collectBubbleNum>=5, addNum: 10000,taskType: TaskType.collect5Bubble));
+    }
+
+    if(!_getReceivedByType(TaskType.upLevel5)){
+      list.add(TaskBean(text: "Pass 5 normal mode levels", canReceive: QuestionUtils.instance.currentLevel>=5, addNum: 20000,taskType: TaskType.upLevel5));
+    }
+    return list;
+  }
 }

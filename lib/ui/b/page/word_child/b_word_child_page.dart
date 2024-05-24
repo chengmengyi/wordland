@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_con.dart';
+import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/widget/float_widget.dart';
 import 'package:wordland/widget/heart/heart_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:get/get.dart';
@@ -18,26 +21,28 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   BWordChildCon setController() => BWordChildCon();
 
   @override
-  Widget contentWidget() => Container(
-    color: Colors.red,
-    child: SafeArea(
-      top: true,
-      bottom: true,
-      child: Column(
-        children: [
-          SizedBox(height: 10.h,),
-          _topWidget(),
-          SizedBox(height: 10.h,),
-          _levelWidget(),
-          SizedBox(height: 10.h,),
-          _questionWidget(),
-          SizedBox(height: 10.h,),
-          _chooseListWidget(),
-          SizedBox(height: 20.h,),
-          _bottomWidget(),
-        ],
+  Widget contentWidget() => Stack(
+    children: [
+      SafeArea(
+        top: true,
+        bottom: true,
+        child: Column(
+          children: [
+            SizedBox(height: 10.h,),
+            _topWidget(),
+            SizedBox(height: 10.h,),
+            _levelWidget(),
+            SizedBox(height: 10.h,),
+            _questionWidget(),
+            SizedBox(height: 10.h,),
+            _chooseListWidget(),
+            SizedBox(height: 20.h,),
+            _bottomWidget(),
+          ],
+        ),
       ),
-    ),
+      _guideWidget(),
+    ],
   );
 
   _topWidget()=>Row(
@@ -56,30 +61,24 @@ class BWordChildPage extends RootChild<BWordChildCon>{
         ImageWidget(image: "answer2",width: double.infinity,height: 308.h,fit: BoxFit.fill,),
         Container(
           margin: EdgeInsets.only(left: 36.w,right: 36.w,top: 32.h),
-          child: SizedBox(
-            width:double.infinity,
-            height: 178.h,
-            child: Stack(
-              children: [
-                ImageWidget(image: "answer3",width: double.infinity,height: 120.h,fit: BoxFit.fill,),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 12.w,right: 12.w),
-                    child: GetBuilder<BWordChildCon>(
-                      id: "question",
-                      builder: (_)=>TextWidget(
-                        text: rootController.currentQuestion?.question??"",
-                        color: color8B3B00,
-                        size: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              ImageWidget(image: "answer3",width: double.infinity,height: 120.h,fit: BoxFit.fill,),
+              Container(
+                margin: EdgeInsets.only(left: 12.w,right: 12.w),
+                child: GetBuilder<BWordChildCon>(
+                  id: "question",
+                  builder: (_)=>TextWidget(
+                    text: rootController.currentQuestion?.question??"",
+                    color: color8B3B00,
+                    size: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    textAlign: TextAlign.center,
                   ),
-                )
-              ],
-            ),
+                ),
+              ),
+            ],
           ),
         ),
         Align(
@@ -124,7 +123,43 @@ class BWordChildPage extends RootChild<BWordChildCon>{
                   ),
                 ),
               ),
-              
+              SizedBox(height: 4.h,),
+              SizedBox(
+                width: 288.w,
+                height: 36.h,
+                child: Stack(
+                  children: [
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: ImageWidget(image: "home14", width: 288.w, height: 20.h,fit: BoxFit.fill,),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: GetBuilder<BWordChildCon>(
+                        id: "wheel_pro",
+                        builder: (_)=>Container(
+                          width: (284.w)*rootController.getWheelProgress(),
+                          height: 16.h,
+                          margin: EdgeInsets.only(left: 2.w,right: 2.w),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8.w),
+                              gradient: const LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [colorFFDF37,colorF35F1C]
+                              )
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ImageWidget(image: "answer13",width: 36.w,height: 36.h,),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(height: 4.h,),
               TextWidget(text: "Pass 3 level， get a chance to spin the wheel", color: color8F7E53, size: 12.sp),
               SizedBox(height: 32.h,)
             ],
@@ -150,13 +185,14 @@ class BWordChildPage extends RootChild<BWordChildCon>{
           var char = rootController.chooseList[index];
           return InkWell(
             onTap: (){
-              rootController.clickAnswer(char,index);
+              rootController.clickAnswer(char.words);
             },
             child: Stack(
               alignment: Alignment.center,
+              key: char.globalKey,
               children: [
                 ImageWidget(image: "answer7",),
-                TextWidget(text: char, color: colorBB7000, size: 32.sp),
+                TextWidget(text: char.words, color: colorBB7000, size: 32.sp),
               ],
             ),
           );
@@ -192,26 +228,23 @@ class BWordChildPage extends RootChild<BWordChildCon>{
           ImageWidget(image:  rootController.getBottomFuncIcon(index),width: 60.w,height: 60.h,),
           Align(
             alignment: Alignment.topRight,
-            child: Offstage(
-              offstage: index==2,
-              child: Container(
-                width: 24.w,
-                height: 24.w,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12.w),
-                    color: color2FCB37,
-                    border: Border.all(
-                        width: 3.w,
-                        color: colorE7FDAA
-                    )
-                ),
-                child: TextWidget(
-                  text: "${index==0?NumUtils.instance.removeFailNum:index==1?NumUtils.instance.addTimeNum:""}",
-                  color: colorFFFFFF,
-                  size: 14.sp,
-                  fontWeight: FontWeight.w600,
-                ),
+            child: Container(
+              width: 24.w,
+              height: 24.w,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.w),
+                  color: color2FCB37,
+                  border: Border.all(
+                      width: 3.w,
+                      color: colorE7FDAA
+                  )
+              ),
+              child: TextWidget(
+                text: "${index==0?NumUtils.instance.removeFailNum:index==1?NumUtils.instance.addTimeNum:NumUtils.instance.wheelNum}",
+                color: colorFFFFFF,
+                size: 14.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -257,7 +290,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       GetBuilder<BWordChildCon>(
         id: "level",
         builder: (_)=>StrokedTextWidget(
-            text: "Level ${rootController.getLevel()}",
+            text: "Level ${QuestionUtils.instance.getLevel()}",
             fontSize: 26.sp,
             textColor: colorFFFFFF,
             strokeColor: color177200,
@@ -265,8 +298,39 @@ class BWordChildPage extends RootChild<BWordChildCon>{
         ),
       ),
       const Spacer(),
-      ImageWidget(image: "home13",width: 60.w,height: 60.h,),
+      GetBuilder<BWordChildCon>(
+        id: "bubble",
+        builder: (_)=>Visibility(
+          maintainAnimation: true,
+          maintainState: true,
+          maintainSize: true,
+          visible: rootController.showBubble,
+          child: InkWell(
+            onTap: (){
+              rootController.clickBubble();
+            },
+            child: FloatWidget(child: ImageWidget(image: "home13",width: 60.w,height: 60.h,)),
+          ),
+        ),
+      ),
       SizedBox(width: 12.w,),
     ],
+  );
+  
+  _guideWidget()=>GetBuilder<BWordChildCon>(
+    id: "guide",
+    builder: (_)=>Positioned(
+      top: (rootController.guideOffset?.dy??0)+20.w,
+      left: (rootController.guideOffset?.dx??0)+20.w,
+      child: Offstage(
+        offstage: null==rootController.guideOffset,
+        child: InkWell(
+          onTap: (){
+            rootController.clickGuide();
+          },
+          child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
+        ),
+      ),
+    ),
   );
 }

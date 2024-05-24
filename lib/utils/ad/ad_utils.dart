@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_bean/max_ad_bean.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
@@ -31,15 +32,16 @@ class AdUtils{
     FlutterMaxAd.instance.initMax(
       maxKey: maxAdKey.base64(),
       maxAdBean: MaxAdBean(
-        maxShowNum: json["ykoomnqv"],
-        maxClickNum: json["xghkvcmk"],
-        firstOpenAdList: _getAdList(json["wodbn_launch_one"],"wodbn_launch_one"),
-        secondOpenAdList: _getAdList(json["wodbn_launch_two"],"wodbn_launch_two"),
-        firstRewardedAdList: _getAdList(json["wodbn_rv_one"],"wodbn_rv_one"),
-        secondRewardedAdList: _getAdList(json["wodbn_rv_two"],"wodbn_rv_two"),
-        firstInterAdList: _getAdList(json["wodbn_int_one"],"wodbn_int_one"),
-        secondInterAdList: _getAdList(json["wodbn_int_two"],"wodbn_int_two"),
+        maxShowNum: json["xhfhennt"],
+        maxClickNum: json["nxscvbbw"],
+        firstOpenAdList: _getAdList(json["wpdnd_launch_one"],"wpdnd_launch_one"),
+        secondOpenAdList: _getAdList(json["wpdnd_launch_two"],"wpdnd_launch_two"),
+        firstRewardedAdList: _getAdList(json["wpdnd_rv_one"],"wpdnd_rv_one"),
+        secondRewardedAdList: _getAdList(json["wpdnd_rv_two"],"wpdnd_rv_two"),
+        firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
+        secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
+      testDeviceAdvertisingIds: ["E49D56F2-A690-4801-86C0-260396FEFA9D"]
     );
   }
 
@@ -48,9 +50,6 @@ class AdUtils{
     required AdShowListener adShowListener,
     Function()? cancelShow
   }){
-    adShowListener.onAdHidden.call(null);
-    return;
-
     FlutterMaxAd.instance.loadAdByType(adType);
     var hasCache = FlutterMaxAd.instance.checkHasCache(adType);
     if(hasCache){
@@ -89,14 +88,14 @@ class AdUtils{
     try{
       List<MaxAdInfoBean> adList=[];
       json.forEach((v) {
-        var v2 = v["woquhkgf"];
+        var v2 = v["qebmnbxt"];
         adList.add(
             MaxAdInfoBean(
-                id: v["phhdxvnc"],
-                plat: v["wstyghxx"],
+                id: v["poxghtmn"],
+                plat: v["xcwpwgdx"],
                 adType: v2=="open"?AdType.open:v2=="interstitial"?AdType.inter:v2=="native"?AdType.native:AdType.reward,
-                expire: v["qhdsxmno"],
-                sort: v["mugghxat"],
+                expire: v["wdsshzhd"],
+                sort: v["moetqqfa"],
                 adLocationName: adLocationName
             )
         );
@@ -113,5 +112,12 @@ class AdUtils{
       return s;
     }
     return maxAdStr.base64();
+  }
+
+  getFirebaseInfo()async{
+    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wpdnd_ad_config");
+    if(s.isNotEmpty){
+      StorageUtils.write(StorageName.localADConf, s);
+    }
   }
 }

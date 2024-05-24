@@ -9,6 +9,11 @@ import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class IncompleteDialog extends RootDialog<IncompleteCon>{
+  int chooseNum;
+  IncompleteDialog({
+    required this.chooseNum,
+  });
+
   @override
   IncompleteCon setController() => IncompleteCon();
 
@@ -30,11 +35,11 @@ class IncompleteDialog extends RootDialog<IncompleteCon>{
       children: [
         _closeWidget(),
         TextWidget(text: "One last step left to withdraw", color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
-        TextWidget(text: "Pending：Collect 10 cash coins", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
+        TextWidget(text: rootController.getStr(), color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
         ImageWidget(image: "icon_money1",width: 120.w,height: 120.h,),
-        TextWidget(text: "\$100", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: "\$$chooseNum", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 20.h,),
-        BtnWidget(text: "Go", click: (){})
+        BtnWidget(text: "Go", click: (){rootController.clickGo();})
       ],
     ),
   );

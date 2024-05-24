@@ -21,17 +21,22 @@ class NumUtils{
 
   var addDownCountNum=2,removeFailNum=2,lastRemoveFailQuestion="",
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
-      payType=0,signDays=0,todaySigned=false,newUserInt=3,hasNewUserCount=0;
+      payType=0,signDays=0,todaySigned=false,newUserInt=3,hasNewUserCount=0,
+  wlandInt=3,hasWlandIntCount=0,heartNum=3,wheelNum=3,wheelInt=3,hasWheelCount=0,
+  wordDis=5,collectBubbleNum=0;
 
   NumUtils._internal(){
     addDownCountNum=getTodayNum(StorageName.addDownCountNum, 2);
-    removeFailNum=getTodayNum(StorageName.removeFailNum, 2);
-    addTimeNum=getTodayNum(StorageName.addTimeNum, 2);
+    removeFailNum=getTodayNum(StorageName.removeFailNum, 3);
+    addTimeNum=getTodayNum(StorageName.addTimeNum, 3);
+    heartNum=getTodayNum(StorageName.heartNum, 3);
+    wheelNum=getTodayNum(StorageName.wheelNum, 3);
     lastRemoveFailQuestion=StorageUtils.read<String>(StorageName.lastRemoveFailQuestion)??"";
     coinNum=StorageUtils.read<int>(StorageName.coinNum)??0;
     userRemoveFailNum=StorageUtils.read<int>(StorageName.userRemoveFailNum)??0;
     useTimeNum=StorageUtils.read<int>(StorageName.useTimeNum)??0;
     payType=StorageUtils.read<int>(StorageName.payType)??0;
+    collectBubbleNum=StorageUtils.read<int>(StorageName.collectBubbleNum)??0;
     _getSignInfo();
   }
 
@@ -53,6 +58,12 @@ class NumUtils{
   updateLastRemoveFailQuestion(String question){
     lastRemoveFailQuestion=question;
     StorageUtils.write(StorageName.lastRemoveFailQuestion,question);
+  }
+
+  updateHeartNum(int num){
+    heartNum+=num;
+    StorageUtils.write(StorageName.heartNum,heartNum);
+    EventCode.updateHeartNum.sendMsg();
   }
 
   updateTimeNum(int add){
@@ -99,12 +110,40 @@ class NumUtils{
 
   getFirebaseConfInfo()async{
     newUserInt=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_newuser_int")).toInt(defaultNum: 3);
+    wlandInt=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int")).toInt(defaultNum: 3);
+    wheelInt=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_wheel_int")).toInt(defaultNum: 3);
+    wordDis=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_dis")).toInt(defaultNum: 5);
   }
 
-  updateNewUserInt(){
+  updateHasUserCount(){
     hasNewUserCount++;
     if(hasNewUserCount%newUserInt==0){
       AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
     }
+  }
+
+  updateHasWlandIntCount(){
+    hasWlandIntCount++;
+    if(hasWlandIntCount%wlandInt==0){
+      AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
+    }
+  }
+
+  updateWheelNum(int num){
+    wheelNum+=num;
+    StorageUtils.write(StorageName.wheelNum, "${getTodayTime()}_$wheelNum");
+    EventCode.updateWheelNum.sendMsg();
+  }
+
+  updateHasWheelCount(){
+    hasWheelCount++;
+    if(hasWheelCount%wheelInt==0){
+      AdUtils.instance.showAd(adType: AdType.inter, adShowListener: AdShowListener(onAdHidden: (ad){}));
+    }
+  }
+
+  updateCollectBubbleNum(){
+    collectBubbleNum++;
+    StorageUtils.write(StorageName.collectBubbleNum, collectBubbleNum);
   }
 }

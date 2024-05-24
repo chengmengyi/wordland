@@ -3,5 +3,13 @@ enum EventCode{
   updateRemoveFailNum,
   updateTimeNum,
   updateCoinNum,
-  updatePayType
+  updatePayType,
+  updateHeartNum,
+  showNewUserWordsGuide,
+  updateWheelNum,
+  showWordChild,
+  answerRight,
+  showWordsGuideFromOther,
+  oldUserShowBubbleGuide,
+  oldUserShowWordsGuide,
 }

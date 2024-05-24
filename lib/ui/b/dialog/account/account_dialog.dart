@@ -9,6 +9,10 @@ import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class AccountDialog extends RootDialog<AccountCon>{
+  int chooseNum;
+  AccountDialog({
+    required this.chooseNum,
+  });
   @override
   AccountCon setController() => AccountCon();
 
@@ -31,7 +35,7 @@ class AccountDialog extends RootDialog<AccountCon>{
         _closeWidget(),
         TextWidget(text: "Congratulations!", color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 8.h,),
-        TextWidget(text: "\$100", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: "\$$chooseNum", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 8.h,),
         Container(
           width: double.infinity,
@@ -70,7 +74,7 @@ class AccountDialog extends RootDialog<AccountCon>{
           child: TextWidget(text: "Your cash will arrive in your account within 3-7 business days. Please keep an eye on your account!", color: color8F7E53, size: 12.sp),
         ),
         SizedBox(height: 8.h,),
-        BtnWidget(text: "Withdraw Now", click: (){})
+        BtnWidget(text: "Withdraw Now", click: (){rootController.clickWithdraw(chooseNum);})
       ],
     ),
   );

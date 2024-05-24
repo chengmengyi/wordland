@@ -4,6 +4,7 @@ import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/export.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
@@ -46,20 +47,32 @@ class IncentCon extends RootController{
     update(["progressMarginLeft"]);
   }
 
-  setInfo(IncentFrom incentFrom){
+  setInfo(IncentFrom incentFrom,int addNum){
     _incentFrom=incentFrom;
-  }
-
-  clickClose(){
-    RoutersUtils.back();
-    NumUtils.instance.updateCoinNum(addNum);
-    if(_incentFrom==IncentFrom.newUserGuide){
-      NumUtils.instance.updateNewUserInt();
-      GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+    if(addNum>0){
+      this.addNum=addNum;
     }
   }
 
-  clickDouble(){
+  clickClose(Function()? dismissDialog){
+    RoutersUtils.back();
+    NumUtils.instance.updateCoinNum(addNum);
+    switch(_incentFrom){
+      case IncentFrom.newUserGuide:
+        NumUtils.instance.updateHasUserCount();
+        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+        break;
+      case IncentFrom.wheel:
+        NumUtils.instance.updateHasWheelCount();
+        break;
+      default:
+
+        break;
+    }
+    dismissDialog?.call();
+  }
+
+  clickDouble(Function()? dismissDialog){
     AdUtils.instance.showAd(
         adType: AdType.reward,
         adShowListener: AdShowListener(
@@ -69,6 +82,7 @@ class IncentCon extends RootController{
               if(_incentFrom==IncentFrom.newUserGuide){
                 GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
               }
+              dismissDialog?.call();
             })
     );
   }

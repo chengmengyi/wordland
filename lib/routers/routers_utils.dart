@@ -10,9 +10,14 @@ class RoutersUtils{
 
   static toNamed({
     required String routerName,
-    Map<String, dynamic>? params
+    Map<String, dynamic>? params,
+    Function(Map<String,dynamic>?)? backResult,
   }){
-    Get.toNamed(routerName, arguments: params);
+    Get.toNamed(routerName, arguments: params)?.then((value){
+      if(null!=backResult&&null!=value){
+        backResult.call(value);
+      }
+    });
   }
 
   static offNamed({required String router,}){
@@ -23,8 +28,8 @@ class RoutersUtils{
     Get.offAllNamed(router, arguments: params);
   }
 
-  static back() {
-    Get.back();
+  static back({Map<String,dynamic>? backParams}) {
+    Get.back(result: backParams);
   }
 
   static Map<String, dynamic> getParams() {
@@ -49,9 +54,9 @@ class RoutersUtils{
     );
   }
 
-  static showIncentDialog({required IncentFrom incentFrom}){
+  static showIncentDialog({required IncentFrom incentFrom,int? addNum,Function()? dismissDialog}){
     dialog(
-      child: IncentDialog(incentFrom: incentFrom,)
+      child: IncentDialog(incentFrom: incentFrom,addNum: addNum,dismissDialog: dismissDialog,)
     );
   }
 

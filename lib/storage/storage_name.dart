@@ -13,12 +13,19 @@ class StorageName {
   static const String receiveTask4="receiveTask4";
   static const String userRemoveFailNum="userRemoveFailNum";
   static const String useTimeNum="useTimeNum";
+  static const String heartNum="heartNum";
+  static const String wheelNum="wheelNum";
   static const String headName="headName";
   static const String userName="userName";
   static const String bAnswerIndex="bAnswerIndex";
+  static const String bAnswerRightNum="bAnswerRightNum";
   static const String payType="payType";
   static const String newUserGuideStep="newUserGuideStep";
   static const String localValueConf="localValueConf";
   static const String localADConf="localADConf";
   static const String signInfo="signInfo";
+  static const String lastOldUserGuideTimer="lastOldUserGuideTimer";
+  static const String oldUserGuideStep="oldUserGuideStep";
+  static const String receivedBubble="receivedBubble";
+  static const String collectBubbleNum="collectBubbleNum";
 }

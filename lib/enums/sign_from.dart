@@ -1,3 +1,3 @@
 enum SignFrom{
-  newUserGuide,other
+  newUserGuide,oldUserGuide,other
 }

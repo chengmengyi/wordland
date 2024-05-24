@@ -24,7 +24,7 @@ class NewUserCon extends RootController{
     RoutersUtils.back();
     NumUtils.instance.updateCoinNum(addNum);
     GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-    NumUtils.instance.updateNewUserInt();
+    NumUtils.instance.updateHasUserCount();
  }
 
   clickPayType(index){

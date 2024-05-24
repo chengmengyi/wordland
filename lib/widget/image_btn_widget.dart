@@ -7,11 +7,13 @@ import 'package:wordland/widget/stroked_text_widget.dart';
 class ImageBtnWidget extends StatelessWidget{
   String text;
   String? bg;
+  bool? showVideo;
   Function()? click;
   ImageBtnWidget({
     required this.text,
     this.click,
     this.bg,
+    this.showVideo,
 });
 
   @override
@@ -23,11 +25,23 @@ class ImageBtnWidget extends StatelessWidget{
       alignment: Alignment.center,
       children: [
         ImageWidget(image: bg??"icon_btn",width: 180.w,height: 48.h,fit: BoxFit.fill,),
-        StrokedTextWidget(
-            text: text,
-            fontSize: 16.sp,
-            textColor: colorFFFFFF,
-            strokeColor: color5B2600
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Offstage(
+              offstage: showVideo!=true,
+              child: Container(
+                margin: EdgeInsets.only(right: 8.w),
+                child: ImageWidget(image: "icon_video",width: 20.w,height: 20.w,),
+              ),
+            ),
+            StrokedTextWidget(
+                text: text,
+                fontSize: 16.sp,
+                textColor: colorFFFFFF,
+                strokeColor: color5B2600
+            )
+          ],
         )
       ],
     ),

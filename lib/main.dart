@@ -29,7 +29,7 @@ void main() async{
 
 initInfo()async{
   await GetStorage.init();
-  // UserTypeUtils.instance.init();
+  UserTypeUtils.instance.init();
   AdUtils.instance.initAd();
 }
 

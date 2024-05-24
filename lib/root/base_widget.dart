@@ -9,6 +9,7 @@ abstract class BaseWidget<T extends RootController>extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     rootController = Get.put(setController());
+    rootController.context=context;
     return contentWidget();
   }
 
