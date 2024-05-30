@@ -62,6 +62,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_check_adjust_cloak (0.0.1):
     - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
   - flutter_max_ad (0.0.1):
     - Flutter
   - flutter_tba_info (0.0.1):
@@ -100,6 +102,7 @@ DEPENDENCIES:
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
   - flutter_check_adjust_cloak (from `.symlinks/plugins/flutter_check_adjust_cloak/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_max_ad (from `.symlinks/plugins/flutter_max_ad/ios`)
   - flutter_tba_info (from `.symlinks/plugins/flutter_tba_info/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -146,6 +149,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_check_adjust_cloak:
     :path: ".symlinks/plugins/flutter_check_adjust_cloak/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_max_ad:
     :path: ".symlinks/plugins/flutter_max_ad/ios"
   flutter_tba_info:
@@ -181,6 +186,7 @@ SPEC CHECKSUMS:
   FirebaseSharedSwift: 0274086954b1b2d5fd7e829eccc587044d72a4ba
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_check_adjust_cloak: c90834c085c430a930f35c60069cb2a1e386efc9
+  flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_max_ad: 5db00d299b263bfcd559c02a630cdc4d29f7c8df
   flutter_tba_info: a8d28bab6ac4832dc4f3e8375e6a1adba8efe235
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037

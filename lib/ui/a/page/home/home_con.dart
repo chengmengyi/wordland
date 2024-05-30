@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:wordland/enums/level_status.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -6,6 +7,11 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 
 class HomeCon extends RootController{
+  @override
+  void onInit() {
+    super.onInit();
+    AppTrackingTransparency.requestTrackingAuthorization();
+  }
 
   toAnswer(int largeIndex,int smallIndex,LevelStatus levelStatus){
     if(levelStatus==LevelStatus.lock){

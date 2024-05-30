@@ -8,6 +8,7 @@ enum EventCode{
   showNewUserWordsGuide,
   updateWheelNum,
   showWordChild,
+  showTaskChild,
   answerRight,
   showWordsGuideFromOther,
   oldUserShowBubbleGuide,
@@ -15,4 +16,7 @@ enum EventCode{
   signSuccess,
   showMoneyLottie,
   showWithdrawChild,
+  playWheel,
+  stopWheel,
+  showSignDialog,
 }

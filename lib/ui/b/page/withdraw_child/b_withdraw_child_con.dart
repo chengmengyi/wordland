@@ -55,6 +55,11 @@ class BWithdrawChildCon extends RootController{
     EventCode.showWordsGuideFromOther.sendMsg();
   }
 
+  clickPayType(index){
+    NumUtils.instance.updatePayType(index);
+    update(["child"]);
+  }
+
   clickWithdraw(){
     var chooseMoneyNum = withdrawNumList[chooseIndex];
     var chooseCoinNum = ValueConfUtils.instance.getMoneyToCoin(chooseMoneyNum);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wordland/root/root_page.dart';
 import 'package:wordland/root/root_page_statefull.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/wheel/wheel_con.dart';
@@ -11,25 +12,12 @@ import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
+import 'package:wordland/widget/wheel_widget.dart';
 
-class WheelPage extends RootPageStatefull{
-  @override
-  State<StatefulWidget> createState() => _WheelPageState();
-}
-
-class _WheelPageState extends RootPageState<WheelPage,WheelCon> with TickerProviderStateMixin{
-
-  @override
-  void initState() {
-    super.initState();
-    rootController.initInfo(this);
-  }
+class WheelPage extends RootPage<WheelCon>{
 
   @override
   String bgName() => "bg";
-
-  @override
-  String controllerTag() => "WheelCon";
 
   @override
   WheelCon setController() => WheelCon();
@@ -82,10 +70,7 @@ class _WheelPageState extends RootPageState<WheelPage,WheelCon> with TickerProvi
     alignment: Alignment.center,
     children: [
       ImageWidget(image: "wheel2",width: 328.w,height: 360.h,),
-      RotationTransition(
-        turns: rootController.animation,
-        child: ImageWidget(image: "wheel3",width: 300.w,height: 300.h,),
-      ),
+      WheelWidget(),
       InkWell(
         onTap: (){
           rootController.clickPlay();
@@ -97,7 +82,6 @@ class _WheelPageState extends RootPageState<WheelPage,WheelCon> with TickerProvi
 
   _btnWidget()=>GetBuilder<WheelCon>(
     id: "bottom",
-    tag: controllerTag(),
     builder: (_)=>Column(
       mainAxisSize: MainAxisSize.min,
       children: [

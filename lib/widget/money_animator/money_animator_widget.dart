@@ -47,4 +47,10 @@ class _MoneyAnimatorWidgetState extends State<MoneyAnimatorWidget> with TickerPr
     ),
   );
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    bus?.cancel();
+    super.dispose();
+  }
 }

@@ -5,10 +5,16 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/user_type/user_type_utils.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  var details = await NotifiUtils.instance.getNotiDetails();
+  if(null!=details&&details.didNotificationLaunchApp){
+    NotifiUtils.instance.fromBackgroundId=details.notificationResponse?.id??-1;
+  }
+
   initInfo();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -31,6 +37,7 @@ initInfo()async{
   await GetStorage.init();
   UserTypeUtils.instance.init();
   AdUtils.instance.initAd();
+  NotifiUtils.instance.initNotifi();
 }
 
 class MyApp extends StatelessWidget {

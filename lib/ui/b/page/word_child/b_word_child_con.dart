@@ -34,6 +34,7 @@ import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
@@ -174,7 +175,7 @@ class BWordChildCon extends RootController{
           showToast("After pass 3 levels you can play the Lucky Wheel");
           return;
         }
-        RoutersUtils.toNamed(routerName: RoutersData.wheel,params: {"auto":true});
+        RoutersUtils.toNamed(routerName: RoutersData.wheel);
         break;
     }
   }
@@ -285,6 +286,9 @@ class BWordChildCon extends RootController{
       case EventCode.oldUserShowWordsGuide:
         _showWordsGuide();
         GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
+        break;
+      case EventCode.showSignDialog:
+        if(!NumUtils.instance.todaySigned)
         break;
       default:
 

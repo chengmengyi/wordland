@@ -50,6 +50,8 @@ dependencies:
   lottie: 2.6.0
   marquee: 2.2.3
   app_tracking_transparency: 2.0.5
+  flutter_local_notifications:
+    path: plugins/flutter_local_notifications-17.1.2
 
 dev_dependencies:
   flutter_test:

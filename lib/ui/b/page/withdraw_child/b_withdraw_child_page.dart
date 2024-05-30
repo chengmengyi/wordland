@@ -125,6 +125,9 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
       itemCount: 6,
       scrollDirection: Axis.horizontal,
       itemBuilder: (context,index)=>InkWell(
+        onTap: (){
+          rootController.clickPayType(index);
+        },
         child: Container(
           width: 112.w,
           height: 68.h,
