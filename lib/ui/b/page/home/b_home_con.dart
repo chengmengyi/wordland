@@ -6,7 +6,9 @@ import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/ui/b/page/task_child/b_task_child_page.dart';
 import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_page.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_page.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 
 class BHomeCon extends RootController{
   var homeIndex=0;
@@ -16,6 +18,15 @@ class BHomeCon extends RootController{
     HomeBottomBean(selIcon: "icon_task_sel", unsIcon: "icon_task_uns"),
     HomeBottomBean(selIcon: "icon_withdraw_sel", unsIcon: "icon_withdraw_uns"),
   ];
+
+  @override
+  void onInit() {
+    super.onInit();
+    AppTrackingTransparency.requestTrackingAuthorization();
+    NotifiUtils.instance.hasBuyHome=true;
+    NotifiUtils.instance.initNotifi();
+    TbaUtils.instance.appEvent(AppEventName.wl_word_page);
+  }
 
   clickBottom(index){
     if(homeIndex==index){
@@ -45,13 +56,6 @@ class BHomeCon extends RootController{
 
         break;
     }
-  }
-
-  @override
-  void onInit() {
-    super.onInit();
-    AppTrackingTransparency.requestTrackingAuthorization();
-    NotifiUtils.instance.hasBuyHome=true;
   }
 
   @override

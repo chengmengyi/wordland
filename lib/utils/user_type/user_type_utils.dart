@@ -32,6 +32,7 @@ class UserTypeUtils{
       adjustConfKey: "wland_adjust_on",
       checkListener: UserCheckImpl()
     );
+    // FlutterCheckAdjustCloak.instance.forceBuyUser(true);
   }
 
   Future<String> _getCloakStr(String distinctId)async{

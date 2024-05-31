@@ -23,77 +23,80 @@ class LevelDialog extends RootDialog<LevelCon>{
   LevelCon setController() => LevelCon();
 
   @override
-  Widget contentWidget()=> Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      TextWidget(
-        text: "Congratulations on completing",
-        color: colorFFE609,
-        size: 20.sp
-      ),
-      SizedBox(height: 8.h,),
-      TextWidget(
-        text: "level ${rootController.getLevel()}",
-        color: colorFFFFFF,
-        size: 20.sp,
-        fontWeight: FontWeight.w700,
-      ),
-      SizedBox(height: 16.h,),
-      ImageWidget(image: "icon_money1",width: 172.w,height: 172.h,),
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextWidget(text: "+${rootController.addNum}≈", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w700,),
-          TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(rootController.addNum)}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
-        ],
-      ),
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _levelItemWidget(0),
-          SizedBox(width: 5.w,),
-          _levelItemWidget(1),
-          SizedBox(width: 5.w,),
-          _levelItemWidget(2),
-          SizedBox(width: 5.w,),
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              ImageWidget(image: "sign7",width: 52.w,),
-              TextWidget(text: "level ${rootController.getLevel()}", color: colorF26910, size: 12.sp)
-            ],
-          )
-        ],
-      ),
-      SizedBox(height: 26.h,),
-      ImageBtnWidget(
-        text: "Claim Double",
-        bg: "icon_btn2",
-        click: (){
-          rootController.clickDouble(closeCall);
-        },
-      ),
-      SizedBox(height: 12.h,),
-      Offstage(
-        offstage: !upLevel,
-        child: ImageBtnWidget(
-          text: "Level ${rootController.getLevel()}",
+  Widget contentWidget(){
+    rootController.upLevel=upLevel;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        TextWidget(
+            text: "Congratulations on completing",
+            color: colorFFE609,
+            size: 20.sp
+        ),
+        SizedBox(height: 8.h,),
+        TextWidget(
+          text: "level ${rootController.getLevel()}",
+          color: colorFFFFFF,
+          size: 20.sp,
+          fontWeight: FontWeight.w700,
+        ),
+        SizedBox(height: 16.h,),
+        ImageWidget(image: "icon_money1",width: 172.w,height: 172.h,),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextWidget(text: "+${rootController.addNum}≈", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w700,),
+            TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(rootController.addNum)}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
+          ],
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _levelItemWidget(0),
+            SizedBox(width: 5.w,),
+            _levelItemWidget(1),
+            SizedBox(width: 5.w,),
+            _levelItemWidget(2),
+            SizedBox(width: 5.w,),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                ImageWidget(image: "sign7",width: 52.w,),
+                TextWidget(text: "level ${rootController.getLevel()}", color: colorF26910, size: 12.sp)
+              ],
+            )
+          ],
+        ),
+        SizedBox(height: 26.h,),
+        ImageBtnWidget(
+          text: "Claim Double",
+          bg: "icon_btn2",
           click: (){
-            rootController.clickClose(closeCall);
+            rootController.clickDouble(closeCall);
           },
         ),
-      ),
-      Offstage(
-        offstage: upLevel,
-        child: InkWell(
-          onTap: (){
-            rootController.clickClose(closeCall);
-          },
-          child: ImageWidget(image: "icon_close2",width: 32.w,height: 32.h,),
+        SizedBox(height: 12.h,),
+        Offstage(
+          offstage: !upLevel,
+          child: ImageBtnWidget(
+            text: "Level ${rootController.getLevel()}",
+            click: (){
+              rootController.clickClose(closeCall);
+            },
+          ),
         ),
-      ),
-    ],
-  );
+        Offstage(
+          offstage: upLevel,
+          child: InkWell(
+            onTap: (){
+              rootController.clickClose(closeCall);
+            },
+            child: ImageWidget(image: "icon_close2",width: 32.w,height: 32.h,),
+          ),
+        ),
+      ],
+    );
+  }
   
   _levelItemWidget(index)=>ImageWidget(
     image: rootController.getLevelItemIcon(index, upLevel),

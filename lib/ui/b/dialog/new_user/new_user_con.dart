@@ -4,10 +4,12 @@ import 'package:flutter_max_ad/export.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
 class NewUserCon extends RootController{
@@ -18,13 +20,14 @@ class NewUserCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop);
   }
 
   clickClose(){
     RoutersUtils.back();
     NumUtils.instance.updateCoinNum(addNum);
     GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-    NumUtils.instance.updateHasUserCount();
+    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
  }
 
   clickPayType(index){
@@ -33,19 +36,22 @@ class NewUserCon extends RootController{
   }
 
   clickDouble()async{
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop_c);
     AdUtils.instance.showAd(
       adType: AdType.reward,
-      cancelShow: (){
-        RoutersUtils.back();
-        NumUtils.instance.updateCoinNum(addNum);
-        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-      },
+      adPosId: AdPosId.wpdnd_rv_confirm,
       adShowListener: AdShowListener(
-          onAdHidden: (MaxAd? ad) {
-            RoutersUtils.back();
-            NumUtils.instance.updateCoinNum(addNum*2);
-            GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-          }),
+        onAdHidden: (MaxAd? ad) {
+          RoutersUtils.back();
+          NumUtils.instance.updateCoinNum(addNum*2);
+          GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
+        },
+        showAdFail: (ad,error){
+          RoutersUtils.back();
+          NumUtils.instance.updateCoinNum(addNum);
+          GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
+        }
+      ),
     );
   }
 }

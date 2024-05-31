@@ -7,6 +7,7 @@ import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
@@ -14,6 +15,7 @@ import 'package:wordland/utils/guide/sign_guide_widget.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
@@ -29,6 +31,7 @@ class SignCon extends RootController{
     for (var value in signList) {
       globalList.add(GlobalKey());
     }
+    TbaUtils.instance.appEvent(AppEventName.wl_signin_pop,params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"});
   }
 
   @override
@@ -48,16 +51,16 @@ class SignCon extends RootController{
       widget: SignGuideWidget(
         offset: offset,
         hideCall: (){
+          TbaUtils.instance.appEvent(AppEventName.wl_signin_pop_c,params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"});
           AdUtils.instance.showAd(
               adType: AdType.reward,
-              cancelShow: (){
-                _watchAdCall(false);
-              },
+              adPosId: AdPosId.wpdnd_rv_sign_in,
               adShowListener: AdShowListener(
                   onAdHidden: (ad){
                     _watchAdCall(true);
                   },
                   showAdFail: (ad,error){
+                    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
                     _watchAdCall(false);
                   }
               )
@@ -117,6 +120,7 @@ class SignCon extends RootController{
     }
     AdUtils.instance.showAd(
       adType: AdType.reward,
+      adPosId: AdPosId.wpdnd_rv_sign_in,
       adShowListener: AdShowListener(
         onAdHidden: (MaxAd? ad) {
           NumUtils.instance.sign();
@@ -130,7 +134,7 @@ class SignCon extends RootController{
   clickClose(){
     RoutersUtils.back();
     if(_signFrom==SignFrom.newUserGuide||_signFrom==SignFrom.oldUserGuide){
-      NumUtils.instance.updateHasUserCount();
+      NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 
@@ -16,6 +17,7 @@ class AnswerFailCon extends RootController{
   clickAgain(Function(bool) nextWordsCall){
     AdUtils.instance.showAd(
       adType: AdType.reward,
+      adPosId: AdPosId.wpdnd_rv_wrong_ag,
       adShowListener: AdShowListener(
         onAdHidden: (ad){
           RoutersUtils.back();
@@ -28,6 +30,6 @@ class AnswerFailCon extends RootController{
   clickContinue(Function(bool) nextWordsCall){
     RoutersUtils.back();
     nextWordsCall.call(true);
-    NumUtils.instance.updateHasWlandIntCount();
+    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_answer);
   }
 }

@@ -6,6 +6,7 @@ import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/no_wheel/no_wheel_dialog.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/utils.dart';
@@ -29,7 +30,7 @@ class WheelCon extends RootController{
 
   clickClose(){
     RoutersUtils.back(backParams: {"back":true});
-    NumUtils.instance.updateHasWheelCount();
+    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
   }
 
   clickPlay(){
@@ -59,6 +60,7 @@ class WheelCon extends RootController{
         NumUtils.instance.updateWheelNum(-1);
         AdUtils.instance.showAd(
             adType: AdType.inter,
+            adPosId: AdPosId.wpdnd_int_spin_go,
             adShowListener: AdShowListener(
               onAdHidden: (ad){
                 RoutersUtils.showIncentDialog(

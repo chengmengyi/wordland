@@ -20,6 +20,7 @@ import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_chance/add_chance_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_hint/add_hint_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_fail/answer_fail_dialog.dart';
+import 'package:wordland/ui/b/dialog/good_comment/good_comment_dialog.dart';
 import 'package:wordland/ui/b/dialog/incent/incent_dialog.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:wordland/ui/b/dialog/level/level_dialog.dart';
@@ -29,6 +30,7 @@ import 'package:wordland/ui/b/dialog/new_user/new_user_dialog.dart';
 import 'package:wordland/ui/b/dialog/no_money/no_money_dialog.dart';
 import 'package:wordland/ui/b/dialog/sign/sign_dialog.dart';
 import 'package:wordland/ui/b/page/wheel/wheel_page.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/data.dart';
@@ -38,11 +40,12 @@ import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
 class BWordChildCon extends RootController{
-  var canClick=true,downCountTime=30,_totalCountTime=30,_pause=false,showBubble=true;
+  var canClick=true,downCountTime=30,_totalCountTime=30,showBubble=true;
   QuestionBean? currentQuestion;
   List<WordsChooseBean> chooseList=[];
   List<AnswerBean> answerList=[];
@@ -97,6 +100,7 @@ class BWordChildCon extends RootController{
       return;
     }
     canClick=false;
+    NumUtils.instance.updateTodayAnswerNum();
     var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
     if(indexWhere>=0){
       var isRight = char==currentQuestion?.answerList?[indexWhere];
@@ -155,6 +159,9 @@ class BWordChildCon extends RootController{
                     },
                   )
               );
+            }
+            if(NumUtils.instance.checkCanShowCommentDialog()){
+              RoutersUtils.dialog(child: GoodCommentDialog());
             }
           }
         }
@@ -232,14 +239,13 @@ class BWordChildCon extends RootController{
       _totalCountTime=30;
     }
     _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-      if(!_pause){
-        downCountTime--;
-        update(["time"]);
-        if(downCountTime<=0){
-          timer.cancel();
-          _showWordsGuide();
-        }
+      if(downCountTime<=0){
+        timer.cancel();
+        _showWordsGuide();
+        return;
       }
+      downCountTime--;
+      update(["time"]);
     });
   }
 
@@ -333,9 +339,7 @@ class BWordChildCon extends RootController{
     _showOrHideBubble(false);
     AdUtils.instance.showAd(
       adType: AdType.reward,
-      cancelShow: (){
-        _showOrHideBubble(true);
-      },
+      adPosId: AdPosId.wpdnd_rv_float_gold,
       adShowListener: AdShowListener(
           onAdHidden: (ad){
             _showOrHideBubble(true);

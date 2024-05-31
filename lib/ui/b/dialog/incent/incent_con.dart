@@ -8,6 +8,7 @@ import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
@@ -59,11 +60,11 @@ class IncentCon extends RootController{
     NumUtils.instance.updateCoinNum(addNum);
     switch(_incentFrom){
       case IncentFrom.newUserGuide:
-        NumUtils.instance.updateHasUserCount();
         GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+        NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
         break;
       case IncentFrom.wheel:
-        NumUtils.instance.updateHasWheelCount();
+        NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
         break;
       default:
 
@@ -75,22 +76,33 @@ class IncentCon extends RootController{
   clickDouble(Function()? dismissDialog){
     AdUtils.instance.showAd(
         adType: AdType.reward,
-        cancelShow: (){
-          RoutersUtils.back();
-          if(_incentFrom==IncentFrom.newUserGuide){
-            NumUtils.instance.updateCoinNum(addNum);
-            GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-          }
-        },
+        adPosId: _getAdPosID(),
         adShowListener: AdShowListener(
-            onAdHidden: (MaxAd? ad) {
+          onAdHidden: (MaxAd? ad) {
+            RoutersUtils.back();
+            NumUtils.instance.updateCoinNum(addNum*2);
+            if(_incentFrom==IncentFrom.newUserGuide){
+              GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+            }
+            dismissDialog?.call();
+          },
+          showAdFail: (ad,error){
+            if(_incentFrom==IncentFrom.newUserGuide){
               RoutersUtils.back();
-              NumUtils.instance.updateCoinNum(addNum*2);
-              if(_incentFrom==IncentFrom.newUserGuide){
-                GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-              }
-              dismissDialog?.call();
-            })
+              NumUtils.instance.updateCoinNum(addNum);
+              GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+            }
+          }
+        )
     );
+  }
+
+  AdPosId _getAdPosID(){
+    switch(_incentFrom){
+      case IncentFrom.newUserGuide: return AdPosId.wpdnd_rv_get_double;
+      case IncentFrom.ach: return AdPosId.wpdnd_int_task_double;
+      case IncentFrom.wheel: return AdPosId.wpdnd_rv_spin_double;
+      default: return AdPosId.other;
+    }
   }
 }

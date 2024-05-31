@@ -6,6 +6,7 @@ import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
@@ -94,6 +95,7 @@ class BTaskChildCon extends RootController{
   clickBubbleShowAd(int largeIndex,int smallIndex){
     AdUtils.instance.showAd(
         adType: AdType.inter,
+        adPosId: AdPosId.wpdnd_int_task_claim,
         adShowListener: AdShowListener(
             onAdHidden: (ad){
               TaskUtils.instance.updateBubbleList(largeIndex, smallIndex);

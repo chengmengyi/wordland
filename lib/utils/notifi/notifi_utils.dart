@@ -24,7 +24,7 @@ class NotifiUtils {
   
   NotifiUtils._internal();
 
-  var clickNotification=false,fromBackgroundId=-1,hasBuyHome=false;
+  var clickNotification=false,fromBackgroundId=-1,hasBuyHome=false,launchShowing=false;
 
   var flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
@@ -121,7 +121,7 @@ class NotifiUtils {
   }
 
   _clickNotification(NotificationResponse notificationResponse){
-    if(!checkCanClick()){
+    if(!_checkCanClick()){
       return;
     }
     clickNotification=true;
@@ -134,7 +134,7 @@ class NotifiUtils {
     });
   }
 
-  bool checkCanClick(){
+  bool _checkCanClick(){
     if(GuideUtils.instance.guideOverShowing()||FlutterMaxAd.instance.fullAdShowing()||clickNotification){
       return false;
     }

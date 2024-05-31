@@ -10,7 +10,9 @@ import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/ui/b/dialog/load_fail/load_fail_dialog.dart';
 import 'package:wordland/ui/b/dialog/loading/loading_dialog.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/data.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
 class AdUtils{
@@ -47,41 +49,50 @@ class AdUtils{
 
   showAd({
     required AdType adType,
+    required AdPosId adPosId,
     required AdShowListener adShowListener,
-    Function()? cancelShow
+    int tryNum=1,
   }){
     FlutterMaxAd.instance.loadAdByType(adType);
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":adPosId.name});
     var hasCache = FlutterMaxAd.instance.checkHasCache(adType);
     if(hasCache){
-      _showAd(adType, adShowListener);
+      FlutterMaxAd.instance.showAd(
+        adType: adType,
+        adShowListener: AdShowListener(
+          onAdHidden: (ad){
+            adShowListener.onAdHidden.call(ad);
+          },
+          showAdSuccess: (ad){
+            adShowListener.showAdSuccess?.call(ad);
+          },
+          showAdFail: (ad,error){
+            adShowListener.showAdFail?.call(ad,error);
+          },
+          onAdReceivedReward: (ad,reward){
+            adShowListener.onAdReceivedReward?.call(ad,reward);
+          },
+          onAdRevenuePaidCallback: (ad,info){
+            TbaUtils.instance.adEvent(ad, info, adPosId, adType==AdType.reward?AdFomat.rv:AdFomat.int);
+            adShowListener.onAdRevenuePaidCallback?.call(ad,info);
+          }
+        )
+      );
       return;
     }
-    RoutersUtils.dialog(
-      child: LoadingDialog(
-        adType: adType,
-        result: (success){
-          if(success){
-            _showAd(adType, adShowListener);
+    if(tryNum>0){
+      LoadFailDialog(
+        result: (again){
+          if(again){
+            showAd(adType: adType, adPosId: adPosId,adShowListener: adShowListener,tryNum: tryNum-1);
           }else{
-            RoutersUtils.dialog(
-              child: LoadFailDialog(
-                result: (again){
-                  if(again){
-                    showAd(adType: adType, adShowListener: adShowListener,cancelShow: cancelShow);
-                  }else{
-                    cancelShow?.call();
-                  }
-                },
-              )
-            );
+            adShowListener.showAdFail?.call(null,null);
           }
         },
-      ),
-    );
-  }
-
-  _showAd(AdType adType,AdShowListener adShowListener){
-    FlutterMaxAd.instance.showAd(adType: adType, adShowListener: adShowListener);
+      );
+      return;
+    }
+    adShowListener.showAdFail?.call(null,null);
   }
 
   List<MaxAdInfoBean> _getAdList(json,adLocationName){
