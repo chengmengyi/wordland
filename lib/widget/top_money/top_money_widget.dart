@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/base_widget.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -12,8 +13,9 @@ import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_con.dart';
 
 class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
+  TopCash topCash;
   Function()? clickCall;
-  TopMoneyWidget({this.clickCall});
+  TopMoneyWidget({required this.topCash,this.clickCall});
 
   @override
   TopMoneyCon setController() => TopMoneyCon();
@@ -43,8 +45,7 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
           alignment: Alignment.centerRight,
           child: InkWell(
             onTap: (){
-              clickCall?.call();
-              EventCode.showWithdrawChild.sendMsg();
+              rootController.clickCash(topCash, clickCall);
             },
             child: Container(
               width: 36.w,

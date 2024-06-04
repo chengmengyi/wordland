@@ -7,6 +7,7 @@ import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
 class LevelCon extends RootController{
@@ -17,9 +18,11 @@ class LevelCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.word_ture_pop);
   }
 
   clickClose(Function() closeCall){
+    TbaUtils.instance.appEvent(AppEventName.word_ture_pop_continue);
     RoutersUtils.back();
     NumUtils.instance.updateCoinNum(addNum);
     closeCall.call();
@@ -27,6 +30,7 @@ class LevelCon extends RootController{
   }
 
   clickDouble(Function() closeCall){
+    TbaUtils.instance.appEvent(AppEventName.word_ture_pop_c);
     AdUtils.instance.showAd(
         adType: AdType.reward,
         adPosId: upLevel?AdPosId.wpdnd_rv_next_level:AdPosId.wpdnd_rv_right_bounce,

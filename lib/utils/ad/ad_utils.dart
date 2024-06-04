@@ -37,11 +37,11 @@ class AdUtils{
         maxShowNum: json["xhfhennt"],
         maxClickNum: json["nxscvbbw"],
         firstOpenAdList: _getAdList(json["wpdnd_launch_one"],"wpdnd_launch_one"),
-        secondOpenAdList: _getAdList(json["wpdnd_launch_two"],"wpdnd_launch_two"),
+        secondOpenAdList: [],
         firstRewardedAdList: _getAdList(json["wpdnd_rv_one"],"wpdnd_rv_one"),
-        secondRewardedAdList: _getAdList(json["wpdnd_rv_two"],"wpdnd_rv_two"),
+        secondRewardedAdList: [],
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
-        secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
+        secondInterAdList: [],
       ),
       testDeviceAdvertisingIds: ["EC9E8B35-C29F-4785-92E2-6854BB1FB33A","D068A2E7-1402-4D73-A063-6F2096DFE739"]
     );
@@ -81,17 +81,20 @@ class AdUtils{
       return;
     }
     if(tryNum>0){
-      LoadFailDialog(
-        result: (again){
-          if(again){
-            showAd(adType: adType, adPosId: adPosId,adShowListener: adShowListener,tryNum: tryNum-1);
-          }else{
-            adShowListener.showAdFail?.call(null,null);
-          }
-        },
+      RoutersUtils.dialog(
+        child: LoadFailDialog(
+          result: (again){
+            if(again){
+              showAd(adType: adType, adPosId: adPosId,adShowListener: adShowListener,tryNum: tryNum-1);
+            }else{
+              adShowListener.showAdFail?.call(null,null);
+            }
+          },
+        )
       );
       return;
     }
+    showToast("Load ad fail,please try again!");
     adShowListener.showAdFail?.call(null,null);
   }
 

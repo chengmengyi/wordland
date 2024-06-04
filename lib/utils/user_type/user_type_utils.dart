@@ -30,7 +30,8 @@ class UserTypeUtils{
       unknownFirebaseKey: "",
       referrerConfKey: "",
       adjustConfKey: "wland_adjust_on",
-      checkListener: UserCheckImpl()
+      checkListener: UserCheckImpl(),
+      adjustConfDefaultStr: "0"
     );
     // FlutterCheckAdjustCloak.instance.forceBuyUser(true);
   }

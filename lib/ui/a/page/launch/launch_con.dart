@@ -22,12 +22,10 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
   void onInit() {
     WidgetsBinding.instance.addObserver(this);
     super.onInit();
-    TbaUtils.instance.appEvent(
-        AppEventName.qs_launch_page,
-        params: {"launch_from":(null!=RoutersUtils.getParams()["n_id"]||NotifiUtils.instance.fromBackgroundId!=-1)?"inform":"icon"}
-    );
+    _tbaPoint();
     FlutterMaxAd.instance.loadAdByType(AdType.open);
     NotifiUtils.instance.launchShowing=true;
+    NotifiUtils.instance.checkPermission();
   }
 
   @override
@@ -86,8 +84,9 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
   }
 
   _toHome(bool checkType,int? nId){
-    if(null!=nId&&nId>=0){
-      if(NotifiUtils.instance.hasBuyHome){
+    if(checkType&&NotifiUtils.instance.hasBuyHome){
+      RoutersUtils.back();
+      if(null!=nId&&nId>=0){
         switch(nId){
           case NotifiId.qiandao:
             EventCode.showSignDialog.sendMsg();
@@ -100,10 +99,34 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
             break;
         }
       }
-      RoutersUtils.back();
       return;
     }
     RoutersUtils.offNamed(router: checkType?RoutersData.bHome:RoutersData.home);
+  }
+
+  _tbaPoint(){
+    var nId = RoutersUtils.getParams()["n_id"];
+    if(null==nId&&NotifiUtils.instance.fromBackgroundId!=-1){
+      nId=NotifiUtils.instance.fromBackgroundId;
+    }
+    TbaUtils.instance.appEvent(
+        AppEventName.qs_launch_page,
+        params: {"launch_from":null!=nId?"inform":"icon"}
+    );
+    switch(nId){
+      case NotifiId.guding:
+        TbaUtils.instance.appEvent(AppEventName.wl_fix_inform_c);
+        break;
+      case NotifiId.qiandao:
+        TbaUtils.instance.appEvent(AppEventName.wl_sign_inform_c);
+        break;
+      case NotifiId.renwu:
+        TbaUtils.instance.appEvent(AppEventName.wl_task_inform_c);
+        break;
+      case NotifiId.tixian:
+        TbaUtils.instance.appEvent(AppEventName.wl_paypel_inform_c);
+        break;
+    }
   }
 
   @override

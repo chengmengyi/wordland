@@ -6,6 +6,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 
 class NoWheelCon extends RootController{
 
@@ -13,6 +14,7 @@ class NoWheelCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.wheel_over_pop);
   }
 
   clickClose(){
@@ -21,6 +23,7 @@ class NoWheelCon extends RootController{
   }
 
   clickGet(Function() addNumCall){
+    TbaUtils.instance.appEvent(AppEventName.wheel_over_pop_c);
     AdUtils.instance.showAd(
         adType: AdType.reward,
         adPosId: AdPosId.wpdnd_rv_spin_chance,

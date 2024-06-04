@@ -5,9 +5,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
 class NotifiUtils {
@@ -147,5 +149,13 @@ class NotifiUtils {
 
   cancelNotification(int id){
     flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  checkPermission()async{
+    var plugin = flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+    var options = await plugin?.checkPermissions();
+    if(options?.isEnabled==true){
+      TbaUtils.instance.appEvent(AppEventName.push_status);
+    }
   }
 }

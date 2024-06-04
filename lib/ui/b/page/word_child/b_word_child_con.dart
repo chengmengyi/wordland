@@ -2,41 +2,24 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
-import 'package:flutter_max_ad/flutter_max_ad.dart';
-import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
-import 'package:wordland/enums/level_status.dart';
-import 'package:wordland/enums/sign_from.dart';
+import 'package:wordland/enums/word_finger_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
-import 'package:wordland/ui/a/dialog/pause/pause_dialog.dart';
-import 'package:wordland/ui/a/dialog/remove_num/remove_num_dialog.dart';
-import 'package:wordland/ui/a/dialog/time_out/time_out_dialog.dart';
-import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_chance/add_chance_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_hint/add_hint_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_fail/answer_fail_dialog.dart';
 import 'package:wordland/ui/b/dialog/good_comment/good_comment_dialog.dart';
-import 'package:wordland/ui/b/dialog/incent/incent_dialog.dart';
-import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:wordland/ui/b/dialog/level/level_dialog.dart';
-import 'package:wordland/ui/b/dialog/load_fail/load_fail_dialog.dart';
-import 'package:wordland/ui/b/dialog/loading/loading_dialog.dart';
-import 'package:wordland/ui/b/dialog/new_user/new_user_dialog.dart';
-import 'package:wordland/ui/b/dialog/no_money/no_money_dialog.dart';
-import 'package:wordland/ui/b/dialog/sign/sign_dialog.dart';
-import 'package:wordland/ui/b/page/wheel/wheel_page.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
-import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
-import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
@@ -51,6 +34,7 @@ class BWordChildCon extends RootController{
   List<AnswerBean> answerList=[];
   Timer? _timer;
   Offset? guideOffset;
+  WordFingerFrom? _wordFingerFrom;
 
   @override
   void onInit() {
@@ -95,12 +79,7 @@ class BWordChildCon extends RootController{
       return;
     }
     _hideWordsGuide();
-    if(NumUtils.instance.heartNum<=0){
-      RoutersUtils.dialog(child: AddChanceDialog(isHeart: true,));
-      return;
-    }
     canClick=false;
-    NumUtils.instance.updateTodayAnswerNum();
     var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
     if(indexWhere>=0){
       var isRight = char==currentQuestion?.answerList?[indexWhere];
@@ -109,7 +88,7 @@ class BWordChildCon extends RootController{
       Future.delayed(const Duration(milliseconds: 200),(){
         canClick=true;
         if(!isRight){
-          NumUtils.instance.updateHeartNum(-1);
+          TbaUtils.instance.appEvent(AppEventName.word_flase_c);
           RoutersUtils.dialog(
             child: AnswerFailDialog(
               nextWordsCall: (next){
@@ -124,10 +103,12 @@ class BWordChildCon extends RootController{
             )
           );
         }else{
+          TbaUtils.instance.appEvent(AppEventName.word_true_c);
           if(isRight&&answerList.last.result.isNotEmpty){
             _timer?.cancel();
             EventCode.answerRight.sendMsg();
             QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
+            NumUtils.instance.updateTodayAnswerRightNum();
             if(QuestionUtils.instance.bAnswerRightNum%9==0){
               update(["level"]);
               NumUtils.instance.updateWheelNum(1);
@@ -172,12 +153,15 @@ class BWordChildCon extends RootController{
   clickBottom(index){
     switch(index){
       case 0:
+        TbaUtils.instance.appEvent(AppEventName.hint_c);
         _clickRemoveFail();
         break;
       case 1:
+        TbaUtils.instance.appEvent(AppEventName.add_time_c);
         _clickAddNum();
         break;
       case 2:
+        TbaUtils.instance.appEvent(AppEventName.wheel_c);
         if(QuestionUtils.instance.getLevel()<3){
           showToast("After pass 3 levels you can play the Lucky Wheel");
           return;
@@ -189,9 +173,7 @@ class BWordChildCon extends RootController{
 
   _clickAddNum(){
     if(NumUtils.instance.addTimeNum<=0){
-      RoutersUtils.dialog(
-        child: AddChanceDialog(isHeart: false,)
-      );
+      RoutersUtils.dialog(child: AddChanceDialog());
       return;
     }
     downCountTime+=20;
@@ -241,7 +223,7 @@ class BWordChildCon extends RootController{
     _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
       if(downCountTime<=0){
         timer.cancel();
-        _showWordsGuide();
+        _showWordsGuide(null);
         return;
       }
       downCountTime--;
@@ -283,14 +265,14 @@ class BWordChildCon extends RootController{
         update(["bottom"]);
         break;
       case EventCode.showNewUserWordsGuide:
-        _showWordsGuide();
+        _showWordsGuide(WordFingerFrom.guide);
         GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.completeNewUserGuide);
         break;
       case EventCode.showWordsGuideFromOther:
-        _showWordsGuide();
+        _showWordsGuide(WordFingerFrom.cash_task);
         break;
       case EventCode.oldUserShowWordsGuide:
-        _showWordsGuide();
+        _showWordsGuide(WordFingerFrom.old);
         GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
         break;
       case EventCode.showSignDialog:
@@ -302,7 +284,7 @@ class BWordChildCon extends RootController{
     }
   }
 
-  _showWordsGuide(){
+  _showWordsGuide(WordFingerFrom? wordFingerFrom){
     if(null!=guideOffset){
       return;
     }
@@ -312,6 +294,7 @@ class BWordChildCon extends RootController{
       if(index>=0){
         var renderBox = chooseList[index].globalKey.currentContext!.findRenderObject() as RenderBox;
         guideOffset = renderBox.localToGlobal(Offset.zero);
+        _wordFingerFrom=wordFingerFrom;
         update(["guide"]);
       }
     }
@@ -325,6 +308,14 @@ class BWordChildCon extends RootController{
     if(indexWhere>=0&&indexWhere<(currentQuestion?.answerList?.length??0)){
       var index = chooseList.indexWhere((element) => element.words==currentQuestion?.answerList?[indexWhere]);
       if(index>=0){
+        if(null!=_wordFingerFrom){
+          TbaUtils.instance.appEvent(
+              AppEventName.wl_word_c,
+              params: {
+                "word_from": _wordFingerFrom?.name??""
+              },
+          );
+        }
         clickAnswer(chooseList[index].words);
       }
     }
@@ -336,6 +327,7 @@ class BWordChildCon extends RootController{
   }
 
   clickBubble(){
+    TbaUtils.instance.appEvent(AppEventName.word_float_pop);
     _showOrHideBubble(false);
     AdUtils.instance.showAd(
       adType: AdType.reward,

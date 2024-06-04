@@ -13,6 +13,7 @@ import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/guide_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
 class IncentCon extends RootController{
@@ -25,6 +26,7 @@ class IncentCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.double_pop, params: {"word_from": _getTabValueByFrom()});
   }
 
   @override
@@ -56,6 +58,7 @@ class IncentCon extends RootController{
   }
 
   clickClose(Function()? dismissDialog){
+    TbaUtils.instance.appEvent(AppEventName.double_pop_continue, params: {"word_from": _getTabValueByFrom()});
     RoutersUtils.back();
     NumUtils.instance.updateCoinNum(addNum);
     switch(_incentFrom){
@@ -74,6 +77,7 @@ class IncentCon extends RootController{
   }
 
   clickDouble(Function()? dismissDialog){
+    TbaUtils.instance.appEvent(AppEventName.double_pop_c, params: {"word_from": _getTabValueByFrom()});
     AdUtils.instance.showAd(
         adType: AdType.reward,
         adPosId: _getAdPosID(),
@@ -103,6 +107,15 @@ class IncentCon extends RootController{
       case IncentFrom.ach: return AdPosId.wpdnd_int_task_double;
       case IncentFrom.wheel: return AdPosId.wpdnd_rv_spin_double;
       default: return AdPosId.other;
+    }
+  }
+
+  String _getTabValueByFrom(){
+    switch(_incentFrom){
+      case IncentFrom.newUserGuide: return "new";
+      case IncentFrom.wheel: return "wheel";
+      case IncentFrom.task: return "task";
+      default:return "other";
     }
   }
 }

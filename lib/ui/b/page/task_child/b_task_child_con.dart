@@ -14,6 +14,7 @@ import 'package:wordland/utils/guide/task_bubble_guide_widget.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
 class BTaskChildCon extends RootController{
@@ -23,6 +24,7 @@ class BTaskChildCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.inter);
+    TbaUtils.instance.appEvent(AppEventName.task_page);
   }
 
   getTaskLength()=>(QuestionUtils.instance.getQuestionNum()/30).ceil();
@@ -37,7 +39,17 @@ class BTaskChildCon extends RootController{
   }
 
 
-  clickItem(bool completeTask,bool currentTask,bool ShowBubble,int largeIndex,int smallIndex){
+  clickItem(bool completeTask,bool currentTask,int largeIndex,int smallIndex){
+    TbaUtils.instance.appEvent(AppEventName.task_pop_go,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
+    if(!currentTask&&!completeTask){
+      showToast("Level Locked!");
+      return;
+    }
+    EventCode.showWordChild.sendMsg();
+  }
+
+  clickBubble(bool completeTask,bool currentTask,bool showBubble,int largeIndex,int smallIndex){
+    TbaUtils.instance.appEvent(AppEventName.task_pop_claim,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
     if(!currentTask&&!completeTask){
       showToast("Level Locked!");
       return;
@@ -46,7 +58,7 @@ class BTaskChildCon extends RootController{
       EventCode.showWordChild.sendMsg();
       return;
     }
-    if(!ShowBubble){
+    if(!showBubble){
       return;
     }
     clickBubbleShowAd(largeIndex, smallIndex);

@@ -7,6 +7,8 @@ import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/notifi/notifi_id.dart';
+import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
@@ -25,14 +27,13 @@ class NumUtils{
   var addDownCountNum=2,removeFailNum=2,lastRemoveFailQuestion="",
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
       payType=0,signDays=0,todaySigned=false,
-      wlandIntCd=3,hasWlandIntCd=0,heartNum=3,wheelNum=3,
+      wlandIntCd=3,hasWlandIntCd=0,wheelNum=3,
   wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0;
 
   NumUtils._internal(){
     addDownCountNum=getTodayNum(StorageName.addDownCountNum, 2);
     removeFailNum=getTodayNum(StorageName.removeFailNum, 3);
     addTimeNum=getTodayNum(StorageName.addTimeNum, 3);
-    heartNum=getTodayNum(StorageName.heartNum, 3);
     wheelNum=getTodayNum(StorageName.wheelNum, 3);
     lastRemoveFailQuestion=StorageUtils.read<String>(StorageName.lastRemoveFailQuestion)??"";
     coinNum=StorageUtils.read<int>(StorageName.coinNum)??0;
@@ -64,12 +65,6 @@ class NumUtils{
   updateLastRemoveFailQuestion(String question){
     lastRemoveFailQuestion=question;
     StorageUtils.write(StorageName.lastRemoveFailQuestion,question);
-  }
-
-  updateHeartNum(int num){
-    heartNum+=num;
-    StorageUtils.write(StorageName.heartNum,heartNum);
-    EventCode.updateHeartNum.sendMsg();
   }
 
   updateTimeNum(int add){
@@ -113,6 +108,7 @@ class NumUtils{
     todaySigned=true;
     StorageUtils.write(StorageName.signInfo, "${getTodayTime()}_$signDays");
     EventCode.signSuccess.sendMsg();
+    NotifiUtils.instance.cancelNotification(NotifiId.qiandao);
   }
 
   getFirebaseConfInfo()async{
@@ -149,7 +145,12 @@ class NumUtils{
     StorageUtils.write(StorageName.collectBubbleNum, collectBubbleNum);
   }
 
-  bool checkCanShowCommentDialog() => todayCommentDialogShowNum<2&&!hasCommentApp;
+  bool checkCanShowCommentDialog() {
+    if(todayCommentDialogShowNum<2&&!hasCommentApp){
+      return todayAnswerNum==2||todayAnswerNum==5;
+    }
+    return false;
+  }
 
   updateCommentDialogShowNum(){
     todayCommentDialogShowNum++;
@@ -161,8 +162,8 @@ class NumUtils{
     StorageUtils.write(StorageName.hasCommentApp, true);
   }
 
-  updateTodayAnswerNum(){
+  updateTodayAnswerRightNum(){
     todayAnswerNum++;
-    StorageUtils.write(StorageName.todayAnswerNum, todayAnswerNum);
+    StorageUtils.write(StorageName.todayAnswerNum, "${getTodayTime()}_$todayAnswerNum");
   }
 }

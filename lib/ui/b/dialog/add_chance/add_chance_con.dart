@@ -6,6 +6,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 
 class AddChanceCon extends RootController{
 
@@ -13,20 +14,18 @@ class AddChanceCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.add_time_pop);
   }
 
-  clickGet(bool isHeart){
+  clickGet(){
+    TbaUtils.instance.appEvent(AppEventName.add_time_pop_c);
     AdUtils.instance.showAd(
       adType: AdType.reward,
-      adPosId: isHeart?AdPosId.wpdnd_rv_life:AdPosId.wpdnd_rv_int,
+      adPosId: AdPosId.wpdnd_rv_int,
       adShowListener: AdShowListener(
         onAdHidden: (ad){
           RoutersUtils.back();
-          if(isHeart){
-            NumUtils.instance.updateHeartNum(3);
-          }else{
-            NumUtils.instance.updateTimeNum(1);
-          }
+          NumUtils.instance.updateTimeNum(1);
         },
       ),
     );

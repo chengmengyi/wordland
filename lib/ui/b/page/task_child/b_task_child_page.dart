@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/task_child/b_task_child_con.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/task_utils.dart';
-import 'package:wordland/widget/heart/heart_widget.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
@@ -40,8 +42,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
   _topWidget()=>Row(
     children: [
       SizedBox(width: 12.w,),
-      TopMoneyWidget(),
-      HeartWidget(),
+      TopMoneyWidget(topCash: TopCash.task,),
     ],
   );
 
@@ -139,39 +140,44 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
     return Offstage(
       offstage: !show,
-      child: InkWell(
-        onTap: (){
-          rootController.clickItem(completeTask,currentTask,showBubble,largeIndex,smallIndex);
-        },
-        child: SizedBox(
-          width: 150.h,
-          height: 106.h,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomLeft,
+      child: SizedBox(
+        width: 150.h,
+        height: 106.h,
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: InkWell(
+                onTap: (){
+                  rootController.clickItem(completeTask,currentTask,largeIndex,smallIndex);
+                },
                 child: ImageWidget(
                   image: currentTask?"home9":completeTask?"home10":"home6",
                   width: 66.h,
                   height: currentTask?100.h:66.h,
                 ),
               ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Visibility(
-                  visible: showBubble&&completeTask,
-                  maintainAnimation: true,
-                  maintainState: true,
-                  maintainSize: true,
-                  child: SizedBox(
-                    key: rootController.getGlobalKey(largeIndex, smallIndex),
+            ),
+            Positioned(
+              top: 0,
+              right: 0,
+              child: Visibility(
+                visible: showBubble&&completeTask,
+                maintainAnimation: true,
+                maintainState: true,
+                maintainSize: true,
+                child: SizedBox(
+                  key: rootController.getGlobalKey(largeIndex, smallIndex),
+                  child: InkWell(
+                    onTap: (){
+                      rootController.clickBubble(completeTask,currentTask,showBubble,largeIndex,smallIndex);
+                    },
                     child: ImageWidget(image: "task1",width: 92.h,height: 72.h,),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -190,6 +196,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
           alignment: Alignment.bottomRight,
           child: InkWell(
             onTap: (){
+              TbaUtils.instance.appEvent(AppEventName.task_page_achievement);
               RoutersUtils.toNamed(routerName: RoutersData.bAch);
             },
             child: Lottie.asset(

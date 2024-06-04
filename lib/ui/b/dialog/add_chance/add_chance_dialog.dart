@@ -8,14 +8,12 @@ import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class AddChanceDialog extends RootDialog<AddChanceCon>{
-  bool isHeart;
-  AddChanceDialog({required this.isHeart});
 
   @override
   AddChanceCon setController() => AddChanceCon();
 
   @override
-  Widget contentWidget() => Column(
+  Widget contentWidget()=> Column(
     mainAxisSize: MainAxisSize.min,
     children: [
       Align(
@@ -53,7 +51,7 @@ class AddChanceDialog extends RootDialog<AddChanceCon>{
                 SizedBox(height: 16.h,),
                 InkWell(
                   onTap: (){
-                    rootController.clickGet(isHeart);
+                    rootController.clickGet();
                   },
                   child: ImageWidget(image: "icon_watch",width: 180.w,height: 36.h,),
                 )

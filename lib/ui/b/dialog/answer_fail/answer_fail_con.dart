@@ -6,15 +6,18 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 
 class AnswerFailCon extends RootController{
   @override
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
+    TbaUtils.instance.appEvent(AppEventName.word_flase_pop);
   }
 
   clickAgain(Function(bool) nextWordsCall){
+    TbaUtils.instance.appEvent(AppEventName.word_flase_pop_c);
     AdUtils.instance.showAd(
       adType: AdType.reward,
       adPosId: AdPosId.wpdnd_rv_wrong_ag,
@@ -28,6 +31,7 @@ class AnswerFailCon extends RootController{
   }
 
   clickContinue(Function(bool) nextWordsCall){
+    TbaUtils.instance.appEvent(AppEventName.word_flase_pop_continue);
     RoutersUtils.back();
     nextWordsCall.call(true);
     NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_answer);

@@ -14,9 +14,7 @@ class UserCheckImpl implements CheckListener{
   @override
   adjustChangeToBuyUser() {
     TbaUtils.instance.appEvent(AppEventName.adj_organic_buy);
-    if(!FlutterCheckAdjustCloak.instance.getUserType()&&FlutterCheckAdjustCloak.instance.checkType()&&!NotifiUtils.instance.launchShowing&&!NotifiUtils.instance.hasBuyHome){
-      RoutersUtils.toNamed(routerName: RoutersData.bHome);
-    }
+    _checkBuyType();
   }
 
   @override
@@ -42,6 +40,7 @@ class UserCheckImpl implements CheckListener{
   @override
   firstRequestCloakSuccess() {
     TbaUtils.instance.appEvent(AppEventName.wl_cloak_suc,params: {"cloak_user":FlutterCheckAdjustCloak.instance.localCloakIsNormalUser()==true?"1":"0"});
+    _checkBuyType();
   }
 
   @override
@@ -56,4 +55,9 @@ class UserCheckImpl implements CheckListener{
     TbaUtils.instance.appEvent(AppEventName.wl_adj_req);
   }
 
+  _checkBuyType(){
+    if(!FlutterCheckAdjustCloak.instance.getUserType()&&FlutterCheckAdjustCloak.instance.checkType()&&!NotifiUtils.instance.launchShowing&&!NotifiUtils.instance.hasBuyHome){
+      RoutersUtils.toNamed(routerName: RoutersData.bHome);
+    }
+  }
 }

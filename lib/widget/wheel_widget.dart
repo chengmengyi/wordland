@@ -24,7 +24,7 @@ class _WheelWidgetState extends State<WheelWidget> with TickerProviderStateMixin
     bus=EventUtils.getInstance()?.on<EventCode>().listen((data) {
       if(data==EventCode.playWheel){
         animationController.repeat();
-        _timer=Timer.periodic(const Duration(milliseconds: 3000), (timer) {
+        _timer=Timer.periodic(const Duration(milliseconds: 1300), (timer) {
           timer.cancel();
           animationController.stop();
           EventCode.stopWheel.sendMsg();

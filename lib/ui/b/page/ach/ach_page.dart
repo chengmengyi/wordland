@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wordland/bean/task_bean.dart';
+import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_page.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/ach/ach_con.dart';
@@ -83,7 +84,12 @@ class AchPage extends RootPage<AchCon>{
         child: ImageWidget(image: "back",width: 36.w,height: 36.h,),
       ),
       SizedBox(width: 12.w,),
-      TopMoneyWidget(),
+      TopMoneyWidget(
+        topCash: TopCash.ach,
+        clickCall: (){
+          RoutersUtils.back();
+        },
+      ),
     ],
   );
 }

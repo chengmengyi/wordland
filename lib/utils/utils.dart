@@ -8,7 +8,8 @@ import 'package:wordland/event/event_utils.dart';
 import 'package:wordland/storage/storage_utils.dart';
 
 extension StringBase64 on String{
-  String base64()=>String.fromCharCodes(base64Decode(this));
+  // String base64()=>String.fromCharCodes(base64Decode(this));
+  String base64()=>const Utf8Decoder().convert(base64Decode(this));
 }
 
 extension RandomStringList on List<String> {

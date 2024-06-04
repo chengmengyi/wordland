@@ -15,6 +15,9 @@ PODS:
     - Flutter
   - assets_audio_player_web (0.0.1):
     - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - facebook_app_events (0.0.1):
     - FBAudienceNetwork (~> 6.15)
     - FBSDKCoreKit (~> 17.0)
@@ -101,6 +104,7 @@ DEPENDENCIES:
   - applovin_max (from `.symlinks/plugins/applovin_max/ios`)
   - assets_audio_player (from `.symlinks/plugins/assets_audio_player/ios`)
   - assets_audio_player_web (from `.symlinks/plugins/assets_audio_player_web/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - facebook_app_events (from `.symlinks/plugins/facebook_app_events/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
@@ -145,6 +149,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/assets_audio_player/ios"
   assets_audio_player_web:
     :path: ".symlinks/plugins/assets_audio_player_web/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   facebook_app_events:
     :path: ".symlinks/plugins/facebook_app_events/ios"
   firebase_core:
@@ -180,6 +186,7 @@ SPEC CHECKSUMS:
   AppLovinSDK: c57ad0d34625c971d2db127f8ef60570b28ff51a
   assets_audio_player: edee322b9cb625571b830b35872ead1a295fd917
   assets_audio_player_web: 19826380c44375761aa0b9053665c1e3fbc3b86b
+  connectivity_plus: ddd7f30999e1faaef5967c23d5b6d503d10434db
   facebook_app_events: acb7c266406d3e3592bcf846d7184172ecfd6492
   FBAEMKit: 97eaf41451b49691447df831f7f425229ae64b66
   FBAudienceNetwork: 80a035aa69cc3a71c99e44cb5c2874e4cef9909f

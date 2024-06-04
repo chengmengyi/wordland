@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_con.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/widget/float_widget.dart';
-import 'package:wordland/widget/heart/heart_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:get/get.dart';
@@ -50,8 +50,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   _topWidget()=>Row(
     children: [
       SizedBox(width: 12.w,),
-      TopMoneyWidget(),
-      HeartWidget(),
+      TopMoneyWidget(topCash: TopCash.word,),
     ],
   );
 

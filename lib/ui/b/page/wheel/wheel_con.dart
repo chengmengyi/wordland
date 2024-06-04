@@ -9,6 +9,7 @@ import 'package:wordland/ui/b/dialog/no_wheel/no_wheel_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
@@ -18,6 +19,7 @@ class WheelCon extends RootController{
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
     FlutterMaxAd.instance.loadAdByType(AdType.inter);
+    TbaUtils.instance.appEvent(AppEventName.wheel_pop);
   }
 
   @override

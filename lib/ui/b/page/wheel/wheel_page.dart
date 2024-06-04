@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_page.dart';
 import 'package:wordland/root/root_page_statefull.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/wheel/wheel_con.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/widget/image_btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
@@ -59,6 +62,7 @@ class WheelPage extends RootPage<WheelCon>{
       ),
       SizedBox(width: 12.w,),
       TopMoneyWidget(
+        topCash: TopCash.wheel,
         clickCall: (){
           RoutersUtils.back();
         },
@@ -73,6 +77,7 @@ class WheelPage extends RootPage<WheelCon>{
       WheelWidget(),
       InkWell(
         onTap: (){
+          TbaUtils.instance.appEvent(AppEventName.wheel_pop_go);
           rootController.clickPlay();
         },
         child: ImageWidget(image: "wheel4",width: 148.w,height: 148.h,),
@@ -88,6 +93,7 @@ class WheelPage extends RootPage<WheelCon>{
         ImageBtnWidget(
           text: NumUtils.instance.wheelNum>0?"Free To Play":"Get More Chance",
           click: (){
+            TbaUtils.instance.appEvent(AppEventName.wheel_pop_go);
             rootController.clickPlay();
           },
         ),

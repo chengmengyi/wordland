@@ -7,8 +7,10 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:wordland/ui/b/dialog/no_money/no_money_dialog.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/value_conf_utils.dart';
 
@@ -61,6 +63,7 @@ class BWithdrawChildCon extends RootController{
   }
 
   clickWithdraw(){
+    TbaUtils.instance.appEvent(AppEventName.withdraw_page_c);
     var chooseMoneyNum = withdrawNumList[chooseIndex];
     var chooseCoinNum = ValueConfUtils.instance.getMoneyToCoin(chooseMoneyNum);
     if(NumUtils.instance.coinNum<chooseCoinNum){
