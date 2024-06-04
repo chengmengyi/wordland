@@ -29,15 +29,15 @@ class BWordChildPage extends RootChild<BWordChildCon>{
         bottom: true,
         child: Column(
           children: [
-            SizedBox(height: 10.h,),
+            SizedBox(height: 6.h,),
             _topWidget(),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 6.h,),
             _levelWidget(),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 6.h,),
             _questionWidget(),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 6.h,),
             _chooseListWidget(),
-            SizedBox(height: 20.h,),
+            SizedBox(height: 10.h,),
             _bottomWidget(),
           ],
         ),
@@ -112,8 +112,8 @@ class BWordChildPage extends RootChild<BWordChildCon>{
                             height: 48.h,
                           ),
                           TextWidget(
-                            text: answer.result,
-                            color: colorFFFFFF,
+                            text: null!=answer.hint?(answer.hint??""):answer.result,
+                            color: null!=answer.hint?colorBB7000.withOpacity(0.4):colorFFFFFF,
                             size: 32.sp,
                             fontWeight: FontWeight.w600,
                           )
@@ -222,11 +222,11 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       rootController.clickBottom(index);
     },
     child: SizedBox(
-      width: 60.w,
-      height: 60.h,
+      width: 50.w,
+      height: 50.h,
       child: Stack(
         children: [
-          ImageWidget(image:  rootController.getBottomFuncIcon(index),width: 60.w,height: 60.h,),
+          ImageWidget(image:  rootController.getBottomFuncIcon(index),width: 50.w,height: 50.h,),
           Align(
             alignment: Alignment.topRight,
             child: Container(
@@ -242,7 +242,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
                   )
               ),
               child: TextWidget(
-                text: "${index==0?NumUtils.instance.removeFailNum:index==1?NumUtils.instance.addTimeNum:NumUtils.instance.wheelNum}",
+                text: "${index==0?NumUtils.instance.tipsNum:index==1?NumUtils.instance.addTimeNum:NumUtils.instance.wheelNum}",
                 color: colorFFFFFF,
                 size: 14.sp,
                 fontWeight: FontWeight.w600,
@@ -321,7 +321,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   _guideWidget()=>GetBuilder<BWordChildCon>(
     id: "guide",
     builder: (_)=>Positioned(
-      top: (rootController.guideOffset?.dy??0)+20.w,
+      top: rootController.guideOffset?.dy??0,
       left: (rootController.guideOffset?.dx??0)+20.w,
       child: Offstage(
         offstage: null==rootController.guideOffset,

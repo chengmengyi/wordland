@@ -66,12 +66,12 @@ class BWithdrawChildCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.withdraw_page_c);
     var chooseMoneyNum = withdrawNumList[chooseIndex];
     var chooseCoinNum = ValueConfUtils.instance.getMoneyToCoin(chooseMoneyNum);
-    if(NumUtils.instance.coinNum<chooseCoinNum){
-      RoutersUtils.dialog(child: NoMoneyDialog());
-      return;
-    }
     if(NumUtils.instance.signDays<7||QuestionUtils.instance.getLevel()<10){
       RoutersUtils.dialog(child: IncompleteDialog(chooseNum: chooseMoneyNum,));
+      return;
+    }
+    if(NumUtils.instance.coinNum<chooseCoinNum){
+      RoutersUtils.dialog(child: NoMoneyDialog());
       return;
     }
     RoutersUtils.dialog(child: AccountDialog(chooseNum: chooseMoneyNum,));

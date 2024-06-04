@@ -26,11 +26,8 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
       children: [
         Column(
           children: [
-            SizedBox(height: 10.h,),
             _topWidget(),
-            SizedBox(height: 16.h,),
             _achWidget(),
-            SizedBox(height: 16.h,),
             _listWidget(),
           ],
         ),

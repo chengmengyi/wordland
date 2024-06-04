@@ -33,4 +33,5 @@ class StorageName {
   static const String todayAnswerNum="todayAnswerNum";
   static const String hasCommentApp="hasCommentApp";
   static const String installEvent="installEvent";
+  static const String tipsNum="tipsNum";
 }

@@ -5,6 +5,7 @@ import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
+import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/enums/word_finger_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -32,7 +33,7 @@ class BWordChildCon extends RootController{
   QuestionBean? currentQuestion;
   List<WordsChooseBean> chooseList=[];
   List<AnswerBean> answerList=[];
-  Timer? _timer;
+  Timer? _timer,_wordsTipsTimer;
   Offset? guideOffset;
   WordFingerFrom? _wordFingerFrom;
 
@@ -70,8 +71,15 @@ class BWordChildCon extends RootController{
       chooseList.add(WordsChooseBean(words: charList.random(), globalKey: GlobalKey()));
     }
     chooseList.shuffle();
+    if(answerList.isNotEmpty){
+      answerList.first=AnswerBean(result: currentQuestion?.answerList?.first??"", isRight: true);
+      if(answerList.length>3){
+        answerList[1]=AnswerBean(result: currentQuestion?.answerList?[1]??"", isRight: true);
+      }
+    }
     update(["question","choose","answer","level","bottom","wheel_pro"]);
     _startDownCountTimer();
+    _startWordsTipsTimer();
   }
 
   clickAnswer(String char){
@@ -85,29 +93,18 @@ class BWordChildCon extends RootController{
       var isRight = char==currentQuestion?.answerList?[indexWhere];
       answerList[indexWhere]=AnswerBean(result: char, isRight: isRight);
       update(["answer"]);
-      Future.delayed(const Duration(milliseconds: 200),(){
+      Future.delayed(const Duration(milliseconds: 500),(){
         canClick=true;
-        if(!isRight){
-          TbaUtils.instance.appEvent(AppEventName.word_flase_c);
-          RoutersUtils.dialog(
-            child: AnswerFailDialog(
-              nextWordsCall: (next){
-                if(next){
-                  QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
-                  _updateQuestionData();
-                }else{
-                  answerList[indexWhere]=AnswerBean(result: "", isRight: false);
-                  update(["answer"]);
-                }
-              },
-            )
-          );
-        }else{
-          TbaUtils.instance.appEvent(AppEventName.word_true_c);
-          if(isRight&&answerList.last.result.isNotEmpty){
+        if(isRight&&answerList.last.result.isEmpty){
+          _startWordsTipsTimer();
+        }
+        if(answerList.last.result.isNotEmpty){
+          if(isRight){
+            TbaUtils.instance.appEvent(AppEventName.word_true_c);
             _timer?.cancel();
             EventCode.answerRight.sendMsg();
             QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
+            update(["wheel_pro"]);
             NumUtils.instance.updateTodayAnswerRightNum();
             if(QuestionUtils.instance.bAnswerRightNum%9==0){
               update(["level"]);
@@ -144,6 +141,24 @@ class BWordChildCon extends RootController{
             if(NumUtils.instance.checkCanShowCommentDialog()){
               RoutersUtils.dialog(child: GoodCommentDialog());
             }
+          }else{
+            TbaUtils.instance.appEvent(AppEventName.word_flase_c);
+            RoutersUtils.dialog(
+                child: AnswerFailDialog(
+                  nextWordsCall: (next){
+                    if(next){
+                      QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
+                      _updateQuestionData();
+                    }else{
+                      for (var element in answerList) {
+                        element.result="";
+                        element.isRight=false;
+                      }
+                      update(["answer"]);
+                    }
+                  },
+                )
+            );
           }
         }
       });
@@ -154,7 +169,7 @@ class BWordChildCon extends RootController{
     switch(index){
       case 0:
         TbaUtils.instance.appEvent(AppEventName.hint_c);
-        _clickRemoveFail();
+        _clickHint();
         break;
       case 1:
         TbaUtils.instance.appEvent(AppEventName.add_time_c);
@@ -179,37 +194,41 @@ class BWordChildCon extends RootController{
     downCountTime+=20;
     _totalCountTime+=20;
     NumUtils.instance.updateTimeNum(-1);
+    _timer?.cancel();
     _startDownCountTimer(reset: false);
   }
 
-  _clickRemoveFail(){
-    if(NumUtils.instance.removeFailNum<=0){
+  _clickHint(){
+    if(NumUtils.instance.tipsNum<=0){
       RoutersUtils.dialog(
           child: AddHintDialog()
       );
       return;
     }
-    _removeFailChar(2);
-  }
-
-  _removeFailChar(int removeNum){
-    if(removeNum<=0){
-      NumUtils.instance.updateLastRemoveFailQuestion(currentQuestion?.question??"");
-      NumUtils.instance.updateRemoveFailNum(-1);
+    var hasHint=false;
+    for (var value in answerList) {
+      if(null!=value.hint){
+        hasHint=true;
+        break;
+      }
+    }
+    if(hasHint){
       return;
     }
-    var indexWhere = chooseList.indexWhere((element) => element.words.isNotEmpty&&currentQuestion?.answerList?.contains(element.words)==false);
-    if(indexWhere>=0){
-      chooseList[indexWhere].words="";
-      update(["choose"]);
-      _removeFailChar(removeNum-1);
+    for(int index=0;index<answerList.length;index++){
+      var bean = answerList[index];
+      if(bean.result.isEmpty){
+        bean.hint=currentQuestion?.answerList?[index]??"";
+      }
     }
+    NumUtils.instance.updateTipsNum(-1);
+    update(["answer"]);
   }
 
   String getBottomFuncIcon(index){
     switch(index){
       case 0:
-        return "answer9";
+        return "answer14";
       case 1:return "answer10";
       default:return "answer13";
     }
@@ -231,6 +250,22 @@ class BWordChildCon extends RootController{
     });
   }
 
+  _startWordsTipsTimer(){
+    if(NumUtils.instance.tipsNum<=0){
+      _stopWordsTipsTimer();
+      _wordsTipsTimer=Timer(const Duration(milliseconds: 5000), () {
+        if(NumUtils.instance.tipsNum<=0){
+          _showWordsGuide(WordFingerFrom.other);
+        }
+      });
+    }
+  }
+
+  _stopWordsTipsTimer(){
+    _wordsTipsTimer?.cancel();
+    _wordsTipsTimer=null;
+  }
+
   double getTimeProgress(){
     var pro = (_totalCountTime-downCountTime)/_totalCountTime;
     if(pro<=0){
@@ -243,7 +278,7 @@ class BWordChildCon extends RootController{
   }
 
   double getWheelProgress(){
-    var pro = QuestionUtils.instance.bAnswerRightNum~/3/3;
+    var pro = QuestionUtils.instance.bAnswerRightNum%9/9;
     if(pro<=0){
       return 0.0;
     }else if(pro>=1){
@@ -262,6 +297,7 @@ class BWordChildCon extends RootController{
       case EventCode.updateRemoveFailNum:
       case EventCode.updateTimeNum:
       case EventCode.updateWheelNum:
+      case EventCode.updateHintNum:
         update(["bottom"]);
         break;
       case EventCode.showNewUserWordsGuide:
@@ -276,7 +312,9 @@ class BWordChildCon extends RootController{
         GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
         break;
       case EventCode.showSignDialog:
-        if(!NumUtils.instance.todaySigned)
+        if(!NumUtils.instance.todaySigned){
+          RoutersUtils.showSignDialog(signFrom: SignFrom.other);
+        }
         break;
       default:
 
@@ -329,6 +367,7 @@ class BWordChildCon extends RootController{
   clickBubble(){
     TbaUtils.instance.appEvent(AppEventName.word_float_pop);
     _showOrHideBubble(false);
+    NumUtils.instance.updateCollectBubbleNum();
     AdUtils.instance.showAd(
       adType: AdType.reward,
       adPosId: AdPosId.wpdnd_rv_float_gold,
@@ -360,6 +399,7 @@ class BWordChildCon extends RootController{
   @override
   void onClose() {
     _timer?.cancel();
+    _stopWordsTipsTimer();
     PlayMusicUtils.instance.stopMusic();
     super.onClose();
   }

@@ -297,10 +297,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_max_ad
-      sha256: a18e0cefbbae8748becbbd084486ed9b37e42c709f58832db7268c96458be973
+      sha256: "639c233228ce5c2254c1769d6f7855854b8503a273e9926e0ccee1d2680b704b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.7"
+    version: "0.1.8"
   flutter_screenutil:
     dependency: "direct main"
     description:

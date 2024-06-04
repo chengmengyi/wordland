@@ -28,7 +28,8 @@ class NumUtils{
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
       payType=0,signDays=0,todaySigned=false,
       wlandIntCd=3,hasWlandIntCd=0,wheelNum=3,
-  wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0;
+  wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0,
+  tipsNum=10;
 
   NumUtils._internal(){
     addDownCountNum=getTodayNum(StorageName.addDownCountNum, 2);
@@ -44,6 +45,7 @@ class NumUtils{
     hasCommentApp=StorageUtils.read<bool>(StorageName.hasCommentApp)??false;
     todayCommentDialogShowNum=getTodayNum(StorageName.todayCommentDialogShowNum, 0);
     todayAnswerNum=getTodayNum(StorageName.todayAnswerNum, 0);
+    tipsNum=getTodayNum(StorageName.tipsNum, 10);
     _getSignInfo();
   }
 
@@ -165,5 +167,11 @@ class NumUtils{
   updateTodayAnswerRightNum(){
     todayAnswerNum++;
     StorageUtils.write(StorageName.todayAnswerNum, "${getTodayTime()}_$todayAnswerNum");
+  }
+
+  updateTipsNum(int addNum){
+    tipsNum+=addNum;
+    StorageUtils.write(StorageName.tipsNum, "${getTodayTime()}_$tipsNum");
+    EventCode.updateHintNum.sendMsg();
   }
 }

@@ -51,17 +51,16 @@ class GuideUtils{
   }
 
   _checkOldUserGuide(){
-    if(!_checkHasCompleteOldUserGuide()){
-      var oldUserStep = StorageUtils.read<int>(StorageName.oldUserGuideStep)??OldUserGuideStep.showSignDialog;
-      switch(oldUserStep){
-        case OldUserGuideStep.showSignDialog:
-          RoutersUtils.showSignDialog(signFrom: SignFrom.oldUserGuide);
-          break;
-      }
+    var oldUserStep=OldUserGuideStep.showSignDialog;
+    if((StorageUtils.read<String>(StorageName.lastOldUserGuideTimer)??"")==getTodayTime()){
+      oldUserStep = StorageUtils.read<int>(StorageName.oldUserGuideStep)??OldUserGuideStep.showSignDialog;
+    }
+    switch(oldUserStep){
+      case OldUserGuideStep.showSignDialog:
+        RoutersUtils.showSignDialog(signFrom: SignFrom.oldUserGuide);
+        break;
     }
   }
-
-  _checkHasCompleteOldUserGuide()=>(StorageUtils.read<String>(StorageName.lastOldUserGuideTimer)??"")==getTodayTime();
 
   updateNewUserGuideStep(int step){
     StorageUtils.write(StorageName.newUserGuideStep, step);

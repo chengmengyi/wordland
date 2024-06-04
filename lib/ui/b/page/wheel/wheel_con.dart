@@ -30,9 +30,11 @@ class WheelCon extends RootController{
     }
   }
 
-  clickClose(){
+  clickClose(bool clickBack){
     RoutersUtils.back(backParams: {"back":true});
-    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
+    if(clickBack){
+      NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
+    }
   }
 
   clickPlay(){

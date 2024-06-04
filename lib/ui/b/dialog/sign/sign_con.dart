@@ -23,6 +23,7 @@ class SignCon extends RootController{
   SignFrom _signFrom=SignFrom.other;
   List<int> signList=ValueConfUtils.instance.getSignConfList();
   List<GlobalKey> globalList=[];
+  Offset? guideOffset;
 
   @override
   void onInit() {
@@ -45,35 +46,48 @@ class SignCon extends RootController{
       return;
     }
     var renderBox = globalList[NumUtils.instance.signDays].currentContext!.findRenderObject() as RenderBox;
-    var offset = renderBox.localToGlobal(Offset.zero);
-    GuideUtils.instance.showGuideOver(
-      context: context,
-      widget: SignGuideWidget(
-        offset: offset,
-        hideCall: (){
-          TbaUtils.instance.appEvent(AppEventName.wl_signin_pop_c,params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"});
-          AdUtils.instance.showAd(
-              adType: AdType.reward,
-              adPosId: AdPosId.wpdnd_rv_sign_in,
-              adShowListener: AdShowListener(
-                  onAdHidden: (ad){
-                    _watchAdCall(true);
-                  },
-                  showAdFail: (ad,error){
-                    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
-                    _watchAdCall(false);
-                  }
-              )
-          );
-        },
-      )
+    guideOffset = renderBox.localToGlobal(Offset.zero);
+    update(["guide"]);
+  }
+
+  setInfo(SignFrom signFrom){
+    _signFrom=signFrom;
+  }
+
+  int getSignNum(index){
+    try{
+      return signList[index];
+    }catch(e){
+      return 2000;
+    }
+  }
+
+  clickItem(index){
+    if(NumUtils.instance.signDays!=index){
+      return;
+    }
+    TbaUtils.instance.appEvent(
+        AppEventName.wl_signin_pop_c,
+        params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"}
+    );
+    AdUtils.instance.showAd(
+        adType: AdType.reward,
+        adPosId: AdPosId.wpdnd_rv_sign_in,
+        adShowListener: AdShowListener(
+            onAdHidden: (ad){
+              NumUtils.instance.sign();
+              NumUtils.instance.updateCoinNum(getSignNum(index));
+              _watchAdCall();
+            },
+            showAdFail: (ad,error){
+              NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
+              _watchAdCall();
+            }
+        )
     );
   }
 
-  _watchAdCall(bool sign){
-    if(sign){
-      NumUtils.instance.sign();
-    }
+  _watchAdCall(){
     RoutersUtils.back();
     if(_signFrom==SignFrom.newUserGuide){
       GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showWordsGuide);
@@ -102,34 +116,6 @@ class SignCon extends RootController{
     }
   }
 
-  setInfo(SignFrom signFrom){
-    _signFrom=signFrom;
-  }
-
-  int getSignNum(index){
-    try{
-      return signList[index];
-    }catch(e){
-      return 2000;
-    }
-  }
-
-  clickItem(index){
-    if(NumUtils.instance.signDays-1==index){
-      return;
-    }
-    AdUtils.instance.showAd(
-      adType: AdType.reward,
-      adPosId: AdPosId.wpdnd_rv_sign_in,
-      adShowListener: AdShowListener(
-        onAdHidden: (MaxAd? ad) {
-          NumUtils.instance.sign();
-          RoutersUtils.back();
-          NumUtils.instance.updateCoinNum(getSignNum(index));
-        }
-      )
-    );
-  }
 
   clickClose(){
     RoutersUtils.back();

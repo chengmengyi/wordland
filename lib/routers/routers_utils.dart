@@ -44,13 +44,15 @@ class RoutersUtils{
     required Widget child,
     dynamic arguments,
     bool? barrierDismissible,
-    Color? barrierColor
+    Color? barrierColor,
+    bool useSafeArea = true,
   }) {
     Get.dialog(
       child,
       arguments: arguments,
       barrierColor: barrierColor??color000000.withOpacity(0.8),
       barrierDismissible: barrierDismissible ?? false,
+      useSafeArea: useSafeArea,
     );
   }
 
@@ -62,7 +64,8 @@ class RoutersUtils{
 
   static showSignDialog({required SignFrom signFrom}){
     dialog(
-        child: SignDialog(signFrom: signFrom,)
+      child: SignDialog(signFrom: signFrom,),
+      useSafeArea: false
     );
   }
 }

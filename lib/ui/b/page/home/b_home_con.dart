@@ -1,7 +1,7 @@
 import 'dart:async';
-
 import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/bean/home_bottom_bean.dart';
 import 'package:wordland/event/event_code.dart';
@@ -12,7 +12,7 @@ import 'package:wordland/ui/b/page/task_child/b_task_child_page.dart';
 import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_page.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_page.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:adjust_sdk/adjust.dart';
@@ -85,14 +85,12 @@ class BHomeCon extends RootController with WidgetsBindingObserver{
   }
 
   _startPausedTimer(){
-    if(FlutterMaxAd.instance.fullAdShowing()){
-      return;
-    }
     _pausedTimer=Timer(const Duration(milliseconds: 3000), () {
-      if(FlutterMaxAd.instance.fullAdShowing()||NotifiUtils.instance.clickNotification||GuideUtils.instance.guideOverShowing()){
+      if(NotifiUtils.instance.clickNotification){
         _toLaunchPage=false;
         return;
       }
+      FlutterMaxAd.instance.dismissMaxAdView();
       _toLaunchPage=true;
     });
   }
@@ -100,15 +98,30 @@ class BHomeCon extends RootController with WidgetsBindingObserver{
   _checkToLaunchPage(){
     _pausedTimer?.cancel();
     Future.delayed(const Duration(milliseconds: 100),(){
-      if(FlutterMaxAd.instance.fullAdShowing()||NotifiUtils.instance.clickNotification||GuideUtils.instance.guideOverShowing()){
+      if(NotifiUtils.instance.clickNotification){
         _toLaunchPage=false;
         return;
       }
       if(_toLaunchPage){
-        RoutersUtils.toNamed(routerName: RoutersData.launch);
+        _showAdOrToLaunchPage();
         _toLaunchPage=false;
       }
     });
+  }
+
+  _showAdOrToLaunchPage(){
+    AdUtils.instance.showOpenAd(
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+
+        },
+      ),
+      hasAdCache: (has){
+        if(!has){
+          RoutersUtils.toNamed(routerName: RoutersData.launch);
+        }
+      },
+    );
   }
 
   @override

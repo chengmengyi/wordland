@@ -10,12 +10,14 @@ import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
 class LaunchCon extends RootController with WidgetsBindingObserver{
+  Timer? _timer;
   var progress=0.0,_count=0,_totalCount=200,_onResume=true;
 
   @override
@@ -35,55 +37,57 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
   }
 
   _startTimer(){
-    Timer.periodic(const Duration(milliseconds: 50), (timer) {
+    _timer=Timer.periodic(const Duration(milliseconds: 50), (timer) {
       if(_onResume){
         _count++;
         progress=_count/_totalCount;
         update(["progress"]);
+        _checkResult(false);
       }
       if(_count>=_totalCount){
-        timer.cancel();
-        _checkResult();
+        FlutterCheckAdjustCloak.instance.checkType();
+        _checkResult(true);
       }
     });
   }
 
-  _checkResult()async{
-    var checkType = FlutterCheckAdjustCloak.instance.checkType();
-    if(!checkType){
-      _toHome(checkType,null);
+  _checkResult(bool end)async{
+    var userType = FlutterCheckAdjustCloak.instance.getUserType();
+    if(!userType){
+      if(end){
+        _stopTimer();
+        _toHome(userType);
+      }
       return;
     }
+    AdUtils.instance.showOpenAd(
+      adShowListener: AdShowListener(
+        showAdSuccess: (ad){
 
+        },
+        onAdHidden: (ad){
+          _toHome(userType);
+        },
+        showAdFail: (ad,error){
+          _toHome(userType);
+        },
+      ),
+      hasAdCache: (has){
+        if(has){
+          _stopTimer();
+        }else if(end){
+          _toHome(userType);
+        }
+      },
+    );
+  }
+
+  _toHome(bool checkType){
     var nId = RoutersUtils.getParams()["n_id"];
     if(null==nId&&NotifiUtils.instance.fromBackgroundId!=-1){
       nId=NotifiUtils.instance.fromBackgroundId;
     }
     NotifiUtils.instance.fromBackgroundId=-1;
-
-    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
-    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
-    if(hasCache){
-      FlutterMaxAd.instance.showAd(
-        adType: AdType.open,
-        adShowListener: AdShowListener(
-          onAdHidden: (ad){
-            _toHome(checkType,nId);
-          },
-          showAdFail: (ad,error){
-            _toHome(checkType,nId);
-          },
-          onAdRevenuePaidCallback: (ad,info){
-            TbaUtils.instance.adEvent(ad, info, AdPosId.wpdnd_launch, AdFomat.int);
-          }
-        ),
-      );
-    }else{
-      _toHome(checkType,nId);
-    }
-  }
-
-  _toHome(bool checkType,int? nId){
     if(checkType&&NotifiUtils.instance.hasBuyHome){
       RoutersUtils.back();
       if(null!=nId&&nId>=0){
@@ -143,8 +147,14 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     }
   }
 
+  _stopTimer(){
+    _timer?.cancel();
+    _timer=null;
+  }
+
   @override
   void onClose() {
+    _stopTimer();
     WidgetsBinding.instance.removeObserver(this);
     NotifiUtils.instance.launchShowing=false;
     super.onClose();

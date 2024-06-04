@@ -98,6 +98,35 @@ class AdUtils{
     adShowListener.showAdFail?.call(null,null);
   }
 
+  showOpenAd({
+    required AdShowListener adShowListener,
+    required Function(bool) hasAdCache,
+  }){
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
+    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
+    hasAdCache.call(hasCache);
+    if(hasCache){
+      FlutterMaxAd.instance.showAd(
+        adType: AdType.open,
+        adShowListener: AdShowListener(
+          showAdSuccess: (ad){
+            showToast("show open ad success");
+            adShowListener.showAdSuccess?.call(ad);
+          },
+          onAdHidden: (ad){
+            adShowListener.onAdHidden.call(ad);
+          },
+          showAdFail: (ad,error){
+            adShowListener.showAdFail?.call(ad,error);
+          },
+          onAdRevenuePaidCallback: (ad,info){
+            TbaUtils.instance.adEvent(ad, info, AdPosId.wpdnd_launch, AdFomat.int);
+          }
+        ),
+      );
+    }
+  }
+
   List<MaxAdInfoBean> _getAdList(json,adLocationName){
     try{
       List<MaxAdInfoBean> adList=[];

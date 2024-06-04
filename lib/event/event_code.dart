@@ -19,4 +19,5 @@ enum EventCode{
   playWheel,
   stopWheel,
   showSignDialog,
+  updateHintNum,
 }

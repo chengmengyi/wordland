@@ -56,7 +56,7 @@ class WheelPage extends RootPage<WheelCon>{
       SizedBox(width: 12.w,),
       InkWell(
         onTap: (){
-         rootController.clickClose();
+         rootController.clickClose(true);
         },
         child: ImageWidget(image: "back",width: 36.w,height: 36.h,),
       ),
@@ -64,7 +64,7 @@ class WheelPage extends RootPage<WheelCon>{
       TopMoneyWidget(
         topCash: TopCash.wheel,
         clickCall: (){
-          RoutersUtils.back();
+          rootController.clickClose(false);
         },
       ),
     ],

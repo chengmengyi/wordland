@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/sign/sign_con.dart';
@@ -20,29 +22,56 @@ class SignDialog extends RootDialog<SignCon>{
   @override
   Widget contentWidget(){
     rootController.setInfo(signFrom);
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: double.infinity,
-          height: 266.w,
-          margin: EdgeInsets.only(left: 40.w,right: 40.w),
-          child: Stack(
-            children: [
-              ImageWidget(image: "sign1",width: double.infinity,height: 266.w,fit: BoxFit.fill,),
-              _topWidget(),
-              _listWidget(),
-            ],
+    return SizedBox(
+      width: double.infinity,
+      height: double.infinity,
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 266.w,
+                  margin: EdgeInsets.only(left: 40.w,right: 40.w),
+                  child: Stack(
+                    children: [
+                      ImageWidget(image: "sign1",width: double.infinity,height: 266.w,fit: BoxFit.fill,),
+                      _topWidget(),
+                      _listWidget(),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.h,),
+                InkWell(
+                  onTap: (){
+                    rootController.clickClose();
+                  },
+                  child: ImageWidget(image: "icon_close2",width: 32.w,height: 32.h,),
+                ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 20.h,),
-        InkWell(
-          onTap: (){
-            rootController.clickClose();
-          },
-          child: ImageWidget(image: "icon_close2",width: 32.w,height: 32.h,),
-        ),
-      ],
+          GetBuilder<SignCon>(
+            id: "guide",
+            builder: (_)=>Positioned(
+              top: (rootController.guideOffset?.dy??0)+20.w,
+              left: (rootController.guideOffset?.dx??0)+20.w,
+              child: Offstage(
+                offstage: null==rootController.guideOffset,
+                child: InkWell(
+                  onTap: (){
+                    rootController.clickItem(NumUtils.instance.signDays);
+                  },
+                  child: Lottie.asset("assets/guide1.json",width: 52.w,height: 52.w),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
   

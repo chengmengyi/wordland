@@ -44,7 +44,7 @@ class AddHintDialog extends RootDialog<AddHintCon>{
               Stack(
                 alignment: Alignment.bottomRight,
                 children: [
-                  ImageWidget(image: "add_hint1",width: 68.w,height: 72.h,),
+                  ImageWidget(image: "answer14",width: 68.w,height: 72.h,),
                   ImageWidget(image: "add_hint2",width: 28.w,),
                 ],
               ),
