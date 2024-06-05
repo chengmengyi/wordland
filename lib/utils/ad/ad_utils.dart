@@ -124,8 +124,6 @@ class AdUtils{
           }
         ),
       );
-    }else{
-      FlutterMaxAd.instance.loadAdByType(AdType.open);
     }
   }
 
