@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:get/get.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';

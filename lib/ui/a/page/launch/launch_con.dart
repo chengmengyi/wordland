@@ -18,7 +18,7 @@ import 'package:wordland/utils/utils.dart';
 
 class LaunchCon extends RootController with WidgetsBindingObserver{
   Timer? _timer;
-  var progress=0.0,_count=0,_totalCount=200,_onResume=true;
+  var progress=0.0,_count=0,_totalCount=100,_onResume=true;
 
   @override
   void onInit() {
@@ -28,16 +28,13 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     FlutterMaxAd.instance.loadAdByType(AdType.open);
     NotifiUtils.instance.launchShowing=true;
     NotifiUtils.instance.checkPermission();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    _startTimer();
+    Future((){
+      _startTimer();
+    });
   }
 
   _startTimer(){
-    _timer=Timer.periodic(const Duration(milliseconds: 50), (timer) {
+    _timer=Timer.periodic(const Duration(milliseconds: 100), (timer) {
       if(_onResume){
         _count++;
         progress=_count/_totalCount;
@@ -63,7 +60,6 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     AdUtils.instance.showOpenAd(
       adShowListener: AdShowListener(
         showAdSuccess: (ad){
-
         },
         onAdHidden: (ad){
           _toHome(userType);

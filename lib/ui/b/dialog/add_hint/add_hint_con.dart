@@ -25,7 +25,7 @@ class AddHintCon extends RootController{
       adShowListener: AdShowListener(
         onAdHidden: (ad){
           RoutersUtils.back();
-          NumUtils.instance.updateRemoveFailNum(1);
+          NumUtils.instance.updateTipsNum(1);
         },
       )
     );

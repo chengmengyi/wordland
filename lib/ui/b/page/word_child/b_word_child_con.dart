@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
+import 'package:get/get.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
@@ -43,14 +44,15 @@ class BWordChildCon extends RootController{
     PlayMusicUtils.instance.playMusic();
     Future((){
       GuideUtils.instance.checkNewUserGuide();
+      _updateQuestionData();
     });
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-    _updateQuestionData();
-  }
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //
+  // }
 
   _updateQuestionData(){
     currentQuestion=QuestionUtils.instance.getBQuestion();

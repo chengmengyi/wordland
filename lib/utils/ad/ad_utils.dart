@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_bean/max_ad_bean.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
@@ -110,7 +111,6 @@ class AdUtils{
         adType: AdType.open,
         adShowListener: AdShowListener(
           showAdSuccess: (ad){
-            showToast("show open ad success");
             adShowListener.showAdSuccess?.call(ad);
           },
           onAdHidden: (ad){

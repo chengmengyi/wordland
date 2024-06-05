@@ -3,6 +3,7 @@ import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:get/get.dart';
 import 'package:wordland/bean/home_bottom_bean.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -90,19 +91,20 @@ class BHomeCon extends RootController with WidgetsBindingObserver{
         _toLaunchPage=false;
         return;
       }
-      FlutterMaxAd.instance.dismissMaxAdView();
+      if(FlutterMaxAd.instance.fullAdShowing()){
+        FlutterMaxAd.instance.dismissMaxAdView();
+      }
       _toLaunchPage=true;
     });
   }
 
   _checkToLaunchPage(){
     _pausedTimer?.cancel();
-    Future.delayed(const Duration(milliseconds: 100),(){
+    Future.delayed(const Duration(milliseconds: 200),(){
       if(NotifiUtils.instance.clickNotification){
         _toLaunchPage=false;
         return;
-      }
-      if(_toLaunchPage){
+      }else if(_toLaunchPage){
         _showAdOrToLaunchPage();
         _toLaunchPage=false;
       }

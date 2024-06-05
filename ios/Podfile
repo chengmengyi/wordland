@@ -31,6 +31,18 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  pod 'AppLovinMediationChartboostAdapter'
+  pod 'AppLovinMediationFyberAdapter'
+  pod 'AppLovinMediationGoogleAdManagerAdapter'
+  pod 'AppLovinMediationGoogleAdapter'
+  pod 'AppLovinMediationInMobiAdapter'
+  pod 'AppLovinMediationIronSourceAdapter'
+  pod 'AppLovinMediationVungleAdapter'
+  pod 'AppLovinMediationMintegralAdapter'
+  pod 'AppLovinMediationUnityAdsAdapter'
+  pod 'AppLovinMediationByteDanceAdapter'
+  pod 'AppLovinMediationFacebookAdapter'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   target 'RunnerTests' do
     inherit! :search_paths
@@ -42,4 +54,6 @@ post_install do |installer|
     flutter_additional_ios_build_settings(target)
   end
 end
+
+# source 'https://github.com/CocoaPods/Specs.git'
 

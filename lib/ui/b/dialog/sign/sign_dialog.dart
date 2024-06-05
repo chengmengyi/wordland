@@ -139,7 +139,7 @@ class SignDialog extends RootDialog<SignCon>{
       child: Stack(
         children: [
           ImageWidget(
-            image: NumUtils.instance.signDays-1==index?"sign8":"sign2",
+            image: NumUtils.instance.signDays>index?"sign8":"sign2",
             width: 60.w,
             height: 72.w,
             fit: BoxFit.fill,
@@ -160,7 +160,7 @@ class SignDialog extends RootDialog<SignCon>{
                 ),
                 TextWidget(
                   text: index==6?"+\$100":"+${rootController.getSignNum(index)}",
-                  color: NumUtils.instance.signDays-1==index?colorB6B6B6:colorFF490F,
+                  color: NumUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,
                 )

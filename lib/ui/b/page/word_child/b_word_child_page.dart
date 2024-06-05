@@ -321,7 +321,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   _guideWidget()=>GetBuilder<BWordChildCon>(
     id: "guide",
     builder: (_)=>Positioned(
-      top: rootController.guideOffset?.dy??0,
+      top: (rootController.guideOffset?.dy??0)+20.w,
       left: (rootController.guideOffset?.dx??0)+20.w,
       child: Offstage(
         offstage: null==rootController.guideOffset,
