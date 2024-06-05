@@ -93,6 +93,7 @@ class ValueConfUtils{
     var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers");
     if(s.isNotEmpty){
       StorageUtils.write(StorageName.localValueConf, s);
+      _valueConfBean=ValueConfBean.fromJson(jsonDecode(s));
     }
   }
 }

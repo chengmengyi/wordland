@@ -131,54 +131,6 @@ class NotifiUtils {
       return;
     }
     clickNotification=true;
-    // if(appBackGround){
-    //   EventCode.resetLaunchUI.sendMsg();
-    // }else{
-    //   RoutersUtils.toNamed(
-    //       routerName: RoutersData.launch,
-    //       params: {"n_id":notificationResponse.id}
-    //   );
-    // }
-    // Timer.periodic(const Duration(milliseconds: 300), (timer) {
-    //   RoutersUtils.toNamed(
-    //       routerName: RoutersData.launch,
-    //       params: {"n_id":notificationResponse.id}
-    //   );
-    // });
-    // switch(notificationResponse.id){
-    //   case NotifiId.guding:
-    //     TbaUtils.instance.appEvent(AppEventName.wl_fix_inform_c);
-    //     break;
-    //   case NotifiId.qiandao:
-    //     EventCode.showSignDialog.sendMsg();
-    //     TbaUtils.instance.appEvent(AppEventName.wl_sign_inform_c);
-    //     break;
-    //   case NotifiId.renwu:
-    //     EventCode.showTaskChild.sendMsg();
-    //     TbaUtils.instance.appEvent(AppEventName.wl_task_inform_c);
-    //     break;
-    //   case NotifiId.tixian:
-    //     EventCode.showWithdrawChild.sendMsg();
-    //     TbaUtils.instance.appEvent(AppEventName.wl_paypel_inform_c);
-    //     break;
-    // }
-    // if(!appBackGround){
-    //   AdUtils.instance.showOpenAd(
-    //     adShowListener: AdShowListener(
-    //       onAdHidden: (ad){
-    //
-    //       },
-    //       showAdFail: (ad,error){
-    //       }
-    //     ),
-    //     hasAdCache: (has){
-    //       if(!has){
-    //         RoutersUtils.toNamed(routerName: RoutersData.launch);
-    //       }
-    //     },
-    //   );
-    // }
-
     RoutersUtils.toNamed(
         routerName: RoutersData.launch,
         params: {"n_id":notificationResponse.id}

@@ -39,6 +39,7 @@ class QuestionUtils{
           _questionList.add(QuestionBean(question: question, answer: answer));
         }
       }
+      _questionList.sort((a, b) => (a.answer.length).compareTo(b.answer.length));
     }catch(e){
 
     }

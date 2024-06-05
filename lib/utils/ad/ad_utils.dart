@@ -44,7 +44,7 @@ class AdUtils{
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
         secondInterAdList: [],
       ),
-      testDeviceAdvertisingIds: ["EC9E8B35-C29F-4785-92E2-6854BB1FB33A","D068A2E7-1402-4D73-A063-6F2096DFE739"]
+      // testDeviceAdvertisingIds: ["EC9E8B35-C29F-4785-92E2-6854BB1FB33A","D068A2E7-1402-4D73-A063-6F2096DFE739"]
     );
   }
 
