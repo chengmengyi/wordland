@@ -21,7 +21,7 @@ class AddChanceCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.add_time_pop_c);
     AdUtils.instance.showAd(
       adType: AdType.reward,
-      adPosId: AdPosId.wpdnd_rv_int,
+      adPosId: AdPosId.wpdnd_rv_time,
       adShowListener: AdShowListener(
         onAdHidden: (ad){
           RoutersUtils.back();

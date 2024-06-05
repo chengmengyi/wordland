@@ -21,7 +21,7 @@ class AddHintCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.hint_over_pop_c);
     AdUtils.instance.showAd(
       adType: AdType.reward,
-      adPosId: AdPosId.wpdnd_rv_remove,
+      adPosId: AdPosId.wpdnd_rv_int,
       adShowListener: AdShowListener(
         onAdHidden: (ad){
           RoutersUtils.back();

@@ -104,8 +104,9 @@ class IncentCon extends RootController{
   AdPosId _getAdPosID(){
     switch(_incentFrom){
       case IncentFrom.newUserGuide: return AdPosId.wpdnd_rv_get_double;
-      case IncentFrom.ach: return AdPosId.wpdnd_int_task_double;
+      case IncentFrom.ach: return AdPosId.wpdnd_rv_ach_double;
       case IncentFrom.wheel: return AdPosId.wpdnd_rv_spin_double;
+      case IncentFrom.task: return AdPosId.wpdnd_rv_task_double;
       default: return AdPosId.other;
     }
   }

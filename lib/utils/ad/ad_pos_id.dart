@@ -8,16 +8,16 @@ enum AdPosId{
   wpdnd_rv_right_bounce,
   wpdnd_rv_wrong_ag,
   wpdnd_rv_int,
-  wpdnd_rv_life,
-  wpdnd_rv_remove,
+  wpdnd_rv_time,
   wpdnd_int_answer,
   wpdnd_rv_next_level,
   wpdnd_int_task_claim,
-  wpdnd_int_task_double,
+  wpdnd_rv_ach_double,
   wpdnd_int_spin_go,
   wpdnd_rv_spin_double,
   wpdnd_rv_spin_chance,
   wpdnd_int_close_spin,
+  wpdnd_rv_task_double,
   other
 }
 
