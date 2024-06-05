@@ -313,11 +313,11 @@ class BWordChildCon extends RootController{
         _showWordsGuide(WordFingerFrom.old);
         GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
         break;
-      case EventCode.showSignDialog:
-        if(!NumUtils.instance.todaySigned){
-          RoutersUtils.showSignDialog(signFrom: SignFrom.other);
-        }
-        break;
+      // case EventCode.showSignDialog:
+      //   if(!NumUtils.instance.todaySigned){
+      //     RoutersUtils.showSignDialog(signFrom: SignFrom.other);
+      //   }
+      //   break;
       default:
 
         break;

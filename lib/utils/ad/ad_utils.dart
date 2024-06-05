@@ -103,7 +103,6 @@ class AdUtils{
     required AdShowListener adShowListener,
     required Function(bool) hasAdCache,
   }){
-    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
     var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
     hasAdCache.call(hasCache);
     if(hasCache){
@@ -117,6 +116,7 @@ class AdUtils{
             adShowListener.onAdHidden.call(ad);
           },
           showAdFail: (ad,error){
+            FlutterMaxAd.instance.loadAdByType(AdType.open);
             adShowListener.showAdFail?.call(ad,error);
           },
           onAdRevenuePaidCallback: (ad,info){
@@ -124,6 +124,8 @@ class AdUtils{
           }
         ),
       );
+    }else{
+      FlutterMaxAd.instance.loadAdByType(AdType.open);
     }
   }
 

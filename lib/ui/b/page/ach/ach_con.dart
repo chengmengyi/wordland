@@ -28,10 +28,11 @@ class AchCon extends RootController{
   }
 
   clickBtn(TaskBean bean){
-    TbaUtils.instance.appEvent(AppEventName.achievement_page_receieve);
     if(!bean.canReceive){
+      TbaUtils.instance.appEvent(AppEventName.achievement_page_c);
       return;
     }
+    TbaUtils.instance.appEvent(AppEventName.achievement_page_receieve);
     RoutersUtils.showIncentDialog(
       incentFrom: IncentFrom.ach,
       addNum: bean.addNum,

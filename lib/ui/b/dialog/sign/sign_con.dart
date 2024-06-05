@@ -32,7 +32,6 @@ class SignCon extends RootController{
     for (var value in signList) {
       globalList.add(GlobalKey());
     }
-    TbaUtils.instance.appEvent(AppEventName.wl_signin_pop,params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"});
   }
 
   @override
@@ -52,6 +51,7 @@ class SignCon extends RootController{
 
   setInfo(SignFrom signFrom){
     _signFrom=signFrom;
+    TbaUtils.instance.appEvent(AppEventName.wl_signin_pop,params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"});
   }
 
   int getSignNum(index){

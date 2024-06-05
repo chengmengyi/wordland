@@ -74,6 +74,7 @@ enum AppEventName{
   task_page_achievement,
   achievement_page,
   achievement_page_receieve,
+  achievement_page_c,
   try_again_pop,
   wl_fix_inform_c,
   wl_sign_inform_c,

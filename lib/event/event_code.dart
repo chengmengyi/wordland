@@ -20,4 +20,5 @@ enum EventCode{
   stopWheel,
   showSignDialog,
   updateHintNum,
+  resetLaunchUI,
 }

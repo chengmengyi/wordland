@@ -50,7 +50,7 @@ class TbaUtils{
       dataMap: map,
       headerMap: header
     );
-    printLogByDebug("tba===install===result->success:${dioResult.success}-->result:${dioResult.result}");
+    printLogByDebug("tba===install===result->success:${dioResult.success}-->result:$map");
     if(dioResult.success){
       StorageUtils.write(StorageName.installEvent, true);
     }else if(tryNum>0){
@@ -71,7 +71,7 @@ class TbaUtils{
         dataMap: map,
         headerMap: header
     );
-    printLogByDebug("tba===session===result->success:${dioResult.success}-->result:${dioResult.result}");
+    printLogByDebug("tba===session===result->success:${dioResult.success}-->result:$map");
     if(!dioResult.success&&tryNum>=0){
       Future.delayed(const Duration(milliseconds: 1000),(){
         sessionEvent(tryNum: tryNum-1);
@@ -89,6 +89,7 @@ class TbaUtils{
     map["selenate"]=adPosId.name;
     map["economic"]=adFomat.name;
     map["verbatim"]=ad?.revenuePrecision??"";
+    map["nitrous"]="benz";
     var header = await _getHeaderMap();
     var url = await _getTbaUrl();
     printLogByDebug("tba===ad===data->$map");
@@ -97,7 +98,7 @@ class TbaUtils{
         dataMap: map,
         headerMap: header
     );
-    printLogByDebug("tba===ad===result->success:${dioResult.success}-->result:${dioResult.result}");
+    printLogByDebug("tba===ad===result->success:${dioResult.success}-->result:$map");
     if(!dioResult.success&&tryNum>=0){
       Future.delayed(const Duration(milliseconds: 1000),(){
         adEvent(ad, info, adPosId, adFomat,tryNum: tryNum-1);
@@ -121,7 +122,7 @@ class TbaUtils{
         dataMap: map,
         headerMap: header
     );
-    printLogByDebug("tba===app point===result->success:${dioResult.success}-->result:${dioResult.result}");
+    printLogByDebug("tba===app point===result->success:${dioResult.success}-->result:$map");
     if(!dioResult.success&&tryNum>=0){
       Future.delayed(const Duration(milliseconds: 1000),(){
         appEvent(eventName,params: params,tryNum: tryNum-1);

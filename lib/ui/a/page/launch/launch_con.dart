@@ -25,9 +25,11 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     WidgetsBinding.instance.addObserver(this);
     super.onInit();
     _tbaPoint();
+    TbaUtils.instance.sessionEvent();
     FlutterMaxAd.instance.loadAdByType(AdType.open);
     NotifiUtils.instance.launchShowing=true;
     NotifiUtils.instance.checkPermission();
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
     Future((){
       _startTimer();
     });
@@ -50,35 +52,28 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
 
   _checkResult(bool end)async{
     var userType = FlutterCheckAdjustCloak.instance.getUserType();
-    if(!userType){
-      if(end){
-        _stopTimer();
-        _toHome(userType);
-      }
+    if(end){
+      _toHome(userType);
       return;
     }
-    AdUtils.instance.showOpenAd(
-      adShowListener: AdShowListener(
-        showAdSuccess: (ad){
+    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
+    if(hasCache&&userType){
+      _toHome(userType);
+      AdUtils.instance.showOpenAd(
+        adShowListener: AdShowListener(
+          onAdHidden: (ad){
+
+          },
+        ),
+        hasAdCache: (has){
+
         },
-        onAdHidden: (ad){
-          _toHome(userType);
-        },
-        showAdFail: (ad,error){
-          _toHome(userType);
-        },
-      ),
-      hasAdCache: (has){
-        if(has){
-          _stopTimer();
-        }else if(end){
-          _toHome(userType);
-        }
-      },
-    );
+      );
+    }
   }
 
   _toHome(bool checkType){
+    _stopTimer();
     var nId = RoutersUtils.getParams()["n_id"];
     if(null==nId&&NotifiUtils.instance.fromBackgroundId!=-1){
       nId=NotifiUtils.instance.fromBackgroundId;
@@ -154,5 +149,16 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     WidgetsBinding.instance.removeObserver(this);
     NotifiUtils.instance.launchShowing=false;
     super.onClose();
+  }
+
+  @override
+  bool initEventbus() => true;
+
+  @override
+  void receiveBusMsg(EventCode code) {
+    if(code==EventCode.resetLaunchUI){
+      _count=0;
+      _startTimer();
+    }
   }
 }

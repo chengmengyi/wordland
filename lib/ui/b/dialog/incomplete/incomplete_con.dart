@@ -8,7 +8,7 @@ import 'package:wordland/utils/utils.dart';
 class IncompleteCon extends RootController{
 
   String getStr(){
-    if(NumUtils.instance.signDays<7){
+    if(NumUtils.instance.signDays<7&&!NumUtils.instance.todaySigned){
       return "Pending：Sign 7 days";
     }
     return "Pending：Collect 10 cash coins";
@@ -16,11 +16,7 @@ class IncompleteCon extends RootController{
 
   clickGo(){
     RoutersUtils.back();
-    if(NumUtils.instance.signDays<7){
-      if(NumUtils.instance.todaySigned){
-        showToast("Today signed");
-        return;
-      }
+    if(NumUtils.instance.signDays<7&&!NumUtils.instance.todaySigned){
       RoutersUtils.showSignDialog(signFrom: SignFrom.other);
     }else{
       EventCode.showWordChild.sendMsg();

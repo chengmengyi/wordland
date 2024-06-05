@@ -26,7 +26,6 @@ class IncentCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
-    TbaUtils.instance.appEvent(AppEventName.double_pop, params: {"word_from": _getTabValueByFrom()});
   }
 
   @override
@@ -55,6 +54,7 @@ class IncentCon extends RootController{
     if(addNum>0){
       this.addNum=addNum;
     }
+    TbaUtils.instance.appEvent(AppEventName.double_pop, params: {"word_from": _getTabValueByFrom()});
   }
 
   clickClose(Function()? dismissDialog){
