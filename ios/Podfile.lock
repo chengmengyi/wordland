@@ -132,6 +132,8 @@ PODS:
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - FirebaseSharedSwift (10.25.0)
   - Flutter (1.0.0)
+  - flutter_app_lifecycle (0.0.1):
+    - Flutter
   - flutter_check_adjust_cloak (0.0.1):
     - Flutter
   - flutter_local_notifications (0.0.1):
@@ -237,6 +239,7 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_remote_config (from `.symlinks/plugins/firebase_remote_config/ios`)
   - Flutter (from `Flutter`)
+  - flutter_app_lifecycle (from `.symlinks/plugins/flutter_app_lifecycle/ios`)
   - flutter_check_adjust_cloak (from `.symlinks/plugins/flutter_check_adjust_cloak/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_max_ad (from `.symlinks/plugins/flutter_max_ad/ios`)
@@ -310,6 +313,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_remote_config/ios"
   Flutter:
     :path: Flutter
+  flutter_app_lifecycle:
+    :path: ".symlinks/plugins/flutter_app_lifecycle/ios"
   flutter_check_adjust_cloak:
     :path: ".symlinks/plugins/flutter_check_adjust_cloak/ios"
   flutter_local_notifications:
@@ -367,6 +372,7 @@ SPEC CHECKSUMS:
   FirebaseRemoteConfig: bbd42790a4e84fde6aab7eae810b608e7b5c0bf6
   FirebaseSharedSwift: 0274086954b1b2d5fd7e829eccc587044d72a4ba
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_app_lifecycle: 8dcf95e3e3db994b040426a60863db32d200094d
   flutter_check_adjust_cloak: c90834c085c430a930f35c60069cb2a1e386efc9
   flutter_local_notifications: 4cde75091f6327eb8517fa068a0a5950212d2086
   flutter_max_ad: 5db00d299b263bfcd559c02a630cdc4d29f7c8df

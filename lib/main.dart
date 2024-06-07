@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/check_app_state_utils.dart';
 import 'package:wordland/utils/network_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
@@ -36,6 +37,7 @@ void main() async{
 }
 
 initInfo()async{
+  CheckAppStateUtils.instance.init();
   await GetStorage.init();
   NetWorkUtils.instance.initListen();
   UserTypeUtils.instance.init();
