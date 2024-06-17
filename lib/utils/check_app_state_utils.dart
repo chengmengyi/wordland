@@ -49,9 +49,6 @@ class CheckAppStateUtils{
         NotifiUtils.instance.appBackGround=false;
         return;
       }
-      if(FlutterMaxAd.instance.fullAdShowing()){
-        FlutterMaxAd.instance.dismissMaxAdView();
-      }
       NotifiUtils.instance.appBackGround=true;
     });
   }
@@ -72,21 +69,6 @@ class CheckAppStateUtils{
   }
 
   _showAdOrToLaunchPage(){
-    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
-    AdUtils.instance.showOpenAd(
-      adShowListener: AdShowListener(
-          onAdHidden: (ad){
-
-          },
-          showAdFail: (ad,error){
-
-          }
-      ),
-      hasAdCache: (has){
-        if(!has){
-          RoutersUtils.toNamed(routerName: RoutersData.launch);
-        }
-      },
-    );
+    AdUtils.instance.showOpenAd();
   }
 }

@@ -18,7 +18,7 @@ import 'package:wordland/utils/utils.dart';
 
 class LaunchCon extends RootController with WidgetsBindingObserver{
   Timer? _timer;
-  var progress=0.0,_count=0,_totalCount=100,_onResume=true;
+  var progress=0.0,_count=0,_totalCount=120,_onResume=true;
 
   @override
   void onInit() {
@@ -26,10 +26,9 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     super.onInit();
     _tbaPoint();
     TbaUtils.instance.sessionEvent();
-    FlutterMaxAd.instance.loadAdByType(AdType.open);
+    FlutterMaxAd.instance.loadAdByType(AdType.inter);
     NotifiUtils.instance.launchShowing=true;
     NotifiUtils.instance.checkPermission();
-    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
     Future((){
       _startTimer();
     });
@@ -56,19 +55,10 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
       _toHome(userType);
       return;
     }
-    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
+    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.inter);
     if(hasCache&&userType){
       _toHome(userType);
-      AdUtils.instance.showOpenAd(
-        adShowListener: AdShowListener(
-          onAdHidden: (ad){
-
-          },
-        ),
-        hasAdCache: (has){
-
-        },
-      );
+      AdUtils.instance.showOpenAd();
     }
   }
 
@@ -149,16 +139,5 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     WidgetsBinding.instance.removeObserver(this);
     NotifiUtils.instance.launchShowing=false;
     super.onClose();
-  }
-
-  @override
-  bool initEventbus() => true;
-
-  @override
-  void receiveBusMsg(EventCode code) {
-    if(code==EventCode.resetLaunchUI){
-      _count=0;
-      _startTimer();
-    }
   }
 }

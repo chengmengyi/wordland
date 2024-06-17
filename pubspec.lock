@@ -266,10 +266,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_check_adjust_cloak
-      sha256: "3001aa435bf42dbcf0bbbfa57db15152ef9d9a4519e6cbdde27527094e464bf2"
+      sha256: "9b96d341a2a707307b7ac92f5e58c22c1da7b01ef0b9d45bc1534839f268dcb1"
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.9"
+    version: "0.2.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -305,10 +305,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_max_ad
-      sha256: "34bdc11532e9c592fb987450b3b91ec01654bbc9876602b12920254c833c1081"
+      sha256: c6e819b8bc79f7dbf009cb24d476624ac595a285d87597a17b5728a39b54a609
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.9"
+    version: "0.2.5"
   flutter_screenutil:
     dependency: "direct main"
     description:

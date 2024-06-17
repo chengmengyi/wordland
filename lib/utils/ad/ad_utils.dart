@@ -37,12 +37,10 @@ class AdUtils{
       maxAdBean: MaxAdBean(
         maxShowNum: json["xhfhennt"],
         maxClickNum: json["nxscvbbw"],
-        firstOpenAdList: _getAdList(json["wpdnd_launch_one"],"wpdnd_launch_one"),
-        secondOpenAdList: [],
         firstRewardedAdList: _getAdList(json["wpdnd_rv_one"],"wpdnd_rv_one"),
-        secondRewardedAdList: [],
+        secondRewardedAdList: _getAdList(json["wpdnd_rv_two"],"wpdnd_rv_two"),
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
-        secondInterAdList: [],
+        secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
       // testDeviceAdvertisingIds: ["EC9E8B35-C29F-4785-92E2-6854BB1FB33A","D068A2E7-1402-4D73-A063-6F2096DFE739"]
     );
@@ -64,8 +62,9 @@ class AdUtils{
           onAdHidden: (ad){
             adShowListener.onAdHidden.call(ad);
           },
-          showAdSuccess: (ad){
-            adShowListener.showAdSuccess?.call(ad);
+          showAdSuccess: (ad,info){
+            TbaUtils.instance.adEvent(ad, info, adPosId, adType==AdType.reward?AdFomat.rv:AdFomat.int);
+            adShowListener.showAdSuccess?.call(ad,info);
           },
           showAdFail: (ad,error){
             adShowListener.showAdFail?.call(ad,error);
@@ -73,9 +72,8 @@ class AdUtils{
           onAdReceivedReward: (ad,reward){
             adShowListener.onAdReceivedReward?.call(ad,reward);
           },
-          onAdRevenuePaidCallback: (ad,info){
-            TbaUtils.instance.adEvent(ad, info, adPosId, adType==AdType.reward?AdFomat.rv:AdFomat.int);
-            adShowListener.onAdRevenuePaidCallback?.call(ad,info);
+          onAdRevenuePaidCallback: (ad){
+            adShowListener.onAdRevenuePaidCallback?.call(ad);
           }
         )
       );
@@ -99,31 +97,24 @@ class AdUtils{
     adShowListener.showAdFail?.call(null,null);
   }
 
-  showOpenAd({
-    required AdShowListener adShowListener,
-    required Function(bool) hasAdCache,
-  }){
-    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.open);
-    hasAdCache.call(hasCache);
+  showOpenAd(){
+    var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.inter);
     if(hasCache){
+      TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
       FlutterMaxAd.instance.showAd(
-        adType: AdType.open,
+        adType: AdType.inter,
         adShowListener: AdShowListener(
-          showAdSuccess: (ad){
-            adShowListener.showAdSuccess?.call(ad);
+          showAdSuccess: (ad,info){
+            TbaUtils.instance.adEvent(ad, info, AdPosId.wpdnd_launch, AdFomat.int);
           },
           onAdHidden: (ad){
-            adShowListener.onAdHidden.call(ad);
           },
           showAdFail: (ad,error){
-            FlutterMaxAd.instance.loadAdByType(AdType.open);
-            adShowListener.showAdFail?.call(ad,error);
           },
-          onAdRevenuePaidCallback: (ad,info){
-            TbaUtils.instance.adEvent(ad, info, AdPosId.wpdnd_launch, AdFomat.int);
-          }
         ),
       );
+    }else{
+      FlutterMaxAd.instance.loadAdByType(AdType.inter);
     }
   }
 
@@ -136,7 +127,7 @@ class AdUtils{
             MaxAdInfoBean(
                 id: v["poxghtmn"],
                 plat: v["xcwpwgdx"],
-                adType: v2=="open"?AdType.open:v2=="interstitial"?AdType.inter:v2=="native"?AdType.native:AdType.reward,
+                adType: v2=="interstitial"?AdType.inter:v2=="native"?AdType.native:AdType.reward,
                 expire: v["wdsshzhd"],
                 sort: v["moetqqfa"],
                 adLocationName: adLocationName

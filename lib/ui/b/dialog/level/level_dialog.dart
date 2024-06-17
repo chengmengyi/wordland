@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/level/level_con.dart';
@@ -41,7 +42,13 @@ class LevelDialog extends RootDialog<LevelCon>{
           fontWeight: FontWeight.w700,
         ),
         SizedBox(height: 16.h,),
-        ImageWidget(image: "icon_money1",width: 172.w,height: 172.h,),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Lottie.asset("assets/money2.json",width: 172.w,height: 172.h,),
+            ImageWidget(image: "icon_money1",width: 150.w,height: 150.h,),
+          ],
+        ),
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -61,19 +68,25 @@ class LevelDialog extends RootDialog<LevelCon>{
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                ImageWidget(image: "sign7",width: 52.w,),
+                Lottie.asset("assets/lingqu.json",width: 52.w),
                 TextWidget(text: "level ${rootController.getLevel()}", color: colorF26910, size: 12.sp)
               ],
             )
           ],
         ),
         SizedBox(height: 26.h,),
-        ImageBtnWidget(
-          text: "Claim Double",
-          bg: "icon_btn2",
-          click: (){
+        // ImageBtnWidget(
+        //   text: "Claim Double",
+        //   bg: "icon_btn2",
+        //   click: (){
+        //     rootController.clickDouble(closeCall);
+        //   },
+        // ),
+        InkWell(
+          onTap: (){
             rootController.clickDouble(closeCall);
           },
+          child: Lottie.asset("assets/button.json",width: 180.w,height: 48.h,fit: BoxFit.fill),
         ),
         SizedBox(height: 12.h,),
         Offstage(

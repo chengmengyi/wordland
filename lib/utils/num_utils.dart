@@ -125,12 +125,12 @@ class NumUtils{
       FlutterMaxAd.instance.showAd(
         adType: AdType.inter,
         adShowListener: AdShowListener(
-            onAdHidden: (ad){
+          showAdSuccess: (ad,info){
+            TbaUtils.instance.adEvent(ad, info, adPosId, AdFomat.int);
+          },
+          onAdHidden: (ad){
 
-            },
-            onAdRevenuePaidCallback: (ad,info){
-              TbaUtils.instance.adEvent(ad, info, adPosId, AdFomat.int);
-            }
+          },
         ),
       );
     }
