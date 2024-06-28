@@ -7,7 +7,6 @@ import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -95,7 +94,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(NumUtils.instance.coinNum)}", color: color73562D, size: 36.sp,fontWeight: FontWeight.w700,),
+                        TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: color73562D, size: 36.sp,fontWeight: FontWeight.w700,),
                         Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -198,7 +197,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                           children: [
                             TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
                             ImageWidget(image: "icon_money2",width: 20.w,height: 20.h,),
-                            TextWidget(text: "${ValueConfUtils.instance.getMoneyToCoin(num)}", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
+                            TextWidget(text: "111111", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
                           ],
                         ),
                         SizedBox(height: 4.h,),
@@ -264,7 +263,12 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     borderRadius: BorderRadius.circular(14.w),
                     color: NumUtils.instance.todaySigned?colorBEBEBE:colorF26910
                   ),
-                  child: TextWidget(text: "Check-in", color: colorFFFFFF, size: 14.sp,fontWeight: FontWeight.w700,),
+                  child: TextWidget(
+                    text: NumUtils.instance.todaySigned?"Done":"Check-in",
+                    color: colorFFFFFF,
+                    size: 14.sp,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               )
             ],
@@ -282,7 +286,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
             children: [
               TextWidget(text: "Pass ", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
               TextWidget(text: "10", color: colorF26910, size: 14.sp,fontWeight: FontWeight.w700,),
-              TextWidget(text: " level: ${QuestionUtils.instance.getLevel()}/10", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
+              TextWidget(text: " level: ${QuestionUtils.instance.bAnswerIndex}/10", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
               const Spacer(),
               InkWell(
                 onTap: (){

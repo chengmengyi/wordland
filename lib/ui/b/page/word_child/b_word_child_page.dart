@@ -4,7 +4,9 @@ import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_con.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/widget/bubble_widget.dart';
 import 'package:wordland/widget/float_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -35,7 +37,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
             _levelWidget(),
             SizedBox(height: 6.h,),
             _questionWidget(),
-            SizedBox(height: 6.h,),
+              SizedBox(height: 6.h,),
             _chooseListWidget(),
             SizedBox(height: 10.h,),
             _bottomWidget(),
@@ -43,7 +45,11 @@ class BWordChildPage extends RootChild<BWordChildCon>{
         ),
       ),
       _guideWidget(),
-      MoneyAnimatorWidget()
+      GetBuilder<BWordChildCon>(
+        id: "bubble",
+        builder: (_)=>NewGuideUtils.instance.showBubble?BubbleWidget():Container(),
+      ),
+      MoneyAnimatorWidget(),
     ],
   );
 
@@ -161,7 +167,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
                 ),
               ),
               SizedBox(height: 4.h,),
-              TextWidget(text: "Pass 3 level， get a chance to spin the wheel", color: color8F7E53, size: 12.sp),
+              TextWidget(text: "Pass 9 level， get a chance to spin the wheel", color: color8F7E53, size: 12.sp),
               SizedBox(height: 32.h,)
             ],
           ),
@@ -209,8 +215,8 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         _bottomItemWidget(0),
-        SizedBox(width: 40.w,),
-        _bottomItemWidget(1),
+        // SizedBox(width: 40.w,),
+        // _bottomItemWidget(1),
         SizedBox(width: 40.w,),
         _bottomItemWidget(2),
       ],
@@ -262,59 +268,46 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   );
 
   _levelWidget()=>Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      SizedBox(width: 12.w,),
-      GetBuilder<BWordChildCon>(
-        id: "time",
-        builder: (_)=>Container(
-          margin: EdgeInsets.only(right: 14.w),
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ImageWidget(image: "home11",width: 46.w,height: 46.w,),
-              TextWidget(text: "${rootController.downCountTime}s", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w600,),
-              Container(
-                width: 46.w,
-                height: 46.w,
-                padding: EdgeInsets.all(2.5.w),
-                child: CircularProgressIndicator(
-                  value: rootController.getTimeProgress(),
-                  color: colorFF490F,
-                  strokeWidth: 2.w,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-      const Spacer(),
+      // SizedBox(width: 12.w,),
+      // GetBuilder<BWordChildCon>(
+      //   id: "time",
+      //   builder: (_)=>Container(
+      //     margin: EdgeInsets.only(right: 14.w),
+      //     child: Stack(
+      //       alignment: Alignment.center,
+      //       children: [
+      //         ImageWidget(image: "home11",width: 46.w,height: 46.w,),
+      //         TextWidget(text: "${rootController.downCountTime}s", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w600,),
+      //         Container(
+      //           width: 46.w,
+      //           height: 46.w,
+      //           padding: EdgeInsets.all(2.5.w),
+      //           child: CircularProgressIndicator(
+      //             value: rootController.getTimeProgress(),
+      //             color: colorFF490F,
+      //             strokeWidth: 2.w,
+      //           ),
+      //         )
+      //       ],
+      //     ),
+      //   ),
+      // ),
+      // const Spacer(),
       GetBuilder<BWordChildCon>(
         id: "level",
         builder: (_)=>StrokedTextWidget(
-            text: "Level ${QuestionUtils.instance.getLevel()}",
+            text: "Level ${QuestionUtils.instance.bAnswerIndex+1}",
             fontSize: 26.sp,
             textColor: colorFFFFFF,
             strokeColor: color177200,
             strokeWidth: 2.w
         ),
       ),
-      const Spacer(),
-      GetBuilder<BWordChildCon>(
-        id: "bubble",
-        builder: (_)=>Visibility(
-          maintainAnimation: true,
-          maintainState: true,
-          maintainSize: true,
-          visible: rootController.showBubble,
-          child: InkWell(
-            onTap: (){
-              rootController.clickBubble();
-            },
-            child: FloatWidget(child: ImageWidget(image: "home13",width: 60.w,height: 60.h,)),
-          ),
-        ),
-      ),
-      SizedBox(width: 12.w,),
+      // const Spacer(),
+      // SizedBox(width: 60.w,),
+      // SizedBox(width: 12.w,),
     ],
   );
   

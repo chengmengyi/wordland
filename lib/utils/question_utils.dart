@@ -104,6 +104,10 @@ class QuestionUtils{
     }
   }
 
+  test(){
+    print("kkk===${_questionList.length}");
+  }
+
   // updateAnswerRightNum(){
   //   bAnswerRightNum++;
   //   StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);

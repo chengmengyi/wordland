@@ -11,15 +11,14 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class IncentCon extends RootController{
   GlobalKey globalKey=GlobalKey();
   var progressMarginLeft=0.0;
-  var addNum=ValueConfUtils.instance.getCommonAddNum();
+  var addNum=0.0;
   IncentFrom _incentFrom=IncentFrom.other;
 
   @override
@@ -38,7 +37,7 @@ class IncentCon extends RootController{
     var allWidth = 238.w;
     var renderBox = globalKey.currentContext?.findRenderObject() as RenderBox;
     var width = renderBox.size.width;
-    var progressWidth = allWidth*ValueConfUtils.instance.getWithdrawProgress();
+    var progressWidth = allWidth*NewValueUtils.instance.getCashProgress();
     if(progressWidth<=width/2){
       progressMarginLeft=0.0;
     }else if(width>=allWidth-progressWidth){
@@ -49,23 +48,21 @@ class IncentCon extends RootController{
     update(["progressMarginLeft"]);
   }
 
-  setInfo(IncentFrom incentFrom,int addNum){
+  setInfo(IncentFrom incentFrom,double addNum){
     _incentFrom=incentFrom;
-    if(addNum>0){
-      this.addNum=addNum;
-    }
+    this.addNum=addNum;
     TbaUtils.instance.appEvent(AppEventName.double_pop, params: {"word_from": _getTabValueByFrom()});
   }
 
   clickClose(Function()? dismissDialog){
     TbaUtils.instance.appEvent(AppEventName.double_pop_continue, params: {"word_from": _getTabValueByFrom()});
     RoutersUtils.back();
-    NumUtils.instance.updateCoinNum(addNum);
+    // NumUtils.instance.updateCoinNum(addNum);
     switch(_incentFrom){
-      case IncentFrom.newUserGuide:
-        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-        NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
-        break;
+      // case IncentFrom.newUserGuide:
+      //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+      //   NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
+      //   break;
       case IncentFrom.wheel:
         NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
         break;
@@ -73,7 +70,9 @@ class IncentCon extends RootController{
 
         break;
     }
-    dismissDialog?.call();
+    NumUtils.instance.updateUserMoney(addNum, (){
+      dismissDialog?.call();
+    });
   }
 
   clickDouble(Function()? dismissDialog){
@@ -84,18 +83,20 @@ class IncentCon extends RootController{
         adShowListener: AdShowListener(
           onAdHidden: (MaxAd? ad) {
             RoutersUtils.back();
-            NumUtils.instance.updateCoinNum(addNum*2);
-            if(_incentFrom==IncentFrom.newUserGuide){
-              GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-            }
-            dismissDialog?.call();
+            // if(_incentFrom==IncentFrom.newUserGuide){
+            //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+            // }
+            NumUtils.instance.updateUserMoney(NewValueUtils.instance.getDoubleNum(addNum), (){
+              dismissDialog?.call();
+            });
           },
           showAdFail: (ad,error){
-            if(_incentFrom==IncentFrom.newUserGuide){
-              RoutersUtils.back();
-              NumUtils.instance.updateCoinNum(addNum);
-              GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-            }
+            // if(_incentFrom==IncentFrom.newUserGuide){
+            //   RoutersUtils.back();
+            //   NumUtils.instance.updateUserMoney(addNum, (){
+            //     GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
+            //   });
+            // }
           }
         )
     );
@@ -103,7 +104,7 @@ class IncentCon extends RootController{
 
   AdPosId _getAdPosID(){
     switch(_incentFrom){
-      case IncentFrom.newUserGuide: return AdPosId.wpdnd_rv_get_double;
+      // case IncentFrom.newUserGuide: return AdPosId.wpdnd_rv_get_double;
       case IncentFrom.ach: return AdPosId.wpdnd_rv_ach_double;
       case IncentFrom.wheel: return AdPosId.wpdnd_rv_spin_double;
       case IncentFrom.task: return AdPosId.wpdnd_rv_task_double;
@@ -113,7 +114,7 @@ class IncentCon extends RootController{
 
   String _getTabValueByFrom(){
     switch(_incentFrom){
-      case IncentFrom.newUserGuide: return "new";
+      // case IncentFrom.newUserGuide: return "new";
       case IncentFrom.wheel: return "wheel";
       case IncentFrom.task: return "task";
       default:return "other";

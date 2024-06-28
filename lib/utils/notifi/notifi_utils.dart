@@ -1,16 +1,9 @@
 import 'dart:async';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
-import 'package:get/get.dart';
-import 'package:wordland/event/event_code.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
-import 'package:wordland/utils/ad/ad_utils.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
@@ -121,7 +114,7 @@ class NotifiUtils {
         id,
         title,
         body,
-        kDebugMode?RepeatInterval.everyMinute:repeatInterval,
+        repeatInterval,
         notificationDetails
     );
   }
@@ -138,13 +131,6 @@ class NotifiUtils {
     Timer.periodic(const Duration(milliseconds: 2000), (timer) {
       clickNotification=false;
     });
-  }
-
-  bool _checkCanClick(){
-    if(GuideUtils.instance.guideOverShowing()||FlutterMaxAd.instance.fullAdShowing()||clickNotification){
-      return false;
-    }
-    return true;
   }
 
   Future<NotificationAppLaunchDetails?> getNotiDetails()async{

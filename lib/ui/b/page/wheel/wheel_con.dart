@@ -8,10 +8,10 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/no_wheel/no_wheel_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class WheelCon extends RootController{
   @override
@@ -69,7 +69,7 @@ class WheelCon extends RootController{
               onAdHidden: (ad){
                 RoutersUtils.showIncentDialog(
                     incentFrom: IncentFrom.wheel,
-                    addNum: ValueConfUtils.instance.getWheelAddNum()
+                    addNum: NewValueUtils.instance.getRewardAddNum()
                 );
               },
             )

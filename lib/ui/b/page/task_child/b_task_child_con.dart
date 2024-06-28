@@ -9,9 +9,9 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/guide/task_bubble_guide_widget.dart';
-import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
@@ -19,6 +19,9 @@ import 'package:wordland/utils/utils.dart';
 
 class BTaskChildCon extends RootController{
   Map<String,GlobalKey> globalMap={};
+  Map<String,double> rewardMap={};
+  int firstLargeIndex=-1,firstSmallIndex=-1;
+  Offset? firstFingerOffset;
 
   @override
   void onInit() {
@@ -48,7 +51,7 @@ class BTaskChildCon extends RootController{
     EventCode.showWordChild.sendMsg();
   }
 
-  clickBubble(bool completeTask,bool currentTask,bool showBubble,int largeIndex,int smallIndex){
+  clickBubble(bool completeTask,bool currentTask,bool showBubble,int largeIndex,int smallIndex,double addNum){
     TbaUtils.instance.appEvent(AppEventName.task_pop_claim,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
     if(!currentTask&&!completeTask){
       showToast("Level Locked!");
@@ -64,12 +67,38 @@ class BTaskChildCon extends RootController{
     clickBubbleShowAd(largeIndex, smallIndex);
   }
 
+  clickFinger(){
+    try{
+      var completeTask = getCompleteTask(firstLargeIndex, firstSmallIndex);
+      var currentTask = isCurrentTask(firstLargeIndex, firstSmallIndex);
+      var showBubble = TaskUtils.instance.showBubble(firstLargeIndex, firstSmallIndex);
+      var addNum = getAddNum(firstLargeIndex, firstSmallIndex);
+      clickBubble(completeTask, currentTask, showBubble, firstLargeIndex, firstSmallIndex, addNum);
+    }catch(e){
+
+    }
+    if(null!=firstFingerOffset){
+      firstFingerOffset=null;
+      firstLargeIndex=-1;
+      firstSmallIndex=-1;
+      update(["finger"]);
+    }
+  }
+
   GlobalKey getGlobalKey(int largeIndex,int smallIndex){
     var key = "${largeIndex}_$smallIndex";
     if(null==globalMap[key]){
       globalMap[key]=GlobalKey();
     }
     return globalMap[key]!;
+  }
+
+  double getAddNum(int largeIndex,int smallIndex){
+    var key="${largeIndex}_$smallIndex";
+    if(null==rewardMap[key]){
+      rewardMap[key]=NewValueUtils.instance.getLevelAddNum();
+    }
+    return rewardMap[key]!;
   }
 
   @override
@@ -80,9 +109,10 @@ class BTaskChildCon extends RootController{
     switch(code){
       case EventCode.answerRight:
         update(["list"]);
+        _checkShowFirstBubbleFinger();
         break;
       case EventCode.oldUserShowBubbleGuide:
-        GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
+        NewGuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
         _showBubbleGuide();
         break;
       default:
@@ -91,10 +121,37 @@ class BTaskChildCon extends RootController{
     }
   }
 
+  _checkShowFirstBubbleFinger(){
+    // var hasCompleteTask=false;
+    var largeLength = (QuestionUtils.instance.getQuestionNum()/30).ceil();
+    for(int largeIndex=0;largeIndex<largeLength;largeIndex++){
+      for(int smallIndex=0;smallIndex<10;smallIndex++){
+        var show = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.getQuestionNum();
+        if(show){
+          var completeTask = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.bAnswerRightNum;
+          var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
+          if(completeTask&&showBubble){
+            firstLargeIndex=largeIndex;
+            firstSmallIndex=smallIndex;
+            // hasCompleteTask=true;
+            break;
+          }
+        }
+      }
+    }
+
+    if(firstLargeIndex!=-1&&firstSmallIndex!=-1){
+      var renderBox = getGlobalKey(firstLargeIndex, firstSmallIndex).currentContext!.findRenderObject() as RenderBox;
+      firstFingerOffset = renderBox.localToGlobal(Offset.zero);
+      update(["finger"]);
+      EventCode.taskHasBubble.sendMsg();
+    }
+  }
+
   _showBubbleGuide(){
     var renderBox = getGlobalKey(TaskUtils.instance.largeIndex, TaskUtils.instance.smallIndex).currentContext!.findRenderObject() as RenderBox;
     var offset = renderBox.localToGlobal(Offset.zero);
-    GuideUtils.instance.showGuideOver(
+    NewGuideUtils.instance.showGuideOver(
         context: context,
         widget: TaskBubbleGuideWidget(
             offset: offset,
@@ -112,7 +169,7 @@ class BTaskChildCon extends RootController{
             onAdHidden: (ad){
               TaskUtils.instance.updateBubbleList(largeIndex, smallIndex);
               update(["list"]);
-              RoutersUtils.showIncentDialog(incentFrom: IncentFrom.task);
+              RoutersUtils.showIncentDialog(incentFrom: IncentFrom.task,addNum: getAddNum(largeIndex, smallIndex));
             })
     );
   }

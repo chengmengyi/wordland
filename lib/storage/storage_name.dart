@@ -34,4 +34,10 @@ class StorageName {
   static const String hasCommentApp="hasCommentApp";
   static const String installEvent="installEvent";
   static const String tipsNum="tipsNum";
+
+
+  static const String newNewUserSteps="newNewUserSteps";
+  static const String userMoneyNum="userMoneyNum";
+  static const String newLocalValueConf="newLocalValueConf";
+  static const String completeNewUserGuideTimer2="completeNewUserGuideTimer2";
 }

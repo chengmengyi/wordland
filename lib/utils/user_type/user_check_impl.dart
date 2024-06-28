@@ -5,11 +5,10 @@ import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
-import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class UserCheckImpl implements CheckListener{
   @override
@@ -48,7 +47,7 @@ class UserCheckImpl implements CheckListener{
   initFirebaseSuccess() {
     NumUtils.instance.getFirebaseConfInfo();
     AdUtils.instance.getFirebaseInfo();
-    ValueConfUtils.instance.getFirebaseInfo();
+    NewValueUtils.instance.getFirebaseInfo();
   }
 
   @override

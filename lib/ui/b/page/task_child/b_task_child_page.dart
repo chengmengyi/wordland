@@ -8,10 +8,12 @@ import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/task_child/b_task_child_con.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
+import 'package:wordland/widget/stroked_text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
 
 class BTaskChildPage extends RootChild<BTaskChildCon>{
@@ -31,7 +33,8 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
             _listWidget(),
           ],
         ),
-        MoneyAnimatorWidget()
+        MoneyAnimatorWidget(),
+        _fingerGuideWidget(),
       ],
     ),
   );
@@ -135,6 +138,14 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     var completeTask = rootController.getCompleteTask(largeIndex, smallIndex);
     var currentTask = rootController.isCurrentTask(largeIndex, smallIndex);
     var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
+    // if(showBubble&&completeTask&&rootController.firstLargeIndex==-1&&rootController.firstSmallIndex==-1){
+    //   rootController.firstLargeIndex=largeIndex;
+    //   rootController.firstSmallIndex=smallIndex;
+    // }
+    var addNum=0.0;
+    if(showBubble&&completeTask){
+      addNum=rootController.getAddNum(largeIndex, smallIndex);
+    }
     return Offstage(
       offstage: !show,
       child: SizedBox(
@@ -167,10 +178,37 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
                   key: rootController.getGlobalKey(largeIndex, smallIndex),
                   child: InkWell(
                     onTap: (){
-                      rootController.clickBubble(completeTask,currentTask,showBubble,largeIndex,smallIndex);
+                      rootController.clickBubble(completeTask,currentTask,showBubble,largeIndex,smallIndex,addNum);
                     },
-                    child: ImageWidget(image: "task1",width: 92.h,height: 72.h,),
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        ImageWidget(image: "task1",width: 92.h,height: 72.h,),
+                        Positioned(
+                          bottom: 6.h,
+                          child: StrokedTextWidget(
+                            text: "+\$$addNum",
+                            fontSize: 14.sp,
+                            textColor: colorFFDD28,
+                            strokeColor: color434343,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 22.w,
+              child: Offstage(
+                offstage: completeTask||currentTask,
+                child: StrokedTextWidget(
+                  text: "${(largeIndex*10+smallIndex+1)*3}",
+                  fontSize: 16.sp,
+                  textColor: colorFFDD28,
+                  strokeColor: color434343,
                 ),
               ),
             )
@@ -204,6 +242,22 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
           ),
         ),
       ],
+    ),
+  );
+
+  _fingerGuideWidget()=>GetBuilder<BTaskChildCon>(
+    id: "finger",
+    builder: (_)=>Offstage(
+      offstage: null==rootController.firstFingerOffset,
+      child: Container(
+        margin: EdgeInsets.only(top: rootController.firstFingerOffset?.dy??0,left: (rootController.firstFingerOffset?.dx??0)+30.w),
+        child: InkWell(
+          onTap: (){
+            rootController.clickFinger();
+          },
+          child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
+        ),
+      ),
     ),
   );
 }

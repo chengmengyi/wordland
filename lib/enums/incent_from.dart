@@ -1,5 +1,5 @@
 enum IncentFrom{
-  newUserGuide,
+  // newUserGuide,
   wheel,
   task,
   ach,

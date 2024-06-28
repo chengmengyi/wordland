@@ -3,14 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
+import 'package:wordland/widget/text_widget.dart';
 
-class TaskBubbleGuideWidget extends StatelessWidget{
-  Offset offset;
-  Function() hideCall;
+class HomeBubbleGuideWidget extends StatelessWidget{
+  Function(double) hideCall;
 
-  TaskBubbleGuideWidget({
-    required this.offset,
+  var addNum=NewValueUtils.instance.getRewardAddNum();
+
+  HomeBubbleGuideWidget({
     required this.hideCall,
   });
 
@@ -25,18 +27,26 @@ class TaskBubbleGuideWidget extends StatelessWidget{
         child:InkWell(
           onTap: (){
             NewGuideUtils.instance.hideGuideOver();
-            hideCall.call();
+            hideCall.call(addNum);
           },
           child: Stack(
             children: [
               Positioned(
-                top: offset.dy,
-                left: offset.dx,
-                child: ImageWidget(image: "task1",width: 92.h,height: 72.h,),
+                // top: offset.dy,
+                // left: offset.dx,
+                right: 16.w,
+                top: 60.h,
+                child: Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: [
+                    ImageWidget(image: "home13",width: 60.h,height: 60.w,),
+                    TextWidget(text: "+$addNum", color: colorFFE600, size: 14.sp,fontWeight: FontWeight.w700,)
+                  ],
+                ),
               ),
               Positioned(
-                top: offset.dy+20.w,
-                left: offset.dx+30.w,
+                right: 0,
+                top: 100.h,
                 child: Lottie.asset("assets/guide1.json",width: 52.w,height: 52.w),
               ),
             ],

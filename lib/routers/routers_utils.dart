@@ -56,7 +56,7 @@ class RoutersUtils{
     );
   }
 
-  static showIncentDialog({required IncentFrom incentFrom,int? addNum,Function()? dismissDialog}){
+  static showIncentDialog({required IncentFrom incentFrom,required double addNum,Function()? dismissDialog}){
     dialog(
       child: IncentDialog(incentFrom: incentFrom,addNum: addNum,dismissDialog: dismissDialog,)
     );

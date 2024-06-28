@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wordland/enums/top_cash.dart';
-import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/base_widget.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_con.dart';
@@ -35,8 +32,8 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(width: 44.w,),
-                TextWidget(text: "${NumUtils.instance.coinNum}≈", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
-                TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(NumUtils.instance.coinNum)}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
+                // TextWidget(text: "${NumUtils.instance.coinNum}≈", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
+                TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
               ],
             ),
           ),

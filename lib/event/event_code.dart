@@ -20,4 +20,6 @@ enum EventCode{
   stopWheel,
   showSignDialog,
   updateHintNum,
+  showHomeBubbleGuide,
+  taskHasBubble,
 }

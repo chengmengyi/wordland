@@ -6,7 +6,6 @@ import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/new_user/new_user_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -31,7 +30,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
             fit: BoxFit.fill,
           ),
         ),
-        _closeWidget(),
+        // _closeWidget(),
         _contentWidget(),
         Positioned(
           bottom: 0,
@@ -52,7 +51,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         TextWidget(text: "New user exclusive rewards", color: color272727, size: 18.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 12.h,),
         ImageWidget(image: "icon_money1",width: 120.w,height: 120.h,),
-        TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(rootController.addNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: "\$${rootController.addNum}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 12.h,),
         Row(
           children: [
@@ -98,17 +97,17 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
     ),
   );
 
-  _closeWidget()=>Positioned(
-    top: 0,
-    right: 0,
-    child: InkWell(
-      onTap: (){
-        rootController.clickClose();
-      },
-      child: Padding(
-        padding: EdgeInsets.all(7.w),
-        child: ImageWidget(image: "icon_close",width: 24.w,height: 24.h,),
-      ),
-    ),
-  );
+  // _closeWidget()=>Positioned(
+  //   top: 0,
+  //   right: 0,
+  //   child: InkWell(
+  //     onTap: (){
+  //       rootController.clickClose();
+  //     },
+  //     child: Padding(
+  //       padding: EdgeInsets.all(7.w),
+  //       child: ImageWidget(image: "icon_close",width: 24.w,height: 24.h,),
+  //     ),
+  //   ),
+  // );
 }

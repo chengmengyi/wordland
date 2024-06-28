@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
-import 'package:get/get.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
-import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/enums/word_finger_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -15,22 +13,23 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/add_chance/add_chance_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_hint/add_hint_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_fail/answer_fail_dialog.dart';
+import 'package:wordland/ui/b/dialog/answer_right/answer_right_dialog.dart';
 import 'package:wordland/ui/b/dialog/good_comment/good_comment_dialog.dart';
-import 'package:wordland/ui/b/dialog/level/level_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/guide/home_bubble_guide_widget.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class BWordChildCon extends RootController{
-  var canClick=true,downCountTime=30,_totalCountTime=30,showBubble=true;
+  var canClick=true,downCountTime=30,_totalCountTime=30;
   QuestionBean? currentQuestion;
   List<WordsChooseBean> chooseList=[];
   List<AnswerBean> answerList=[];
@@ -43,18 +42,15 @@ class BWordChildCon extends RootController{
     super.onInit();
     PlayMusicUtils.instance.playMusic();
     Future((){
-      GuideUtils.instance.checkNewUserGuide();
+      NewGuideUtils.instance.checkNewUserGuide();
       _updateQuestionData();
     });
   }
 
-  // @override
-  // void onReady() {
-  //   super.onReady();
-  //
-  // }
-
   _updateQuestionData(){
+    if(QuestionUtils.instance.bAnswerIndex==1){
+      NewGuideUtils.instance.checkNewUserGuide();
+    }
     currentQuestion=QuestionUtils.instance.getBQuestion();
     chooseList.clear();
     answerList.clear();
@@ -80,7 +76,6 @@ class BWordChildCon extends RootController{
       }
     }
     update(["question","choose","answer","level","bottom","wheel_pro"]);
-    _startDownCountTimer();
     _startWordsTipsTimer();
   }
 
@@ -97,9 +92,9 @@ class BWordChildCon extends RootController{
       update(["answer"]);
       Future.delayed(const Duration(milliseconds: 500),(){
         canClick=true;
-        if(isRight&&answerList.last.result.isEmpty){
-          _startWordsTipsTimer();
-        }
+        // if(isRight&&answerList.last.result.isEmpty){
+        //   _startWordsTipsTimer();
+        // }
         if(answerList.last.result.isNotEmpty){
           if(isRight){
             TbaUtils.instance.appEvent(AppEventName.word_true_c);
@@ -120,26 +115,42 @@ class BWordChildCon extends RootController{
                     }
                   }
               );
-            }else if(QuestionUtils.instance.bAnswerRightNum%3==0){
-              RoutersUtils.dialog(
-                  child: LevelDialog(
-                    upLevel: true,
-                    closeCall: (){
-                      update(["level"]);
-                      _updateQuestionData();
-                    },
-                  )
-              );
             }else{
               RoutersUtils.dialog(
-                  child: LevelDialog(
-                    upLevel: false,
-                    closeCall: (){
+                child: AnswerRightDialog(
+                  call: (money){
+                    NumUtils.instance.updateUserMoney(money, (){
+                      update(["level"]);
                       _updateQuestionData();
-                    },
-                  )
+                    });
+                  },
+                )
               );
             }
+            // else if(QuestionUtils.instance.bAnswerRightNum%3==0){
+            //   RoutersUtils.dialog(
+            //       child: LevelDialog(
+            //         upLevel: true,
+            //         closeCall: (){
+            //           update(["level"]);
+            //           _updateQuestionData();
+            //         },
+            //       )
+            //   );
+            // }else{
+            //   RoutersUtils.dialog(
+            //       child: LevelDialog(
+            //         upLevel: false,
+            //         closeCall: (){
+            //           _updateQuestionData();
+            //           if(QuestionUtils.instance.bAnswerIndex==1){
+            //             NewGuideUtils.instance.checkNewUserGuide();
+            //             _showBubbleGuideOverlay();
+            //           }
+            //         },
+            //       )
+            //   );
+            // }
             if(NumUtils.instance.checkCanShowCommentDialog()){
               RoutersUtils.dialog(child: GoodCommentDialog());
             }
@@ -165,6 +176,20 @@ class BWordChildCon extends RootController{
         }
       });
     }
+  }
+
+  _showBubbleGuideOverlay(){
+    NewGuideUtils.instance.showGuideOver(
+      context: context,
+      widget: HomeBubbleGuideWidget(
+        hideCall: (money){
+          NumUtils.instance.updateUserMoney(money,(){
+            NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.complete);
+            update(["bubble"]);
+          });
+        },
+      ),
+    );
   }
 
   clickBottom(index){
@@ -197,7 +222,6 @@ class BWordChildCon extends RootController{
     _totalCountTime+=20;
     NumUtils.instance.updateTimeNum(-1);
     _timer?.cancel();
-    _startDownCountTimer(reset: false);
   }
 
   _clickHint(){
@@ -236,29 +260,27 @@ class BWordChildCon extends RootController{
     }
   }
 
-  _startDownCountTimer({bool reset=true}){
-    if(reset){
-      downCountTime=30;
-      _totalCountTime=30;
-    }
-    _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-      if(downCountTime<=0){
-        timer.cancel();
-        _showWordsGuide(null);
-        return;
-      }
-      downCountTime--;
-      update(["time"]);
-    });
-  }
+  // _startDownCountTimer({bool reset=true}){
+  //   // if(reset){
+  //   //   downCountTime=30;
+  //   //   _totalCountTime=30;
+  //   // }
+  //   // _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+  //   //   if(downCountTime<=0){
+  //   //     timer.cancel();
+  //   //     _showWordsGuide(null);
+  //   //     return;
+  //   //   }
+  //   //   downCountTime--;
+  //   //   update(["time"]);
+  //   // });
+  // }
 
   _startWordsTipsTimer(){
-    if(NumUtils.instance.tipsNum<=0){
+    if(NewGuideUtils.instance.checkCompletedWordsGuide()){
       _stopWordsTipsTimer();
       _wordsTipsTimer=Timer(const Duration(milliseconds: 5000), () {
-        if(NumUtils.instance.tipsNum<=0){
-          _showWordsGuide(WordFingerFrom.other);
-        }
+        _showWordsGuide(WordFingerFrom.other);
       });
     }
   }
@@ -280,7 +302,7 @@ class BWordChildCon extends RootController{
   }
 
   double getWheelProgress(){
-    var pro = QuestionUtils.instance.bAnswerRightNum%9/9;
+    var pro = QuestionUtils.instance.bAnswerIndex/9;
     if(pro<=0){
       return 0.0;
     }else if(pro>=1){
@@ -304,20 +326,27 @@ class BWordChildCon extends RootController{
         break;
       case EventCode.showNewUserWordsGuide:
         _showWordsGuide(WordFingerFrom.guide);
-        GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.completeNewUserGuide);
+        // GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.completeNewUserGuide);
+        NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.showHomeBubble);
         break;
       case EventCode.showWordsGuideFromOther:
         _showWordsGuide(WordFingerFrom.cash_task);
         break;
       case EventCode.oldUserShowWordsGuide:
         _showWordsGuide(WordFingerFrom.old);
-        GuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
+        NewGuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
         break;
       // case EventCode.showSignDialog:
       //   if(!NumUtils.instance.todaySigned){
       //     RoutersUtils.showSignDialog(signFrom: SignFrom.other);
       //   }
       //   break;
+      case EventCode.showHomeBubbleGuide:
+        update(["bubble"]);
+        if(QuestionUtils.instance.bAnswerIndex==1){
+          _showBubbleGuideOverlay();
+        }
+        break;
       default:
 
         break;
@@ -375,8 +404,9 @@ class BWordChildCon extends RootController{
       adPosId: AdPosId.wpdnd_rv_float_gold,
       adShowListener: AdShowListener(
           onAdHidden: (ad){
-            _showOrHideBubble(true);
-            NumUtils.instance.updateCoinNum(ValueConfUtils.instance.getCommonAddNum());
+            NumUtils.instance.updateUserMoney(NewValueUtils.instance.getFloatAddNum(), (){
+              _showOrHideBubble(true);
+            });
           },
           showAdFail: (ad,err){
             _showOrHideBubble(true);
@@ -387,12 +417,12 @@ class BWordChildCon extends RootController{
 
   _showOrHideBubble(bool show){
     if(!show){
-      showBubble=show;
+      NewGuideUtils.instance.showBubble=show;
       update(["bubble"]);
       return;
     }
     Future.delayed(Duration(seconds: NumUtils.instance.wordDis),(){
-      showBubble=show;
+      NewGuideUtils.instance.showBubble=show;
       update(["bubble"]);
     });
 

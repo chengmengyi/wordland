@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wordland/utils/color_utils.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -45,7 +45,7 @@ class SignGuideWidget extends StatelessWidget{
 
   _signItemWidget()=>InkWell(
     onTap: (){
-      GuideUtils.instance.hideGuideOver();
+      NewGuideUtils.instance.hideGuideOver();
       hideCall.call();
     },
     child: Container(
@@ -76,7 +76,7 @@ class SignGuideWidget extends StatelessWidget{
                   height: 32.w,
                 ),
                 TextWidget(
-                  text: "+${ValueConfUtils.instance.getSignConfList()[NumUtils.instance.signDays]}",
+                  text: "+${NewValueUtils.instance.getSignList()[NumUtils.instance.signDays]}",
                   color: colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,

@@ -17,7 +17,7 @@ import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 
 class BHomeCon extends RootController{
-  var homeIndex=0;
+  var homeIndex=0,showFinger=false;
   List<Widget> pageList=[BWordChildPage(),BTaskChildPage(),BWithdrawChildPage()];
   List<HomeBottomBean> bottomList=[
     HomeBottomBean(selIcon: "icon_home_sel", unsIcon: "icon_home_uns"),
@@ -38,6 +38,10 @@ class BHomeCon extends RootController{
     if(homeIndex==index){
       return;
     }
+    if(showFinger){
+      showFinger=false;
+      update(["finger"]);
+    }
     homeIndex=index;
     update(["home"]);
   }
@@ -57,6 +61,12 @@ class BHomeCon extends RootController{
         break;
       case EventCode.showWithdrawChild:
         clickBottom(2);
+        break;
+      case EventCode.taskHasBubble:
+        if(homeIndex!=1){
+          showFinger=true;
+          update(["finger"]);
+        }
         break;
       default:
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/root/root_page_new.dart';
 import 'package:wordland/ui/b/page/home/b_home_con.dart';
 import 'package:wordland/widget/image_widget.dart';
@@ -32,7 +33,7 @@ class BHomePage extends RootPageNew<BHomeCon>{
                 _bottomList(),
               ],
             ),
-
+            _fingerGuideWidget(),
           ],
         ),
       ),
@@ -93,6 +94,26 @@ class BHomePage extends RootPageNew<BHomeCon>{
           ),
         )
       ],
+    ),
+  );
+
+
+  _fingerGuideWidget()=>Align(
+    alignment: Alignment.bottomCenter,
+    child: GetBuilder<BHomeCon>(
+      id: "finger",
+      builder: (_)=>Offstage(
+        offstage: !rootController.showFinger,
+        child: Container(
+          margin: EdgeInsets.only(left: 60.w),
+          child: InkWell(
+            onTap: (){
+              rootController.clickBottom(1);
+            },
+            child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
+          ),
+        ),
+      ),
     ),
   );
 }

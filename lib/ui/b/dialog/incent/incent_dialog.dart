@@ -7,20 +7,20 @@ import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/incent/incent_con.dart';
 import 'package:wordland/utils/color_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 import 'package:wordland/widget/image_btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class IncentDialog extends RootDialog<IncentCon>{
   IncentFrom incentFrom;
-  int? addNum;
+  double addNum;
   Function()? dismissDialog;
 
   IncentDialog({
     required this.incentFrom,
-    this.addNum,
+    required this.addNum,
     this.dismissDialog,
   });
 
@@ -29,7 +29,7 @@ class IncentDialog extends RootDialog<IncentCon>{
 
   @override
   Widget contentWidget() {
-    rootController.setInfo(incentFrom,addNum??0);
+    rootController.setInfo(incentFrom,addNum);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -57,13 +57,7 @@ class IncentDialog extends RootDialog<IncentCon>{
             SizedBox(height: 16.h,),
             ImageWidget(image: "icon_money1",width:172.w, height: 172.h,),
             SizedBox(height: 16.h,),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextWidget(text: "+${rootController.addNum}≈", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w700,),
-                TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(rootController.addNum)}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
-              ],
-            ),
+            TextWidget(text: "+\$${rootController.addNum}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -88,7 +82,7 @@ class IncentDialog extends RootDialog<IncentCon>{
                                   color: colorFFFFFF,
                                   borderRadius: BorderRadius.circular(8.w),
                                 ),
-                                child: TextWidget(text: "\$${ValueConfUtils.instance.getCoinToMoney(NumUtils.instance.coinNum)}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
+                                child: TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
                               ),
                               ImageWidget(image: "icon_down_arrow",height: 2.h,),
                             ],
@@ -102,7 +96,7 @@ class IncentDialog extends RootDialog<IncentCon>{
                           ImageWidget(image: "icon_pro",width: 238.w,height: 8.h,fit: BoxFit.fill,),
                           ImageWidget(
                             image: "icon_pro_bg",
-                            width: 238.w-(238.w)*ValueConfUtils.instance.getWithdrawProgress(),
+                            width: 238.w-(238.w)*NewValueUtils.instance.getCashProgress(),
                             height: 8.h,
                             fit: BoxFit.fill,
                           ),
@@ -111,7 +105,14 @@ class IncentDialog extends RootDialog<IncentCon>{
                     ],
                   ),
                 ),
-                ImageWidget(image: "icon_money2",width: 24.w,height: 24.h,),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    TextWidget(text: "\$${NewValueUtils.instance.getCurrentCashRange()}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
+                    ImageWidget(image: "icon_money2",width: 24.w,height: 24.h,)
+                  ],
+                ),
               ],
             ),
             TextWidget(text: "Withdrawal coming soon...", color: colorCACACA, size: 12.sp),

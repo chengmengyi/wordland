@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
-import 'package:flutter_max_ad/export.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
@@ -10,18 +9,16 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
-import 'package:wordland/utils/guide/guide_utils.dart';
-import 'package:wordland/utils/guide/sign_guide_widget.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class SignCon extends RootController{
   SignFrom _signFrom=SignFrom.other;
-  List<int> signList=ValueConfUtils.instance.getSignConfList();
+  List<int> signList=NewValueUtils.instance.getSignList();
   List<GlobalKey> globalList=[];
   Offset? guideOffset;
 
@@ -58,7 +55,7 @@ class SignCon extends RootController{
     try{
       return signList[index];
     }catch(e){
-      return 2000;
+      return 5;
     }
   }
 
@@ -76,8 +73,9 @@ class SignCon extends RootController{
         adShowListener: AdShowListener(
             onAdHidden: (ad){
               NumUtils.instance.sign();
-              NumUtils.instance.updateCoinNum(getSignNum(index));
-              _watchAdCall();
+              NumUtils.instance.updateUserMoney(getSignNum(index).toDouble(),(){
+                _watchAdCall();
+              });
             },
             showAdFail: (ad,error){
               NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
@@ -89,9 +87,10 @@ class SignCon extends RootController{
 
   _watchAdCall(){
     RoutersUtils.back();
-    if(_signFrom==SignFrom.newUserGuide){
-      GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showWordsGuide);
-    }else if(_signFrom==SignFrom.oldUserGuide){
+    // if(_signFrom==SignFrom.newUserGuide){
+    //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showWordsGuide);
+    // }else
+    if(_signFrom==SignFrom.oldUserGuide){
       var largeLength = (QuestionUtils.instance.getQuestionNum()/30).ceil();
       var hasCompleteTask=false;
       for(int largeIndex=0;largeIndex<largeLength;largeIndex++){

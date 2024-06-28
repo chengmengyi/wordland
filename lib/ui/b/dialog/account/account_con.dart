@@ -5,7 +5,6 @@ import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class AccountCon extends RootController{
   TextEditingController editingController=TextEditingController();
@@ -25,7 +24,7 @@ class AccountCon extends RootController{
     }
     RoutersUtils.back();
     showToast("Congratulations on your successful withdrawal. Your money has arrived");
-    NumUtils.instance.updateCoinNum(-ValueConfUtils.instance.getMoneyToCoin(chooseNum));
+    NumUtils.instance.updateUserMoney(-chooseNum.toDouble(), (){});
   }
 
   @override

@@ -35,7 +35,7 @@ class AchCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.achievement_page_receieve);
     RoutersUtils.showIncentDialog(
       incentFrom: IncentFrom.ach,
-      addNum: bean.addNum,
+      addNum: bean.addNum.toDouble(),
       dismissDialog: (){
         TaskUtils.instance.clickTaskBtn(bean);
         _updateList();

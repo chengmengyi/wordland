@@ -1,10 +1,14 @@
+import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
+import 'package:wordland/ui/b/dialog/congratulations/congratulations_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
@@ -29,7 +33,7 @@ class NumUtils{
       payType=0,signDays=0,todaySigned=false,
       wlandIntCd=3,hasWlandIntCd=0,wheelNum=3,
   wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0,
-  tipsNum=10;
+  tipsNum=10,userMoneyNum=0.0;
 
   NumUtils._internal(){
     addDownCountNum=getTodayNum(StorageName.addDownCountNum, 2);
@@ -42,11 +46,29 @@ class NumUtils{
     useTimeNum=StorageUtils.read<int>(StorageName.useTimeNum)??0;
     payType=StorageUtils.read<int>(StorageName.payType)??0;
     collectBubbleNum=StorageUtils.read<int>(StorageName.collectBubbleNum)??0;
+    userMoneyNum=StorageUtils.read<double>(StorageName.userMoneyNum)??0.0;
     hasCommentApp=StorageUtils.read<bool>(StorageName.hasCommentApp)??false;
     todayCommentDialogShowNum=getTodayNum(StorageName.todayCommentDialogShowNum, 0);
     todayAnswerNum=getTodayNum(StorageName.todayAnswerNum, 0);
     tipsNum=getTodayNum(StorageName.tipsNum, 10);
     _getSignInfo();
+  }
+
+  updateUserMoney(double num,Function() dismissDialog){
+    userMoneyNum=(Decimal.parse("$num")+Decimal.parse("$userMoneyNum")).toDouble();
+    StorageUtils.write(StorageName.userMoneyNum, userMoneyNum);
+    if(num>0){
+      RoutersUtils.dialog(
+          barrierColor: Colors.transparent,
+          child: CongratulationsDialog(
+            addNum: num,
+            call: (){
+              EventCode.showMoneyLottie.sendMsg();
+              dismissDialog.call();
+            },
+          )
+      );
+    }
   }
 
   updateAddDownCountNum(int add){

@@ -8,15 +8,15 @@ import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:wordland/ui/b/dialog/no_money/no_money_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
-import 'package:wordland/utils/value_conf_utils.dart';
 
 class BWithdrawChildCon extends RootController{
   var chooseIndex=0,marqueeStr="";
-  List<int> withdrawNumList=ValueConfUtils.instance.getWithdrawList();
+  List<int> withdrawNumList=NewValueUtils.instance.getCashList();
 
   @override
   void onInit() {
@@ -28,7 +28,7 @@ class BWithdrawChildCon extends RootController{
   bool initEventbus() => true;
 
   double getCashPro(int num){
-    var d = NumUtils.instance.coinNum/(ValueConfUtils.instance.getMoneyToCoin(num));
+    var d = NumUtils.instance.userMoneyNum/num;
     if(d>=1.0){
       return 1.0;
     }else if(d<=0.0){
@@ -47,6 +47,7 @@ class BWithdrawChildCon extends RootController{
 
   clickSign(){
     if(NumUtils.instance.todaySigned){
+      showToast("Signed in today, please come back tomorrow");
       return;
     }
     RoutersUtils.showSignDialog(signFrom: SignFrom.other);
@@ -65,12 +66,11 @@ class BWithdrawChildCon extends RootController{
   clickWithdraw(){
     TbaUtils.instance.appEvent(AppEventName.withdraw_page_c);
     var chooseMoneyNum = withdrawNumList[chooseIndex];
-    var chooseCoinNum = ValueConfUtils.instance.getMoneyToCoin(chooseMoneyNum);
     if(NumUtils.instance.signDays<7||QuestionUtils.instance.getLevel()<10){
       RoutersUtils.dialog(child: IncompleteDialog(chooseNum: chooseMoneyNum,));
       return;
     }
-    if(NumUtils.instance.coinNum<chooseCoinNum){
+    if(NumUtils.instance.userMoneyNum<chooseMoneyNum){
       RoutersUtils.dialog(child: NoMoneyDialog());
       return;
     }
@@ -93,7 +93,7 @@ class BWithdrawChildCon extends RootController{
   _initMarqueeStr(){
     for(var index=0; index<5;index++){
       var phone = "${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}";
-      var cash = ValueConfUtils.instance.getWithdrawList().random();
+      var cash = NewValueUtils.instance.getCashList().random();
       marqueeStr+="Congratulations 1*******$phone just cashed out \$$cash     ";
     }
   }
