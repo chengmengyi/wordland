@@ -7,6 +7,8 @@ class StrokedTextWidget extends StatelessWidget{
   Color textColor;
   Color strokeColor;
   double? strokeWidth;
+  TextDecoration? decoration;
+  Color? decorationColor;
 
   StrokedTextWidget({
     required this.text,
@@ -14,6 +16,8 @@ class StrokedTextWidget extends StatelessWidget{
     required this.textColor,
     required this.strokeColor,
     this.strokeWidth,
+    this.decoration,
+    this.decorationColor,
   });
 
 
@@ -35,9 +39,11 @@ class StrokedTextWidget extends StatelessWidget{
       Text(
         text,
         style: TextStyle(
-            color: textColor,
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold
+          color: textColor,
+          fontSize: fontSize,
+          fontWeight: FontWeight.bold,
+          decoration: decoration,
+          decorationColor: decorationColor,
         ),
       ),
     ],

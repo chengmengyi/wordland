@@ -5,6 +5,7 @@ import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
+import 'package:wordland/widget/stroked_text_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class HomeBubbleGuideWidget extends StatelessWidget{
@@ -40,7 +41,13 @@ class HomeBubbleGuideWidget extends StatelessWidget{
                   alignment: Alignment.bottomCenter,
                   children: [
                     ImageWidget(image: "home13",width: 60.h,height: 60.w,),
-                    TextWidget(text: "+$addNum", color: colorFFE600, size: 14.sp,fontWeight: FontWeight.w700,)
+                    // TextWidget(text: "+$addNum", color: colorFFE600, size: 14.sp,fontWeight: FontWeight.w700,)
+                    StrokedTextWidget(
+                      text: "\$$addNum",
+                      fontSize: 14.sp,
+                      textColor: colorFFE600,
+                      strokeColor: color000000,
+                    )
                   ],
                 ),
               ),

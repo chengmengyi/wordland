@@ -159,7 +159,7 @@ class SignDialog extends RootDialog<SignCon>{
                     width: 32.w
                 ),
                 TextWidget(
-                  text: "+${rootController.getSignNum(index)}",
+                  text: "+\$${rootController.getSignNum(index)}",
                   color: NumUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,

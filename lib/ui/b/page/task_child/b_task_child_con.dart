@@ -52,6 +52,7 @@ class BTaskChildCon extends RootController{
   }
 
   clickBubble(bool completeTask,bool currentTask,bool showBubble,int largeIndex,int smallIndex,double addNum){
+    _hideFinger();
     TbaUtils.instance.appEvent(AppEventName.task_pop_claim,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
     if(!currentTask&&!completeTask){
       showToast("Level Locked!");
@@ -77,6 +78,9 @@ class BTaskChildCon extends RootController{
     }catch(e){
 
     }
+  }
+
+  _hideFinger(){
     if(null!=firstFingerOffset){
       firstFingerOffset=null;
       firstLargeIndex=-1;

@@ -81,4 +81,6 @@ enum AppEventName{
   wl_task_inform_c,
   wl_paypel_inform_c,
   push_status,
+  float_guide,
+  float_guide_c,
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/answer_right/answer_right_con.dart';
@@ -25,14 +26,13 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
       Stack(
         alignment: Alignment.center,
         children: [
-          ImageWidget(image: "c2",width: 200.w,height: 200.w,),
+          Lottie.asset("assets/money_bg.json",width: 200.w,height: 200.w,),
           ImageWidget(image: "icon_money1",width: 172.w,height: 172.w,),
         ],
       ),
       InkWell(
         onTap: (){
-          RoutersUtils.back();
-          call.call(NewValueUtils.instance.getDoubleNum(addNum));
+          rootController.clickDouble(call, addNum);
         },
         child: Stack(
           alignment: Alignment.center,
@@ -64,14 +64,15 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
       SizedBox(height: 24.h,),
       InkWell(
         onTap: (){
-          RoutersUtils.back();
-          call.call(addNum);
+         rootController.clickContinue(call, addNum);
         },
         child: StrokedTextWidget(
           text: "\$$addNum",
           fontSize: 16.sp,
           textColor: Colors.white,
           strokeColor: color5B2600,
+          decoration: TextDecoration.underline,
+          decorationColor: Colors.white,
         ),
       ),
     ],

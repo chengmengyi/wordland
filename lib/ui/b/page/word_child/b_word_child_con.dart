@@ -179,10 +179,12 @@ class BWordChildCon extends RootController{
   }
 
   _showBubbleGuideOverlay(){
+    TbaUtils.instance.appEvent(AppEventName.float_guide);
     NewGuideUtils.instance.showGuideOver(
       context: context,
       widget: HomeBubbleGuideWidget(
         hideCall: (money){
+          TbaUtils.instance.appEvent(AppEventName.float_guide_c);
           NumUtils.instance.updateUserMoney(money,(){
             NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.complete);
             update(["bubble"]);

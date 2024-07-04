@@ -91,20 +91,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     SizedBox(width: 20.w,),
                     TextWidget(text: "My Cash", color: colorDFC78B, size: 24.sp,fontWeight: FontWeight.w700,),
                     const Spacer(),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: color73562D, size: 36.sp,fontWeight: FontWeight.w700,),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
-                            ImageWidget(image: "icon_money2",width: 24.w,height: 24.h,),
-                            TextWidget(text: "${NumUtils.instance.coinNum}", color: colorDE832F, size: 16.sp,fontWeight: FontWeight.w700,),
-                          ],
-                        )
-                      ],
-                    ),
+                    TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: color73562D, size: 36.sp,fontWeight: FontWeight.w700,),
                     SizedBox(width: 20.w,),
                   ],
                 ),
@@ -192,14 +179,14 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
-                            ImageWidget(image: "icon_money2",width: 20.w,height: 20.h,),
-                            TextWidget(text: "111111", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisSize: MainAxisSize.min,
+                        //   children: [
+                        //     TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
+                        //     ImageWidget(image: "icon_money2",width: 20.w,height: 20.h,),
+                        //     // TextWidget(text: "111111", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
+                        //   ],
+                        // ),
                         SizedBox(height: 4.h,),
                         Container(
                           width: 104.w,

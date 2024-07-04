@@ -11,6 +11,7 @@ import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
+import 'package:wordland/widget/stroked_text_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
 class BubbleWidget extends StatefulWidget{
@@ -69,7 +70,18 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
                   alignment: Alignment.bottomCenter,
                   children: [
                     ImageWidget(image: "home13",width: 80.w,height: 80.h,),
-                    TextWidget(text: "\$$addNum", size: 14.sp, color: colorFFE600,fontWeight: FontWeight.w900,)
+                    // TextWidget(
+                    //   text: "\$$addNum",
+                    //   size: 14.sp,
+                    //   color: colorFFE600,
+                    //   fontWeight: FontWeight.w900,
+                    // ),
+                    StrokedTextWidget(
+                      text: "\$$addNum",
+                      fontSize: 14.sp,
+                      textColor: colorFFE600,
+                      strokeColor: color000000,
+                    )
                   ],
                 ),
               ),
