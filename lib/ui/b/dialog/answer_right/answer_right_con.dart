@@ -31,7 +31,15 @@ class AnswerRightCon extends RootController{
 
   clickContinue(Function(double) call,double addNum){
     TbaUtils.instance.appEvent(AppEventName.word_ture_pop_continue);
-    RoutersUtils.back();
-    call.call(addNum);
+    AdUtils.instance.showAd(
+      adType: AdType.inter,
+      adPosId: AdPosId.wpdnd_rv_right_con,
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+          RoutersUtils.back();
+          call.call(addNum);
+        },
+      ),
+    );
   }
 }

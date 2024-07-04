@@ -32,8 +32,15 @@ class AnswerFailCon extends RootController{
 
   clickContinue(Function(bool) nextWordsCall){
     TbaUtils.instance.appEvent(AppEventName.word_flase_pop_continue);
-    RoutersUtils.back();
-    nextWordsCall.call(true);
-    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_answer);
+    AdUtils.instance.showAd(
+      adType: AdType.inter,
+      adPosId: AdPosId.wpdnd_rv_wrong_con,
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+          RoutersUtils.back();
+          nextWordsCall.call(true);
+        },
+      ),
+    );
   }
 }

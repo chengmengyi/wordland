@@ -56,23 +56,18 @@ class IncentCon extends RootController{
 
   clickClose(Function()? dismissDialog){
     TbaUtils.instance.appEvent(AppEventName.double_pop_continue, params: {"word_from": _getTabValueByFrom()});
-    RoutersUtils.back();
-    // NumUtils.instance.updateCoinNum(addNum);
-    switch(_incentFrom){
-      // case IncentFrom.newUserGuide:
-      //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showSignDialog);
-      //   NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
-      //   break;
-      case IncentFrom.wheel:
-        NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
-        break;
-      default:
-
-        break;
-    }
-    NumUtils.instance.updateUserMoney(addNum, (){
-      dismissDialog?.call();
-    });
+    AdUtils.instance.showAd(
+      adType: AdType.inter,
+      adPosId: AdPosId.wpdnd_int_close_spin,
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+          RoutersUtils.back();
+          NumUtils.instance.updateUserMoney(addNum, (){
+            dismissDialog?.call();
+          });
+        },
+      ),
+    );
   }
 
   clickDouble(Function()? dismissDialog){

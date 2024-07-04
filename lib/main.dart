@@ -8,6 +8,7 @@ import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/check_app_state_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/network_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/user_type/user_type_utils.dart';
@@ -40,6 +41,7 @@ void main() async{
 initInfo()async{
   CheckAppStateUtils.instance.init();
   await GetStorage.init();
+  NewValueUtils.instance.initValue();
   NewGuideUtils.instance.initInfo();
   NetWorkUtils.instance.initListen();
   UserTypeUtils.instance.init();

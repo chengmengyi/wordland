@@ -78,7 +78,6 @@ class SignCon extends RootController{
               });
             },
             showAdFail: (ad,error){
-              NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
               _watchAdCall();
             }
         )
@@ -117,9 +116,15 @@ class SignCon extends RootController{
 
 
   clickClose(){
-    RoutersUtils.back();
-    if(_signFrom==SignFrom.newUserGuide||_signFrom==SignFrom.oldUserGuide){
-      NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_step_close);
-    }
+    AdUtils.instance.showAd(
+      adType: AdType.inter,
+      adPosId: AdPosId.wpdnd_step_close,
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+          RoutersUtils.back();
+        },
+      ),
+    );
+
   }
 }

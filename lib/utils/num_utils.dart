@@ -30,8 +30,7 @@ class NumUtils{
 
   var addDownCountNum=2,removeFailNum=2,lastRemoveFailQuestion="",
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
-      payType=0,signDays=0,todaySigned=false,
-      wlandIntCd=3,hasWlandIntCd=0,wheelNum=3,
+      payType=0,signDays=0,todaySigned=false,wheelNum=3,
   wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0,
   tipsNum=10,userMoneyNum=0.0;
 
@@ -136,27 +135,27 @@ class NumUtils{
   }
 
   getFirebaseConfInfo()async{
-    wlandIntCd=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int_cd")).toInt(defaultNum: 3);
+    // wlandIntCd=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int_cd")).toInt(defaultNum: 3);
     wordDis=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_dis")).toInt(defaultNum: 5);
   }
 
-  updateHasWlandIntCd(AdPosId adPosId){
-    hasWlandIntCd++;
-    if(hasWlandIntCd%wlandIntCd==0){
-      TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":adPosId.name});
-      FlutterMaxAd.instance.showAd(
-        adType: AdType.inter,
-        adShowListener: AdShowListener(
-          showAdSuccess: (ad,info){
-            TbaUtils.instance.adEvent(ad, info, adPosId, AdFomat.int);
-          },
-          onAdHidden: (ad){
-
-          },
-        ),
-      );
-    }
-  }
+  // updateHasWlandIntCd(AdPosId adPosId){
+  //   hasWlandIntCd++;
+  //   if(hasWlandIntCd%wlandIntCd==0){
+  //     TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":adPosId.name});
+  //     FlutterMaxAd.instance.showAd(
+  //       adType: AdType.inter,
+  //       adShowListener: AdShowListener(
+  //         showAdSuccess: (ad,info){
+  //           TbaUtils.instance.adEvent(ad, info, adPosId, AdFomat.int);
+  //         },
+  //         onAdHidden: (ad){
+  //
+  //         },
+  //       ),
+  //     );
+  //   }
+  // }
 
   updateWheelNum(int num){
     wheelNum+=num;

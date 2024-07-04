@@ -18,8 +18,15 @@ class NoWheelCon extends RootController{
   }
 
   clickClose(){
-    RoutersUtils.back();
-    NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
+    AdUtils.instance.showAd(
+      adType: AdType.inter,
+      adPosId: AdPosId.wpdnd_int_close_spin,
+      adShowListener: AdShowListener(
+        onAdHidden: (ad){
+          RoutersUtils.back();
+        },
+      ),
+    );
   }
 
   clickGet(Function() addNumCall){

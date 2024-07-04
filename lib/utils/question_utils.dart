@@ -49,7 +49,7 @@ class QuestionUtils{
 
   int getQuestionNum()=>_questionList.length;
 
-  int getLevel() => QuestionUtils.instance.bAnswerRightNum~/3+1;
+  // int getLevel() => QuestionUtils.instance.bAnswerRightNum~/3+1;
 
   LevelStatus getLevelStatus(int largeIndex,int smallIndex){
     var i = largeIndex*10+smallIndex+1;

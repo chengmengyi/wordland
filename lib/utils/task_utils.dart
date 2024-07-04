@@ -74,7 +74,7 @@ class TaskUtils{
     }
 
     if(!_getReceivedByType(TaskType.upLevel5)){
-      list.add(TaskBean(text: "Pass 5 normal mode levels", canReceive: QuestionUtils.instance.getLevel()>=5, addNum: 20,taskType: TaskType.upLevel5));
+      list.add(TaskBean(text: "Pass 5 normal mode levels", canReceive: QuestionUtils.instance.bAnswerIndex>=5, addNum: 20,taskType: TaskType.upLevel5));
     }
     return list;
   }

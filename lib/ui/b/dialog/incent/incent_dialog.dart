@@ -63,7 +63,7 @@ class IncentDialog extends RootDialog<IncentCon>{
               children: [
                 Container(
                   width: 238.w,
-                  margin: EdgeInsets.only(bottom: 8.h,right: 5.w),
+                  margin: EdgeInsets.only(bottom: 20.h,right: 5.w),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,8 +109,8 @@ class IncentDialog extends RootDialog<IncentCon>{
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    ImageWidget(image: "icon_money2",width: 24.w,height: 24.h,),
                     TextWidget(text: "\$${NewValueUtils.instance.getCurrentCashRange()}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
-                    ImageWidget(image: "icon_money2",width: 24.w,height: 24.h,)
                   ],
                 ),
               ],

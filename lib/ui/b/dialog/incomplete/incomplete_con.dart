@@ -8,10 +8,10 @@ import 'package:wordland/utils/utils.dart';
 class IncompleteCon extends RootController{
 
   String getStr(){
-    if(NumUtils.instance.signDays<7&&!NumUtils.instance.todaySigned){
+    if(NumUtils.instance.signDays<7){
       return "Pending：Sign 7 days";
     }
-    return "Pending：Collect 10 cash coins";
+    return "Pending：Pass 10 level";
   }
 
   clickGo(){

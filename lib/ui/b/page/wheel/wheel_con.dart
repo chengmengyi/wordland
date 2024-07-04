@@ -31,9 +31,21 @@ class WheelCon extends RootController{
   }
 
   clickClose(bool clickBack){
-    RoutersUtils.back(backParams: {"back":true});
     if(clickBack){
-      NumUtils.instance.updateHasWlandIntCd(AdPosId.wpdnd_int_close_spin);
+      AdUtils.instance.showAd(
+        adType: AdType.inter,
+        adPosId: AdPosId.wpdnd_int_close_spin,
+        adShowListener: AdShowListener(
+          onAdHidden: (ad){
+            RoutersUtils.back(backParams: {"back":true});
+          },
+          showAdFail: (ad,error){
+            RoutersUtils.back(backParams: {"back":true});
+          }
+        ),
+      );
+    }else{
+      RoutersUtils.back(backParams: {"back":false});
     }
   }
 
@@ -69,7 +81,7 @@ class WheelCon extends RootController{
               onAdHidden: (ad){
                 RoutersUtils.showIncentDialog(
                     incentFrom: IncentFrom.wheel,
-                    addNum: NewValueUtils.instance.getRewardAddNum()
+                    addNum: NewValueUtils.instance.getWheelAddNum()
                 );
               },
             )

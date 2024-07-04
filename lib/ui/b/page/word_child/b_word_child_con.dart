@@ -92,10 +92,9 @@ class BWordChildCon extends RootController{
       update(["answer"]);
       Future.delayed(const Duration(milliseconds: 500),(){
         canClick=true;
-        // if(isRight&&answerList.last.result.isEmpty){
-        //   _startWordsTipsTimer();
-        // }
-        if(answerList.last.result.isNotEmpty){
+        if(answerList.last.result.isEmpty){
+          _startWordsTipsTimer();
+        }else{
           if(isRight){
             TbaUtils.instance.appEvent(AppEventName.word_true_c);
             _timer?.cancel();
@@ -117,40 +116,16 @@ class BWordChildCon extends RootController{
               );
             }else{
               RoutersUtils.dialog(
-                child: AnswerRightDialog(
-                  call: (money){
-                    NumUtils.instance.updateUserMoney(money, (){
-                      update(["level"]);
-                      _updateQuestionData();
-                    });
-                  },
-                )
+                  child: AnswerRightDialog(
+                    call: (money){
+                      NumUtils.instance.updateUserMoney(money, (){
+                        update(["level"]);
+                        _updateQuestionData();
+                      });
+                    },
+                  )
               );
             }
-            // else if(QuestionUtils.instance.bAnswerRightNum%3==0){
-            //   RoutersUtils.dialog(
-            //       child: LevelDialog(
-            //         upLevel: true,
-            //         closeCall: (){
-            //           update(["level"]);
-            //           _updateQuestionData();
-            //         },
-            //       )
-            //   );
-            // }else{
-            //   RoutersUtils.dialog(
-            //       child: LevelDialog(
-            //         upLevel: false,
-            //         closeCall: (){
-            //           _updateQuestionData();
-            //           if(QuestionUtils.instance.bAnswerIndex==1){
-            //             NewGuideUtils.instance.checkNewUserGuide();
-            //             _showBubbleGuideOverlay();
-            //           }
-            //         },
-            //       )
-            //   );
-            // }
             if(NumUtils.instance.checkCanShowCommentDialog()){
               RoutersUtils.dialog(child: GoodCommentDialog());
             }
@@ -206,7 +181,7 @@ class BWordChildCon extends RootController{
         break;
       case 2:
         TbaUtils.instance.appEvent(AppEventName.wheel_c);
-        if(QuestionUtils.instance.getLevel()<3){
+        if(QuestionUtils.instance.bAnswerIndex<3){
           showToast("After pass 3 levels you can play the Lucky Wheel");
           return;
         }
@@ -262,22 +237,6 @@ class BWordChildCon extends RootController{
     }
   }
 
-  // _startDownCountTimer({bool reset=true}){
-  //   // if(reset){
-  //   //   downCountTime=30;
-  //   //   _totalCountTime=30;
-  //   // }
-  //   // _timer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-  //   //   if(downCountTime<=0){
-  //   //     timer.cancel();
-  //   //     _showWordsGuide(null);
-  //   //     return;
-  //   //   }
-  //   //   downCountTime--;
-  //   //   update(["time"]);
-  //   // });
-  // }
-
   _startWordsTipsTimer(){
     if(NewGuideUtils.instance.checkCompletedWordsGuide()){
       _stopWordsTipsTimer();
@@ -304,7 +263,7 @@ class BWordChildCon extends RootController{
   }
 
   double getWheelProgress(){
-    var pro = QuestionUtils.instance.bAnswerIndex/9;
+    var pro = QuestionUtils.instance.bAnswerIndex%9/9;
     if(pro<=0){
       return 0.0;
     }else if(pro>=1){

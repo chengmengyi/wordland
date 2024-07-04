@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/stroked_text_widget.dart';
+import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
 
 class BTaskChildPage extends RootChild<BTaskChildCon>{
@@ -30,11 +32,12 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
           children: [
             _topWidget(),
             _achWidget(),
+            SizedBox(height: 16.h,),
             _listWidget(),
           ],
         ),
         MoneyAnimatorWidget(),
-        _fingerGuideWidget(),
+        // _fingerGuideWidget(),
       ],
     ),
   );
@@ -67,13 +70,16 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
-            margin: EdgeInsets.only(left: 15.w,top: 26.h),
+            margin: EdgeInsets.only(left: 15.w),
             child: ImageWidget(image: "home3",width: 530.w,height: 310.h,fit: BoxFit.fill,),
           ),
         ),
-        _stepWidget(largeIndex,0),
         Container(
-          margin: EdgeInsets.only(top: 120.h),
+          margin: EdgeInsets.only(top: 16.h),
+          child: _stepWidget(largeIndex,0),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 142.h),
           child: _stepWidget(largeIndex,1),
         ),
         Align(
@@ -97,35 +103,35 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.only(right: 166.w,top: 20.h),
+            margin: EdgeInsets.only(right: 180.w,top: 40.h),
             child: _stepWidget(largeIndex,5),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.only(right: 120.w,top: 150.h),
+            margin: EdgeInsets.only(right: 170.w,top: 160.h),
             child: _stepWidget(largeIndex,6),
           ),
         ),
         Align(
           alignment: Alignment.bottomRight,
           child: Container(
-            margin: EdgeInsets.only(right: 120.w),
+            margin: EdgeInsets.only(right: 180.w,bottom: 20.h),
             child: _stepWidget(largeIndex,7),
           ),
         ),
         Align(
           alignment: Alignment.bottomRight,
           child: Container(
-            margin: EdgeInsets.only(right: 20.w,bottom: 66.h),
+            margin: EdgeInsets.only(right: 100.w,bottom: 90.h),
             child: _stepWidget(largeIndex,8),
           ),
         ),
         Align(
           alignment: Alignment.topRight,
           child: Container(
-            margin: EdgeInsets.only(top: 110.h),
+            margin: EdgeInsets.only(top: 110.h,right: 50.w),
             child: _stepWidget(largeIndex,9),
           ),
         ),
@@ -148,71 +154,82 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     }
     return Offstage(
       offstage: !show,
-      child: SizedBox(
-        width: 150.h,
-        height: 106.h,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: InkWell(
-                onTap: (){
-                  rootController.clickItem(completeTask,currentTask,largeIndex,smallIndex);
-                },
-                child: ImageWidget(
-                  image: currentTask?"home9":completeTask?"home10":"home6",
-                  width: 66.h,
-                  height: currentTask?100.h:66.h,
-                ),
+      child: InkWell(
+        onTap: (){
+          rootController.clickItem(completeTask,currentTask,largeIndex,smallIndex,addNum,showBubble);
+        },
+        child: SizedBox(
+          width: 100.h,
+          height:  currentTask?100.h:66.h,
+          key: rootController.getGlobalKey(largeIndex, smallIndex),
+          child: Stack(
+            children: [
+              ImageWidget(
+                image: currentTask?"home9":completeTask?"home10":"home6",
+                width: 80.h,
+                height: currentTask?100.h:80.h,
               ),
-            ),
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Visibility(
-                visible: showBubble&&completeTask,
-                maintainAnimation: true,
-                maintainState: true,
-                maintainSize: true,
-                child: SizedBox(
-                  key: rootController.getGlobalKey(largeIndex, smallIndex),
-                  child: InkWell(
-                    onTap: (){
-                      rootController.clickBubble(completeTask,currentTask,showBubble,largeIndex,smallIndex,addNum);
-                    },
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        ImageWidget(image: "task1",width: 92.h,height: 72.h,),
-                        Positioned(
-                          bottom: 6.h,
-                          child: StrokedTextWidget(
-                            text: "+\$$addNum",
-                            fontSize: 14.sp,
-                            textColor: colorFFDD28,
-                            strokeColor: color434343,
-                          ),
-                        )
-                      ],
-                    ),
+              Positioned(
+                left: 6.w,
+                child: Offstage(
+                  offstage: !(showBubble&&completeTask),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ImageWidget(image: "icon_money1",width: 20.h,height: 20.h,),
+                      StrokedTextWidget(
+                        text: "+\$$addNum",
+                        fontSize: 12.sp,
+                        textColor: colorFFDD28,
+                        strokeColor: color434343,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 0,
-              left: 22.w,
-              child: Offstage(
-                offstage: completeTask||currentTask,
-                child: StrokedTextWidget(
-                  text: "${(largeIndex*10+smallIndex+1)*3}",
-                  fontSize: 16.sp,
-                  textColor: colorFFDD28,
-                  strokeColor: color434343,
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Offstage(
+                  offstage: !(showBubble&&completeTask),
+                  child: Container(
+                    width: 66.h,
+                    height: 24.h,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(left: 6.w),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.w),
+                        gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [colorFFA800,colorDA2D2D]
+                        )
+                    ),
+                    child: TextWidget(text: "Claim", color: Colors.white, size: 14.sp,fontWeight: FontWeight.w700,),
+                  ),
                 ),
               ),
-            )
-          ],
+              Positioned(
+                bottom: 0,
+                left: 22.w,
+                child: Offstage(
+                  offstage: completeTask||currentTask,
+                  child: StrokedTextWidget(
+                    text: "${(largeIndex*10+smallIndex+1)*3}",
+                    fontSize: 16.sp,
+                    textColor: colorFFDD28,
+                    strokeColor: color434343,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Offstage(
+                  offstage: !(showBubble&&completeTask),
+                  child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -245,19 +262,20 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     ),
   );
 
-  _fingerGuideWidget()=>GetBuilder<BTaskChildCon>(
-    id: "finger",
-    builder: (_)=>Offstage(
-      offstage: null==rootController.firstFingerOffset,
-      child: Container(
-        margin: EdgeInsets.only(top: rootController.firstFingerOffset?.dy??0,left: (rootController.firstFingerOffset?.dx??0)+30.w),
-        child: InkWell(
-          onTap: (){
-            rootController.clickFinger();
-          },
-          child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
-        ),
-      ),
-    ),
-  );
+  // _fingerGuideWidget()=>GetBuilder<BTaskChildCon>(
+  //   id: "finger",
+  //   builder: (_)=>Offstage(
+  //     offstage: null==rootController.firstFingerOffset,
+  //     child: Container(
+  //       color: Colors.red,
+  //       margin: EdgeInsets.only(top: rootController.firstFingerOffset?.dy??0,left: (rootController.firstFingerOffset?.dx??0)+30.w),
+  //       child: InkWell(
+  //         onTap: (){
+  //           rootController.clickFinger();
+  //         },
+  //         child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
+  //       ),
+  //     ),
+  //   ),
+  // );
 }

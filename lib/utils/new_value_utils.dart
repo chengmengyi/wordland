@@ -25,7 +25,9 @@ class NewValueUtils{
 
   NewValueBean? _valueBean;
 
-  NewValueUtils._internal(){
+  NewValueUtils._internal();
+
+  initValue(){
     _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
   }
 
@@ -36,6 +38,8 @@ class NewValueUtils{
   double getLevelAddNum() => _getRandomReward(_valueBean?.levelReward??[]);
 
   double getFloatAddNum() => _getRandomReward(_valueBean?.floatReward??[]);
+
+  double getWheelAddNum() => _getRandomReward(_valueBean?.wheelReward??[]);
 
   List<int> getCashList()=>_valueBean?.wordRange??[800,1000,1500,2000];
 
@@ -139,6 +143,7 @@ class NewValueUtils{
     var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers2");
     if(s.isNotEmpty){
       StorageUtils.write(StorageName.newLocalValueConf, s);
+      _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
     }
   }
 }
