@@ -67,6 +67,8 @@ class NumUtils{
             },
           )
       );
+    }else{
+      EventCode.updateCoinNum.sendMsg();
     }
   }
 
