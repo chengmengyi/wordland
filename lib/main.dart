@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 760),
       builder: (context,child)=>GetMaterialApp(
-        title: 'WordLand',
+        title: 'WordRing',
         debugShowCheckedModeBanner: false,
         enableLog: true,
         initialRoute: RoutersData.launch,
