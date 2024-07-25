@@ -13,7 +13,6 @@ import 'package:wordland/ui/a/dialog/remove_num/remove_num_dialog.dart';
 import 'package:wordland/ui/a/dialog/time_out/time_out_dialog.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
@@ -34,7 +33,6 @@ class AnswerCon extends RootController{
     _levelStatus=params["levelStatus"];
     _updateQuestionList();
     _countSmallAnswerIndex();
-    PlayMusicUtils.instance.playMusic();
   }
 
   @override
@@ -266,7 +264,6 @@ class AnswerCon extends RootController{
   @override
   void onClose() {
     _timer?.cancel();
-    PlayMusicUtils.instance.stopMusic();
     super.onClose();
   }
 }

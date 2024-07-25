@@ -53,10 +53,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias '文撩安卓端'
-            keyPassword 'android3691177'
-            storeFile file('key/wenliao.keystore')
-            storePassword 'android3691177'
+            keyAlias 'test'
+            keyPassword '123456'
+            storeFile file('key/test.jks')
+            storePassword '123456'
             v1SigningEnabled true
             v2SigningEnabled true
         }
@@ -65,8 +65,6 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled true
-            useProguard true
         }
         debug {
             signingConfig signingConfigs.release

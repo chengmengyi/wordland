@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/a/dialog/pause/pause_con.dart';
 import 'package:wordland/utils/color_utils.dart';
-import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -25,7 +24,7 @@ class PauseDialog extends RootDialog<PauseCon>{
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _itemWidget(0),
+            // _itemWidget(0),
             SizedBox(width: 20.w,),
             _itemWidget(1),
             SizedBox(width: 20.w,),
@@ -44,7 +43,7 @@ class PauseDialog extends RootDialog<PauseCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         ImageWidget(
-          image: index==0?(PlayMusicUtils.instance.playStatus?"pause2":"pause5"):index==1?"pause3":"pause4",
+          image: index==0?"":index==1?"pause3":"pause4",
           width: 60.w,
           height: 60.h,
         ),
