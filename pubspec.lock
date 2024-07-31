@@ -57,22 +57,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
-  assets_audio_player:
-    dependency: "direct main"
-    description:
-      name: assets_audio_player
-      sha256: "9a87062cf39be0730ba8bb31ed4d148ca4e892e0ae607113f346d3c9a8da5df0"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
-  assets_audio_player_web:
-    dependency: transitive
-    description:
-      name: assets_audio_player_web
-      sha256: "24cf82e72c7e7f9292d67e1b52d7945a182d9695ce8f903f60e5c6b379cbcaac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   async:
     dependency: transitive
     description:
@@ -221,18 +205,18 @@ packages:
     dependency: transitive
     description:
       name: firebase_core_platform_interface
-      sha256: c437ae5d17e6b5cc7981cf6fd458a5db4d12979905f9aafd1fea930428a9fe63
+      sha256: "3c3a1e92d6f4916c32deea79c4a7587aa0e9dbbe5889c7a16afcf005a485ee02"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.0"
+    version: "5.2.0"
   firebase_core_web:
     dependency: transitive
     description:
       name: firebase_core_web
-      sha256: "43d9e951ac52b87ae9cc38ecdcca1e8fa7b52a1dd26a96085ba41ce5108db8e9"
+      sha256: e8d1e22de72cb21cdcfc5eed7acddab3e99cd83f3b317f54f7a96c32f25fd11e
       url: "https://pub.dev"
     source: hosted
-    version: "2.17.0"
+    version: "2.17.4"
   firebase_remote_config:
     dependency: transitive
     description:
@@ -375,14 +359,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  http:
-    dependency: transitive
-    description:
-      name: http
-      sha256: "761a297c042deedc1ffbb156d6e2af13886bb305c2a343a4d972504cd67dd938"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.1"
   http_parser:
     dependency: transitive
     description:
@@ -591,14 +567,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.3"
-  rxdart:
-    dependency: transitive
-    description:
-      name: rxdart
-      sha256: "0c7c0cedd93788d996e33041ffecda924cc54389199cde4e6a34b440f50044cb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.27.7"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -732,14 +700,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.7"
   vector_math:
     dependency: transitive
     description:
@@ -821,5 +781,5 @@ packages:
     source: hosted
     version: "6.5.0"
 sdks:
-  dart: ">=3.3.4 <4.0.0"
+  dart: ">=3.3.3 <4.0.0"
   flutter: ">=3.19.0"

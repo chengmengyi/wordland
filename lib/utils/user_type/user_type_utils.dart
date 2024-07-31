@@ -27,15 +27,15 @@ class UserTypeUtils{
       blackModeStr: "middle",
       adjustToken: adjustToken,
       distinctId: distinctId,
-      unknownFirebaseKey: "",
-      referrerConfKey: "",
+      unknownFirebaseKey: "word_unknown",
+      referrerConfKey: "referr",
       adjustConfKey: "wland_adjust_on",
       checkListener: UserCheckImpl(),
     );
   }
 
   Future<String> _getCloakStr(String distinctId)async{
-    return "https://ashman.wordlandwin.com/felicity/european?"
+    return "${Platform.isIOS?"https://ashman.wordlandwin.com/felicity/european":"https://father.wordlandwin.com/skull/past"}?"
         "puberty=$distinctId&"
         "cyanamid=${DateTime.now().millisecondsSinceEpoch}&"
         "hostage=${await FlutterTbaInfo.instance.getDeviceModel()}&"

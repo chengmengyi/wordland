@@ -105,10 +105,12 @@ class AdUtils{
     adShowListener.showAdFail?.call(null,null);
   }
 
-  showOpenAd(){
+  showOpenAd({
+    Function(bool hasCache)? has
+  }){
     var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.inter);
+    has?.call(hasCache);
     if(hasCache){
-      TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
       FlutterMaxAd.instance.showAd(
         adType: AdType.inter,
         adShowListener: AdShowListener(
@@ -121,8 +123,6 @@ class AdUtils{
           },
         ),
       );
-    }else{
-      FlutterMaxAd.instance.loadAdByType(AdType.inter);
     }
   }
 

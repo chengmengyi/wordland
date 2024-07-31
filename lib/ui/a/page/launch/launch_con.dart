@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
@@ -25,13 +26,15 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     WidgetsBinding.instance.addObserver(this);
     super.onInit();
     _tbaPoint();
-    TbaUtils.instance.sessionEvent();
     FlutterMaxAd.instance.loadAdByType(AdType.inter);
     NotifiUtils.instance.launchShowing=true;
     NotifiUtils.instance.checkPermission();
-    Future((){
-      _startTimer();
-    });
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _startTimer();
   }
 
   _startTimer(){
@@ -64,54 +67,17 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
 
   _toHome(bool checkType){
     _stopTimer();
-    var nId = RoutersUtils.getParams()["n_id"];
-    if(null==nId&&NotifiUtils.instance.fromBackgroundId!=-1){
-      nId=NotifiUtils.instance.fromBackgroundId;
-    }
-    NotifiUtils.instance.fromBackgroundId=-1;
-    if(checkType&&NotifiUtils.instance.hasBuyHome){
-      RoutersUtils.back();
-      if(null!=nId&&nId>=0){
-        switch(nId){
-          case NotifiId.qiandao:
-            EventCode.showSignDialog.sendMsg();
-            break;
-          case NotifiId.renwu:
-            EventCode.showTaskChild.sendMsg();
-            break;
-          case NotifiId.tixian:
-            EventCode.showWithdrawChild.sendMsg();
-            break;
-        }
-      }
-      return;
-    }
-    RoutersUtils.offNamed(router: checkType?RoutersData.bHome:RoutersData.home);
+    RoutersUtils.offNamed(router: checkType||Platform.isAndroid?RoutersData.bHome:RoutersData.home);
   }
 
   _tbaPoint(){
-    var nId = RoutersUtils.getParams()["n_id"];
-    if(null==nId&&NotifiUtils.instance.fromBackgroundId!=-1){
-      nId=NotifiUtils.instance.fromBackgroundId;
-    }
     TbaUtils.instance.appEvent(
         AppEventName.qs_launch_page,
-        params: {"launch_from":null!=nId?"inform":"icon"}
+        params: {"launch_from":NotifiUtils.instance.fromBackgroundId!=-1?"inform":"icon"}
     );
-    switch(nId){
-      case NotifiId.guding:
-        TbaUtils.instance.appEvent(AppEventName.wl_fix_inform_c);
-        break;
-      case NotifiId.qiandao:
-        TbaUtils.instance.appEvent(AppEventName.wl_sign_inform_c);
-        break;
-      case NotifiId.renwu:
-        TbaUtils.instance.appEvent(AppEventName.wl_task_inform_c);
-        break;
-      case NotifiId.tixian:
-        TbaUtils.instance.appEvent(AppEventName.wl_paypel_inform_c);
-        break;
-    }
+    NotifiUtils.instance.fromBackgroundId=-1;
+    TbaUtils.instance.sessionEvent();
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
   }
 
   @override

@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
@@ -23,7 +25,7 @@ class NotifiUtils {
   
   NotifiUtils._internal();
 
-  var clickNotification=false,fromBackgroundId=-1,hasBuyHome=false,launchShowing=false,appBackGround=false;
+  var fromBackgroundId=-1,hasBuyHome=false,launchShowing=false,appBackGround=false;
 
   var flutterLocalNotificationsPlugin=FlutterLocalNotificationsPlugin();
 
@@ -123,14 +125,14 @@ class NotifiUtils {
     if(FlutterMaxAd.instance.fullAdShowing()){
       return;
     }
-    clickNotification=true;
-    RoutersUtils.toNamed(
-        routerName: RoutersData.launch,
-        params: {"n_id":notificationResponse.id}
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
+    AdUtils.instance.showOpenAd(
+        has: (has){
+          if(!has){
+            FlutterMaxAd.instance.loadAdByType(AdType.inter);
+          }
+        }
     );
-    Timer.periodic(const Duration(milliseconds: 2000), (timer) {
-      clickNotification=false;
-    });
   }
 
   Future<NotificationAppLaunchDetails?> getNotiDetails()async{
@@ -146,6 +148,23 @@ class NotifiUtils {
     var options = await plugin?.checkPermissions();
     if(options?.isEnabled==true){
       TbaUtils.instance.appEvent(AppEventName.push_status);
+    }
+  }
+
+  notificationTbaPoint(int id){
+    switch(id){
+      case NotifiId.guding:
+        TbaUtils.instance.appEvent(AppEventName.wl_fix_inform_c);
+        break;
+      case NotifiId.qiandao:
+        TbaUtils.instance.appEvent(AppEventName.wl_sign_inform_c);
+        break;
+      case NotifiId.renwu:
+        TbaUtils.instance.appEvent(AppEventName.wl_task_inform_c);
+        break;
+      case NotifiId.tixian:
+        TbaUtils.instance.appEvent(AppEventName.wl_paypel_inform_c);
+        break;
     }
   }
 }
