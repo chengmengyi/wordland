@@ -5,6 +5,21 @@
 <key>NSUserTrackingUsageDescription</key>
 <string>This identifier will be used to deliver personalized ads to you.</string>
 
+    <key>CFBundleURLTypes</key>
+    <array>
+    <dict>
+    <key>CFBundleURLSchemes</key>
+    <array>
+    <string>fb1634506830641671</string>
+    </array>
+    </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>1634506830641671</string>
+    <key>FacebookClientToken</key>
+    <string>2e4356f0e5a2cb2c514328edd0b8f31b</string>
+    <key>FacebookDisplayName</key>
+    <string>WordLand Fun</string>
 
     <key>GADApplicationIdentifier</key>
     <string>ca-app-pub-3940256099942544~2558003369</string>
@@ -230,11 +245,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>7</string>
+	<string>8</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

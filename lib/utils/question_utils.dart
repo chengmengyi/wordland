@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/enums/level_status.dart';
@@ -36,7 +37,11 @@ class QuestionUtils{
         var answer = element["answer"];
         if(answer is String && answer.length<=5){
           var question = element["question"];
-          _questionList.add(QuestionBean(question: question, answer: answer));
+          var bean = QuestionBean(question: question, answer: answer);
+          var indexWhere = _questionList.indexWhere((element) => element.answer==bean.answer);
+          if(indexWhere<0){
+            _questionList.add(bean);
+          }
         }
       }
       _questionList.sort((a, b) => (a.answer.length).compareTo(b.answer.length));
@@ -102,10 +107,6 @@ class QuestionUtils{
       bAnswerRightNum++;
       StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);
     }
-  }
-
-  test(){
-    print("kkk===${_questionList.length}");
   }
 
   // updateAnswerRightNum(){
