@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -49,7 +51,7 @@ class AchPage extends RootPage<AchCon>{
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                ImageWidget(image: "achieve5",width: 51.w,height: 55.h,),
+                ImageWidget(image: Platform.isIOS?"achieve5":"achieve6",width: 51.w,height: 55.h,),
                 TextWidget(text: "+${bean.addNum}", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
               ],
             ),

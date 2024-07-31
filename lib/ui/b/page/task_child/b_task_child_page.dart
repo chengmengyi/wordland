@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,6 +14,7 @@ import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
 import 'package:wordland/widget/stroked_text_widget.dart';
@@ -176,9 +179,9 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ImageWidget(image: "icon_money1",width: 20.h,height: 20.h,),
+                      ImageWidget(image: Platform.isIOS?"icon_money1":"coin2",width: 20.h,height: 20.h,),
                       StrokedTextWidget(
-                        text: "+\$$addNum",
+                        text: "+${getMoneyUnit()}$addNum",
                         fontSize: 12.sp,
                         textColor: colorFFDD28,
                         strokeColor: color434343,
@@ -210,7 +213,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
               ),
               Positioned(
                 bottom: 0,
-                left: 22.w,
+                left: 30.w,
                 child: Offstage(
                   offstage: completeTask||currentTask,
                   child: StrokedTextWidget(

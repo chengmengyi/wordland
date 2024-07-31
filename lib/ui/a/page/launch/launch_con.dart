@@ -76,7 +76,6 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
         params: {"launch_from":NotifiUtils.instance.fromBackgroundId!=-1?"inform":"icon"}
     );
     NotifiUtils.instance.fromBackgroundId=-1;
-    TbaUtils.instance.sessionEvent();
     TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
   }
 

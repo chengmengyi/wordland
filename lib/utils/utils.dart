@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/event/event_utils.dart';
 import 'package:wordland/storage/storage_utils.dart';
@@ -81,3 +83,30 @@ extension String2Int on String{
     }
   }
 }
+
+
+Future<bool> requestPermission({required List<Permission> permissionList})async{
+  if(permissionList.isEmpty){
+    return false;
+  }
+  Map<Permission, PermissionStatus> statuses = await permissionList.request();
+  var hasPermission=true;
+  var alwaysRefusePermission=false;
+  statuses.forEach((key, value) {
+    if(value.isPermanentlyDenied){
+      alwaysRefusePermission=true;
+    }
+    if(!value.isGranted){
+      hasPermission=false;
+    }
+  });
+  if(alwaysRefusePermission||!hasPermission){
+    showToast("Request Permission Fail");
+    return false;
+  }
+  return hasPermission;
+}
+
+String getMoneyUnit()=>Platform.isAndroid?"":"\$";
+
+String getMoneyIcon()=>Platform.isAndroid?"coin1":"icon_money1";

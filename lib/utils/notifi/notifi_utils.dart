@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
@@ -22,7 +23,7 @@ class NotifiUtils {
     _instance ??= NotifiUtils._internal();
     return _instance!;
   }
-  
+
   NotifiUtils._internal();
 
   var fromBackgroundId=-1,hasBuyHome=false,launchShowing=false,appBackGround=false;
@@ -54,40 +55,40 @@ class NotifiUtils {
   }
 
   _initNotifiType(){
-    _show(
-      id: NotifiId.guding,
-      repeatInterval: RepeatInterval.daily,
-      title: "Win money from WordLand",
-      body: ["💰Guess the word, challenge your cognition- it's time to turn your words into cash!","🎁Guess the Word, Earn Cash: A Winning Combination!","🔥Word up and cash in - play our word game and start making money today!"].random()
-    );
-    if(NumUtils.instance.todaySigned){
-      cancelNotification(NotifiId.qiandao);
-    }else{
-      Future.delayed(const Duration(milliseconds: 5000),(){
-        _show(
-            id: NotifiId.qiandao,
-            repeatInterval: RepeatInterval.hourly,
-            title: "Spell, sign in, and earn cash",
-            body: "Earn Daily with Our Word Guessing Sign-In Challenge"
-        );
-      });
-    }
-    Future.delayed(const Duration(milliseconds: 10000),(){
-      _show(
-          id: NotifiId.renwu,
-          repeatInterval: RepeatInterval.daily,
-          title: "Earn Cash with Our Word Tasks！",
-          body: ["🔥Take on word tasks, unlock earnings","Put your word skills to work, earn cash - accomplish missions and watch your bank account grow!"].random()
-      );
-    });
-    Future.delayed(const Duration(milliseconds: 15000),(){
-      _show(
-          id: NotifiId.tixian,
-          repeatInterval: RepeatInterval.hourly,
-          title: "Money arrives",
-          body: "100 cash waiting to be claimed！"
-      );
-    });
+    // _show(
+    //   id: NotifiId.guding,
+    //   repeatInterval: RepeatInterval.daily,
+    //   title: "Win money from WordLand",
+    //   body: ["💰Guess the word, challenge your cognition- it's time to turn your words into cash!","🎁Guess the Word, Earn Cash: A Winning Combination!","🔥Word up and cash in - play our word game and start making money today!"].random()
+    // );
+    // if(NumUtils.instance.todaySigned){
+    //   cancelNotification(NotifiId.qiandao);
+    // }else{
+    //   Future.delayed(const Duration(milliseconds: 5000),(){
+    //     _show(
+    //         id: NotifiId.qiandao,
+    //         repeatInterval: RepeatInterval.hourly,
+    //         title: "Spell, sign in, and earn cash",
+    //         body: "Earn Daily with Our Word Guessing Sign-In Challenge"
+    //     );
+    //   });
+    // }
+    // Future.delayed(const Duration(milliseconds: 10000),(){
+    //   _show(
+    //       id: NotifiId.renwu,
+    //       repeatInterval: RepeatInterval.daily,
+    //       title: "Earn Cash with Our Word Tasks！",
+    //       body: ["🔥Take on word tasks, unlock earnings","Put your word skills to work, earn cash - accomplish missions and watch your bank account grow!"].random()
+    //   );
+    // });
+    // Future.delayed(const Duration(milliseconds: 15000),(){
+    //   _show(
+    //       id: NotifiId.tixian,
+    //       repeatInterval: RepeatInterval.hourly,
+    //       title: "Money arrives",
+    //       body: "100 cash waiting to be claimed！"
+    //   );
+    // });
   }
 
   _getAndroidInitializationSettings()=>const AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -105,8 +106,8 @@ class NotifiUtils {
     required String body
   }){
     const AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('wordland channel id', 'wordland channel name',
-        channelDescription: 'wordland channel description',
+    AndroidNotificationDetails('wordguss channel id', 'wordguss channel name',
+        channelDescription: 'wordguss channel description',
         importance: Importance.max,
         priority: Priority.high,
         ticker: 'ticker'
@@ -166,5 +167,29 @@ class NotifiUtils {
         TbaUtils.instance.appEvent(AppEventName.wl_paypel_inform_c);
         break;
     }
+  }
+
+  test() {
+
+    // //Build.VERSION_CODES.TIRAMISU
+    // // requestPermission(permissionList: [Permission.notification]);
+    //
+    //
+    // const AndroidNotificationDetails androidNotificationDetails =
+    // AndroidNotificationDetails('wordguss channel id', 'wordguss channel name',
+    //     channelDescription: 'wordguss channel description',
+    //     importance: Importance.max,
+    //     priority: Priority.high,
+    //     ticker: 'ticker'
+    // );
+    // const NotificationDetails notificationDetails = NotificationDetails(
+    //     android: androidNotificationDetails);
+    // flutterLocalNotificationsPlugin.periodicallyShow(
+    //     2000,
+    //     "kkkk",
+    //     "body",
+    //     RepeatInterval.everyMinute,
+    //     notificationDetails
+    // );
   }
 }

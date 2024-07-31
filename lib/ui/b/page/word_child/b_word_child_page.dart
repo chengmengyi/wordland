@@ -297,12 +297,17 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       // const Spacer(),
       GetBuilder<BWordChildCon>(
         id: "level",
-        builder: (_)=>StrokedTextWidget(
-            text: "Level ${QuestionUtils.instance.bAnswerIndex+1}",
-            fontSize: 26.sp,
-            textColor: colorFFFFFF,
-            strokeColor: color177200,
-            strokeWidth: 2.w
+        builder: (_)=>InkWell(
+          onTap: (){
+            rootController.test();
+          },
+          child: StrokedTextWidget(
+              text: "Level ${QuestionUtils.instance.bAnswerIndex+1}",
+              fontSize: 26.sp,
+              textColor: colorFFFFFF,
+              strokeColor: color177200,
+              strokeWidth: 2.w
+          ),
         ),
       ),
       // const Spacer(),

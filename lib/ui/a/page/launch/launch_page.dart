@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,7 @@ class LaunchPage extends RootPage<LaunchCon>{
   Widget contentWidget() => Column(
     children: [
       SizedBox(height: 180.h,),
-      ImageWidget(image: "launch2",width: 288.w,height: 156.h,),
+      ImageWidget(image: Platform.isAndroid?"launch3":"launch2",width: 288.w,height: 156.h,),
       const Spacer(),
       _progressWidget(),
       SizedBox(height: 120.h,),

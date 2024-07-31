@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,7 +39,7 @@ class _WheelWidgetState extends State<WheelWidget> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) => RotationTransition(
     turns: animation,
-    child: ImageWidget(image: "wheel3",width: 300.w,height: 300.h,),
+    child: ImageWidget(image: Platform.isIOS?"wheel3":"wheel6",width: 300.w,height: 300.h,),
   );
 
   @override

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
@@ -10,6 +11,7 @@ import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/stroked_text_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -69,7 +71,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    ImageWidget(image: "home13",width: 80.w,height: 80.h,),
+                    ImageWidget(image: Platform.isAndroid?"home15":"home13",width: 80.w,height: 80.h,),
                     // TextWidget(
                     //   text: "\$$addNum",
                     //   size: 14.sp,
@@ -77,7 +79,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
                     //   fontWeight: FontWeight.w900,
                     // ),
                     StrokedTextWidget(
-                      text: "\$$addNum",
+                      text: "${getMoneyUnit()}$addNum",
                       fontSize: 14.sp,
                       textColor: colorFFE600,
                       strokeColor: color000000,

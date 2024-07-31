@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,6 +7,7 @@ import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/base_widget.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_con.dart';
@@ -19,11 +22,11 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
 
   @override
   Widget contentWidget() => SizedBox(
-    width: 200.w,
+    width: Platform.isAndroid?150.w:200.w,
     height: 38.h,
     child: Stack(
       children: [
-        ImageWidget(image: "top_money_bg",width: 200.w,height: 38.h,fit: BoxFit.fill,),
+        ImageWidget(image: Platform.isAndroid?"top_money_bg2":"top_money_bg",width: Platform.isAndroid?150.w:200.w,height: 38.h,fit: BoxFit.fill,),
         Align(
           alignment: Alignment.centerLeft,
           child: GetBuilder<TopMoneyCon>(
@@ -33,7 +36,7 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
               children: [
                 SizedBox(width: 44.w,),
                 // TextWidget(text: "${NumUtils.instance.coinNum}≈", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
-                TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
+                TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
               ],
             ),
           ),

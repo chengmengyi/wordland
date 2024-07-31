@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
+// import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 
 class NetWorkUtils{
@@ -17,17 +17,17 @@ class NetWorkUtils{
 
   NetWorkUtils._internal();
 
-  StreamSubscription<List<ConnectivityResult>>? _subscription;
+  // StreamSubscription<List<ConnectivityResult>>? _subscription;
 
   initListen(){
-    _subscription = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> connectivityResult) {
-      if (!connectivityResult.contains(ConnectivityResult.none)) {
-        FlutterCheckAdjustCloak.instance.requestCloakAgain();
-      }
-    });
+    // _subscription = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> connectivityResult) {
+    //   if (!connectivityResult.contains(ConnectivityResult.none)) {
+    //     FlutterCheckAdjustCloak.instance.requestCloakAgain();
+    //   }
+    // });
   }
 
   cancelListen(){
-    _subscription?.cancel();
+    // _subscription?.cancel();
   }
 }

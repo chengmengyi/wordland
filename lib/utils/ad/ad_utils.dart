@@ -6,6 +6,7 @@ import 'package:flutter_max_ad/ad/ad_bean/max_ad_bean.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';

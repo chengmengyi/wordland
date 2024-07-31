@@ -13,6 +13,7 @@ import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_page.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_page.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 
@@ -27,6 +28,7 @@ class BHomeCon extends RootController{
 
   @override
   void onInit() {
+    NewValueUtils.instance.initValue();
     super.onInit();
     AppTrackingTransparency.requestTrackingAuthorization();
     NotifiUtils.instance.hasBuyHome=true;

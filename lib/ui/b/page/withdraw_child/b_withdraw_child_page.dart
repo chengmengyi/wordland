@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -5,8 +7,10 @@ import 'package:marquee/marquee.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_con.dart';
 import 'package:wordland/utils/color_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -89,9 +93,14 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                 child: Row(
                   children: [
                     SizedBox(width: 20.w,),
-                    TextWidget(text: "My Cash", color: colorDFC78B, size: 24.sp,fontWeight: FontWeight.w700,),
+                    TextWidget(text: Platform.isIOS?"My Cash":"My Account", color: colorDFC78B, size: 24.sp,fontWeight: FontWeight.w700,),
                     const Spacer(),
-                    TextWidget(text: "\$${NumUtils.instance.userMoneyNum}", color: color73562D, size: 36.sp,fontWeight: FontWeight.w700,),
+                    Offstage(
+                      offstage: Platform.isIOS,
+                      child: ImageWidget(image: "coin2",width: 32.w,height: 32.w,),
+                    ),
+                    SizedBox(width: 4.w,),
+                    TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: color73562D, size: 24.sp,fontWeight: FontWeight.w700,),
                     SizedBox(width: 20.w,),
                   ],
                 ),
@@ -179,14 +188,17 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        // Row(
-                        //   mainAxisSize: MainAxisSize.min,
-                        //   children: [
-                        //     TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
-                        //     ImageWidget(image: "icon_money2",width: 20.w,height: 20.h,),
-                        //     // TextWidget(text: "111111", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
-                        //   ],
-                        // ),
+                        Offstage(
+                          offstage: Platform.isIOS,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
+                              ImageWidget(image: "coin2",width: 20.w,height: 20.h,),
+                              TextWidget(text: "${NewValueUtils.instance.getAndroidMoneyToCoin(num)}", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
+                            ],
+                          ),
+                        ),
                         SizedBox(height: 4.h,),
                         Container(
                           width: 104.w,

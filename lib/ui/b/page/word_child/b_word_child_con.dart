@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
+import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
@@ -22,6 +25,7 @@ import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/home_bubble_guide_widget.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
@@ -41,10 +45,14 @@ class BWordChildCon extends RootController{
   void onInit() {
     super.onInit();
     PlayMusicUtils.instance.playMusic();
-    Future((){
-      NewGuideUtils.instance.checkNewUserGuide();
-      _updateQuestionData();
-    });
+
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    NewGuideUtils.instance.checkNewUserGuide();
+    _updateQuestionData();
   }
 
   _updateQuestionData(){
@@ -126,7 +134,7 @@ class BWordChildCon extends RootController{
                   )
               );
             }
-            if(NumUtils.instance.checkCanShowCommentDialog()){
+            if(Platform.isIOS&&NumUtils.instance.checkCanShowCommentDialog()){
               RoutersUtils.dialog(child: GoodCommentDialog());
             }
           }else{
@@ -387,6 +395,14 @@ class BWordChildCon extends RootController{
       update(["bubble"]);
     });
 
+  }
+
+  test()async{
+    if(!kDebugMode){
+      return;
+    }
+    var androidId = await FlutterTbaInfo.instance.getGaid();
+    print(androidId);
   }
 
   @override

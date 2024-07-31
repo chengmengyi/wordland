@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter_check_adjust_cloak/dio/dio_manager.dart';
 import 'package:flutter_check_adjust_cloak/util/utils.dart';
@@ -24,6 +25,7 @@ class TbaUtils{
   TbaUtils._internal();
 
   installEvent({int tryNum=5})async{
+    sessionEvent();
     var hasUpload = StorageUtils.read<bool>(StorageName.installEvent)??false;
     if(hasUpload){
       return;

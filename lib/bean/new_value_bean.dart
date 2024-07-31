@@ -13,6 +13,7 @@ class NewValueBean {
   NewValueBean.fromJson(dynamic json) {
     wordRange = json['word_range'] != null ? json['word_range'].cast<int>() : [];
     newReward = json['new_reward'];
+    conversion = json['conversion'];
     checkReward = json['check_reward'] != null ? json['check_reward'].cast<int>() : [];
     if (json['int_ad'] != null) {
       intAd = [];
@@ -53,6 +54,7 @@ class NewValueBean {
   }
   List<int>? wordRange;
   int? newReward;
+  int? conversion;
   List<int>? checkReward;
   List<IntAd>? intAd;
   List<IntAd>? rvAd;
@@ -65,6 +67,7 @@ class NewValueBean {
     final map = <String, dynamic>{};
     map['word_range'] = wordRange;
     map['new_reward'] = newReward;
+    map['conversion'] = conversion;
     map['check_reward'] = checkReward;
     if (intAd != null) {
       map['int_ad'] = intAd?.map((v) => v.toJson()).toList();

@@ -39,5 +39,7 @@ class StorageName {
   static const String newNewUserSteps="newNewUserSteps";
   static const String userMoneyNum="userMoneyNum";
   static const String newLocalValueConf="newLocalValueConf";
+  static const String androidSmallValueConf="androidSmallValueConf";
+  static const String androidLargeValueConf="androidLargeValueConf";
   static const String completeNewUserGuideTimer2="completeNewUserGuideTimer2";
 }

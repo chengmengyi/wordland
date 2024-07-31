@@ -6,6 +6,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/answer_right/answer_right_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/stroked_text_widget.dart';
 
@@ -27,7 +28,7 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
         alignment: Alignment.center,
         children: [
           Lottie.asset("assets/money_bg.json",width: 200.w,height: 200.w,),
-          ImageWidget(image: "icon_money1",width: 172.w,height: 172.w,),
+          ImageWidget(image: getMoneyIcon(),width: 172.w,height: 172.w,),
         ],
       ),
       InkWell(
@@ -51,7 +52,7 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
                 ),
                 SizedBox(width: 6.w,),
                 StrokedTextWidget(
-                  text: "\$${NewValueUtils.instance.getDoubleNum(addNum)}",
+                  text: "${getMoneyUnit()}${NewValueUtils.instance.getDoubleNum(addNum)}",
                   fontSize: 24.sp,
                   textColor: Colors.white,
                   strokeColor: color2D5B00,
@@ -67,7 +68,7 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
          rootController.clickContinue(call, addNum);
         },
         child: StrokedTextWidget(
-          text: "\$$addNum",
+          text: "${getMoneyUnit()}$addNum",
           fontSize: 16.sp,
           textColor: Colors.white,
           strokeColor: color5B2600,

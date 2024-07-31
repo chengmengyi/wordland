@@ -4,6 +4,7 @@ import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/congratulations/congratulations_con.dart';
 import 'package:wordland/utils/color_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -35,11 +36,11 @@ class CongratulationsDialog extends RootDialog<CongratulationsCon>{
             alignment: Alignment.center,
             children: [
               ImageWidget(image: "c2",width: 200.w,height: 200.w,),
-              ImageWidget(image: "icon_money1",width: 172.w,height: 172.w,),
+              ImageWidget(image: getMoneyIcon(),width: 172.w,height: 172.w,),
             ],
           ),
           SizedBox(height: 16.h,),
-          TextWidget(text: "+\$$addNum", color: colorFF490F, size: 28.sp,fontWeight: FontWeight.w700,)
+          TextWidget(text: "+${getMoneyUnit()}$addNum", color: colorFF490F, size: 28.sp,fontWeight: FontWeight.w700,)
         ],
       ),
     );

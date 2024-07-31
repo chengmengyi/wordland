@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:decimal/decimal.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:wordland/bean/new_value_bean.dart';
@@ -41,7 +43,16 @@ class NewValueUtils{
 
   double getWheelAddNum() => _getRandomReward(_valueBean?.wheelReward??[]);
 
-  List<int> getCashList()=>_valueBean?.wordRange??[800,1000,1500,2000];
+  List<int> getCashList(){
+    if(Platform.isIOS){
+      return _valueBean?.wordRange??[800,1000,1500,2000];
+    }
+    List<int> list=[];
+    _valueBean?.wordRange?.forEach((element) {
+      list.add(element~/(_valueBean?.conversion??10000));
+    });
+    return list;
+  }
 
   List<int> getSignList()=>_valueBean?.checkReward??[5,6,8,10,15,20,50];
 
@@ -65,6 +76,8 @@ class NewValueUtils{
       return d;
     }
   }
+
+  int getAndroidMoneyToCoin(int money)=>money*(_valueBean?.conversion??10000);
 
   double _getRandomReward(List<FloatReward> common){
     if(common.isEmpty){
@@ -91,9 +104,9 @@ class NewValueUtils{
   }
 
   bool checkShowAd(AdType adType){
-    // if(kDebugMode){
-    //   return true;
-    // }
+    if(kDebugMode){
+      return true;
+    }
     List<IntAd> list=[];
     switch(adType){
       case AdType.inter:
@@ -128,22 +141,44 @@ class NewValueUtils{
     return num.toStringAsFixed(2).toDouble();
   }
 
-  test()=>_getLocalValueConf();
-
-  String _getLocalValueConf(){
-    var s = StorageUtils.read<String>(StorageName.newLocalValueConf)??"";
-    if(s.isNotEmpty){
-      return s;
-    }
-    return newValueStr.base64();
+  test(){
+    print("kk==${_valueBean?.conversion}===${FlutterCheckAdjustCloak.instance.getUserType()}");
   }
 
+  String _getLocalValueConf(){
+    if(Platform.isIOS){
+      var s = StorageUtils.read<String>(StorageName.newLocalValueConf)??"";
+      if(s.isNotEmpty){
+        return s;
+      }
+      return newValueStr.base64();
+    }else{
+      var userType = FlutterCheckAdjustCloak.instance.getUserType();
+      var s = StorageUtils.read<String>(userType?StorageName.androidLargeValueConf:StorageName.androidSmallValueConf)??"";
+      if(s.isNotEmpty){
+        return s;
+      }
+      return (userType?androidLargeValueStr:androidSmallValueStr).base64();
+    }
+  }
 
   getFirebaseInfo()async{
-    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers2");
-    if(s.isNotEmpty){
-      StorageUtils.write(StorageName.newLocalValueConf, s);
-      _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
+    if(Platform.isIOS){
+      var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers2");
+      if(s.isNotEmpty){
+        StorageUtils.write(StorageName.newLocalValueConf, s);
+        initValue();
+      }
+    }else{
+      var small = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_a_number");
+      if(small.isNotEmpty){
+        StorageUtils.write(StorageName.androidSmallValueConf, small);
+      }
+      var large = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_b_number");
+      if(large.isNotEmpty){
+        StorageUtils.write(StorageName.androidLargeValueConf, large);
+      }
+      initValue();
     }
   }
 }

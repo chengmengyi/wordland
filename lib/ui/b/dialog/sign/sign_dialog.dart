@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -155,7 +157,7 @@ class SignDialog extends RootDialog<SignCon>{
               children: [
                 SizedBox(height: 8.h,),
                 ImageWidget(
-                    image: index==4?"sign3":index==6?"sign4":"icon_money2",
+                    image: _getIcon(index),
                     width: 32.w
                 ),
                 TextWidget(
@@ -171,4 +173,14 @@ class SignDialog extends RootDialog<SignCon>{
       ),
     ),
   );
+
+  _getIcon(int index){
+    if(index==4){
+      return "sign3";
+    }
+    if(index==6&&Platform.isIOS){
+      return "sign4";
+    }
+    return "coin2";
+  }
 }

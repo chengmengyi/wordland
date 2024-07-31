@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -41,7 +43,7 @@ void main() async{
 initInfo()async{
   CheckAppStateUtils.instance.init();
   await GetStorage.init();
-  NewValueUtils.instance.initValue();
+  // NewValueUtils.instance.initValue();
   NewGuideUtils.instance.initInfo();
   NetWorkUtils.instance.initListen();
   UserTypeUtils.instance.init();
@@ -56,7 +58,7 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 760),
       builder: (context,child)=>GetMaterialApp(
-        title: 'WordLand',
+        title: Platform.isAndroid?'WordRing':'WordLand',
         debugShowCheckedModeBanner: false,
         enableLog: true,
         initialRoute: RoutersData.launch,

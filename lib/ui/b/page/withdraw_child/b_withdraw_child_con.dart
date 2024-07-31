@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:wordland/enums/sign_from.dart';
@@ -28,7 +29,7 @@ class BWithdrawChildCon extends RootController{
   bool initEventbus() => true;
 
   double getCashPro(int num){
-    var d = NumUtils.instance.userMoneyNum/num;
+    var d = Platform.isIOS?NumUtils.instance.userMoneyNum/num:NumUtils.instance.userMoneyNum/(NewValueUtils.instance.getAndroidMoneyToCoin(num));
     if(d>=1.0){
       return 1.0;
     }else if(d<=0.0){
@@ -94,7 +95,7 @@ class BWithdrawChildCon extends RootController{
     for(var index=0; index<5;index++){
       var phone = "${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}";
       var cash = NewValueUtils.instance.getCashList().random();
-      marqueeStr+="Congratulations 1*******$phone just cashed out \$$cash     ";
+      marqueeStr+="Congratulations 1*******$phone just cashed out ${getMoneyUnit()}$cash     ";
     }
   }
 }
