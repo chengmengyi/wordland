@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_con.dart';
 import 'package:wordland/utils/color_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -34,12 +38,15 @@ class IncompleteDialog extends RootDialog<IncompleteCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         _closeWidget(),
-        TextWidget(text: "One last step left to withdraw", color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
+        Container(
+          margin: EdgeInsets.only(left: 16.w,right: 16.w),
+          child: TextWidget(text: Local.oneLast.tr, color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
+        ),
         TextWidget(text: rootController.getStr(), color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
-        ImageWidget(image: "icon_money1",width: 120.w,height: 120.h,),
-        TextWidget(text: "\$$chooseNum", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
+        TextWidget(text: "${getMoneyCode()}${NewValueUtils.instance.getCoinToMoney(chooseNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 20.h,),
-        BtnWidget(text: "Go", click: (){rootController.clickGo();})
+        BtnWidget(text: Local.go.tr, click: (){rootController.clickGo();})
       ],
     ),
   );

@@ -5,10 +5,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/sign_from.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/sign/sign_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -81,9 +83,9 @@ class SignDialog extends RootDialog<SignCon>{
     mainAxisSize: MainAxisSize.min,
     children: [
       Container(
-        margin: EdgeInsets.only(left: 32.w,right: 32.w,top: 24.h),
+        margin: EdgeInsets.only(left: 32.w,right: 32.w,top: 16.h),
         child: TextWidget(
-          text: "Up to \$100 in cash to be claimed",
+          text: Platform.isIOS?"Up to \$100 in cash to be claimed":Local.upTo50Gold.tr,
           color: colorFFFFFF,
           size: 20.sp,
           height: 1,
@@ -91,7 +93,7 @@ class SignDialog extends RootDialog<SignCon>{
           textAlign: TextAlign.center,
         ),
       ),
-      TextWidget(text: "Come back every day to get higher rewards", color: colorFFE9E9, size: 12.sp)
+      TextWidget(text: Local.comeBack.tr, color: colorFFE9E9, size: 12.sp)
     ],
   );
 
@@ -161,7 +163,7 @@ class SignDialog extends RootDialog<SignCon>{
                     width: 32.w
                 ),
                 TextWidget(
-                  text: "+\$${rootController.getSignNum(index)}",
+                  text: "${getMoneyUnit()}${rootController.getSignNum(index)}",
                   color: NumUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,

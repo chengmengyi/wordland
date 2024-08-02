@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/load_fail/load_fail_con.dart';
@@ -34,10 +36,10 @@ class LoadFailDialog extends RootDialog<LoadFailCon>{
       ),
       ImageWidget(image: "icon_fail",width: 120.w,height: 120.h,),
       SizedBox(height: 12.h,),
-      TextWidget(text: "Ads are loading, please try again later", color: colorFFFFFF, size: 16.sp),
+      TextWidget(text: Local.adsAreLoading.tr, color: colorFFFFFF, size: 16.sp),
       SizedBox(height: 36.h,),
       ImageBtnWidget(
-        text: "Try Again",
+        text: Local.tryAgain.tr,
         click: (){
           RoutersUtils.back();
           result.call(true);

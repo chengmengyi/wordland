@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:get/get.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/enums/level_status.dart';
 import 'package:wordland/storage/storage_name.dart';
@@ -32,7 +33,7 @@ class QuestionUtils{
 
   _initQuestionList(){
     try{
-      var json = jsonDecode(questionStr.base64());
+      var json = jsonDecode(_getQuestionStrByCountryCode().base64());
       for (var element in (json as List)) {
         var answer = element["answer"];
         if(answer is String && answer.length<=5){
@@ -113,4 +114,16 @@ class QuestionUtils{
   //   bAnswerRightNum++;
   //   StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);
   // }
+
+  String _getQuestionStrByCountryCode(){
+    var code = Get.deviceLocale?.countryCode??"US";
+    switch(code){
+      case "BR": return questionStrBaxi;
+      case "VN": return questionStrYuenan;
+      case "ID": return questionStrYinni;
+      case "TH": return qeustionStrTaiguo;
+      case "RU": return questionStrEluosi;
+      default: return questionStr;
+    }
+  }
 }

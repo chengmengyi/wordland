@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wordland/enums/top_cash.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_page.dart';
 import 'package:wordland/root/root_page_statefull.dart';
 import 'package:wordland/routers/routers_utils.dart';
@@ -38,7 +39,7 @@ class WheelPage extends RootPage<WheelCon>{
             ImageWidget(image: "wheel1",height: 52.h,),
             Container(
               margin: EdgeInsets.only(left: 40.w,right: 40.w),
-              child: TextWidget(text: "20000 users have successfully withdrawn money", color: colorFFFFFF, size: 12.sp,fontWeight: FontWeight.w700,textAlign: TextAlign.center,),
+              child: TextWidget(text: Local.user20000.tr, color: colorFFFFFF, size: 12.sp,fontWeight: FontWeight.w700,textAlign: TextAlign.center,),
             ),
             _wheelWidget(),
             SizedBox(height: 14.h,),
@@ -93,13 +94,13 @@ class WheelPage extends RootPage<WheelCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         ImageBtnWidget(
-          text: NumUtils.instance.wheelNum>0?"Free To Play":"Get More Chance",
+          text: NumUtils.instance.wheelNum>0?Local.freeToPlay.tr:Local.getMore.tr,
           click: (){
             TbaUtils.instance.appEvent(AppEventName.wheel_pop_go);
             rootController.clickPlay();
           },
         ),
-        TextWidget(text: "today remaining times : ${NumUtils.instance.wheelNum}", color: colorFFFFFF, size: 10.sp)
+        TextWidget(text: "${Local.todayRemaining.tr}: ${NumUtils.instance.wheelNum}", color: colorFFFFFF, size: 10.sp)
       ],
     ),
   );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/new_user/new_user_con.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -51,7 +52,10 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TextWidget(text: "New user exclusive rewards", color: color272727, size: 18.sp,fontWeight: FontWeight.w700,),
+        Container(
+          margin: EdgeInsets.only(left: 16.w,right: 16.w),
+          child: TextWidget(text: Local.newUser.tr, color: color272727, size: 18.sp,fontWeight: FontWeight.w700,),
+        ),
         SizedBox(height: 12.h,),
         ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
         TextWidget(text: "${getMoneyUnit()}${rootController.addNum}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
@@ -59,7 +63,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         Row(
           children: [
             SizedBox(width: 16.w,),
-            TextWidget(text: "You can withdraw cash to：", color: color000000, size: 12.sp)
+            TextWidget(text: Local.youCan.tr, color: color000000, size: 12.sp)
           ],
         ),
         SizedBox(height: 16.h,),
@@ -91,7 +95,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         ),
         SizedBox(height: 16.h,),
         BtnWidget(
-          text: "Claim Now",
+          text: Local.claimNow.tr,
           click: (){
             rootController.clickDouble();
           },

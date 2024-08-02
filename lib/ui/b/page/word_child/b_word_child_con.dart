@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_tba_info/flutter_tba_info.dart';
+import 'package:get/get.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
@@ -401,8 +402,8 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    var androidId = await FlutterTbaInfo.instance.getGaid();
-    print(androidId);
+    NotifiUtils.instance.test();
+
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/incent_from.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/incent/incent_con.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -118,14 +119,14 @@ class IncentDialog extends RootDialog<IncentCon>{
                 ),
               ],
             ),
-            TextWidget(text: "Withdrawal coming soon...", color: colorCACACA, size: 12.sp),
+            TextWidget(text: Local.withdrawalComing.tr, color: colorCACACA, size: 12.sp),
             SizedBox(height: 30.h,),
             Stack(
               alignment: Alignment.topRight,
               children: [
                 Container(
                   margin: EdgeInsets.only(top: 16.h),
-                  child: ImageBtnWidget(text: "Claim",click: (){rootController.clickDouble(dismissDialog);},),
+                  child: ImageBtnWidget(text: Local.claim.tr,click: (){rootController.clickDouble(dismissDialog);},),
                 ),
                 ImageWidget(image: "icon_double",width: 32.w,)
               ],

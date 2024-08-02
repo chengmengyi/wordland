@@ -1,5 +1,7 @@
+import 'package:get/get.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
@@ -9,9 +11,9 @@ class IncompleteCon extends RootController{
 
   String getStr(){
     if(NumUtils.instance.signDays<7){
-      return "Pending：Sign 7 days";
+      return Local.pendingSign7Days.tr;
     }
-    return "Pending：Pass 10 level";
+    return Local.pendingPass10Level.tr;
   }
 
   clickGo(){

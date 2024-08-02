@@ -171,25 +171,27 @@ class NotifiUtils {
 
   test() {
 
-    // //Build.VERSION_CODES.TIRAMISU
-    // // requestPermission(permissionList: [Permission.notification]);
-    //
-    //
-    // const AndroidNotificationDetails androidNotificationDetails =
-    // AndroidNotificationDetails('wordguss channel id', 'wordguss channel name',
-    //     channelDescription: 'wordguss channel description',
-    //     importance: Importance.max,
-    //     priority: Priority.high,
-    //     ticker: 'ticker'
-    // );
-    // const NotificationDetails notificationDetails = NotificationDetails(
-    //     android: androidNotificationDetails);
-    // flutterLocalNotificationsPlugin.periodicallyShow(
-    //     2000,
-    //     "kkkk",
-    //     "body",
-    //     RepeatInterval.everyMinute,
-    //     notificationDetails
-    // );
+    //Build.VERSION_CODES.TIRAMISU
+    // requestPermission(permissionList: [Permission.notification]);
+
+    print("kk=======");
+
+    const AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails('wordguss channel id', 'wordguss channel name',
+        channelDescription: 'wordguss channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        ticker: 'ticker'
+    );
+    const NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails);
+    flutterLocalNotificationsPlugin.periodicallyShow(
+        2000,
+        "kkkk",
+        "body",
+        RepeatInterval.everyMinute,
+        notificationDetails,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
   }
 }

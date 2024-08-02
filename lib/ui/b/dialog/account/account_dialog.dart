@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/account/account_con.dart';
 import 'package:wordland/utils/color_utils.dart';
+import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -33,9 +37,9 @@ class AccountDialog extends RootDialog<AccountCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         _closeWidget(),
-        TextWidget(text: "Congratulations!", color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: Local.congratulation.tr, color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 8.h,),
-        TextWidget(text: "\$$chooseNum", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: "${getMoneyCode()}${NewValueUtils.instance.getCoinToMoney(chooseNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 8.h,),
         Container(
           width: double.infinity,
@@ -59,7 +63,7 @@ class AccountDialog extends RootDialog<AccountCon>{
             decoration: InputDecoration(
               counterText: '',
               isCollapsed: true,
-              hintText: 'Please input your account',
+              hintText: Local.pleaseInput.tr,
               hintStyle: TextStyle(
                 fontSize: 14.sp,
                 color: colorB5AE9B,
@@ -71,10 +75,10 @@ class AccountDialog extends RootDialog<AccountCon>{
         SizedBox(height: 8.h,),
         Container(
           margin: EdgeInsets.only(left: 12.w,right: 12.w),
-          child: TextWidget(text: "Your cash will arrive in your account within 3-7 business days. Please keep an eye on your account!", color: color8F7E53, size: 12.sp),
+          child: TextWidget(text: Local.yourCashWill.tr, color: color8F7E53, size: 12.sp),
         ),
         SizedBox(height: 8.h,),
-        BtnWidget(text: "Withdraw Now", click: (){rootController.clickWithdraw(chooseNum);})
+        BtnWidget(text: Local.withdrawNow.tr, click: (){rootController.clickWithdraw(chooseNum);})
       ],
     ),
   );

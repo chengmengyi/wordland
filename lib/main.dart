@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:wordland/language/messages.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/check_app_state_utils.dart';
@@ -66,6 +67,9 @@ class MyApp extends StatelessWidget {
         defaultTransition: Transition.rightToLeft,
         themeMode: ThemeMode.system,
         darkTheme: ThemeData.dark(),
+        translations: Messages(),
+        locale: Get.deviceLocale,
+        fallbackLocale: const Locale("en", "US"),
         builder: (context,widget)=>Material(
           child: InkWell(
             onTap: (){

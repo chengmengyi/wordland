@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wordland/enums/top_cash.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_con.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
@@ -167,7 +168,10 @@ class BWordChildPage extends RootChild<BWordChildCon>{
                 ),
               ),
               SizedBox(height: 4.h,),
-              TextWidget(text: "Pass 9 level， get a chance to spin the wheel", color: color8F7E53, size: 12.sp),
+              Container(
+                margin: EdgeInsets.only(left: 36.w,right: 36.w),
+                child: TextWidget(text: Local.pass9Level.tr, color: color8F7E53, size: 12.sp),
+              ),
               SizedBox(height: 32.h,)
             ],
           ),

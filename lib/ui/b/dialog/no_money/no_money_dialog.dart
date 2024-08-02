@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/no_money/no_money_con.dart';
@@ -29,14 +31,14 @@ class NoMoneyDialog extends RootDialog<NoMoneyCon>{
       mainAxisSize: MainAxisSize.min,
       children: [
         _closeWidget(),
-        TextWidget(text: "Insufficient balance", color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: Local.insufficientBalance.tr, color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 8.h,),
         Container(
           margin: EdgeInsets.only(left: 16.w,right: 16.w),
-          child: TextWidget(text: "Your account balance is insufficient and withdrawal is temporarily unavailable.Go and earn cash！", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
+          child: TextWidget(text: Local.yourAccount.tr, color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
         ),
         SizedBox(height: 8.h,),
-        BtnWidget(text: "Earn More Cash", click: (){rootController.clickMore();})
+        BtnWidget(text: Local.earnMore.tr, click: (){rootController.clickMore();})
       ],
     ),
   );

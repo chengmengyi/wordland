@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_fail/answer_fail_con.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -31,12 +33,12 @@ class AnswerFailDialog extends RootDialog<AnswerFailCon>{
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        TextWidget(text: "Guess Word Errors", color: color421000, size: 18.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: Local.guessWord.tr, color: color421000, size: 18.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 20.h,),
         ImageWidget(image: "icon_fail",width: 120.w,height: 120.h,),
         SizedBox(height: 20.h,),
         BtnWidget(
-          text: "Come Again",
+          text: Local.comeAgain.tr,
           showVideo: true,
           click: (){
             rootController.clickAgain(nextWordsCall);
@@ -47,7 +49,7 @@ class AnswerFailDialog extends RootDialog<AnswerFailCon>{
           onTap: (){
             rootController.clickContinue(nextWordsCall);
           },
-          child: TextWidget(text: "Continue", color: color8F7E53, size: 16.sp,fontWeight: FontWeight.w700,),
+          child: TextWidget(text: Local.continueStr.tr, color: color8F7E53, size: 16.sp,fontWeight: FontWeight.w700,),
         )
       ],
     ),

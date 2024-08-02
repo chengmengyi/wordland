@@ -6,6 +6,7 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
+import 'package:get/get.dart';
 import 'package:wordland/bean/new_value_bean.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
@@ -43,16 +44,7 @@ class NewValueUtils{
 
   double getWheelAddNum() => _getRandomReward(_valueBean?.wheelReward??[]);
 
-  List<int> getCashList(){
-    if(Platform.isIOS){
-      return _valueBean?.wordRange??[800,1000,1500,2000];
-    }
-    List<int> list=[];
-    _valueBean?.wordRange?.forEach((element) {
-      list.add(element~/(_valueBean?.conversion??10000));
-    });
-    return list;
-  }
+  List<int> getCashList() => _valueBean?.wordRange??[800,1000,1500,2000];
 
   List<int> getSignList()=>_valueBean?.checkReward??[5,6,8,10,15,20,50];
 
@@ -77,7 +69,12 @@ class NewValueUtils{
     }
   }
 
-  int getAndroidMoneyToCoin(int money)=>money*(_valueBean?.conversion??10000);
+  int getCoinToMoney(int coins){
+    if(Platform.isIOS){
+      return coins;
+    }
+    return coins~/(_valueBean?.conversion??10000)*getExchangeRateByCountry();
+  }
 
   double _getRandomReward(List<FloatReward> common){
     if(common.isEmpty){
@@ -104,9 +101,9 @@ class NewValueUtils{
   }
 
   bool checkShowAd(AdType adType){
-    if(kDebugMode){
-      return true;
-    }
+    // if(kDebugMode){
+    //   return true;
+    // }
     List<IntAd> list=[];
     switch(adType){
       case AdType.inter:

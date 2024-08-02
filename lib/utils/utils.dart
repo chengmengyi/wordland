@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/event/event_utils.dart';
@@ -110,3 +111,29 @@ Future<bool> requestPermission({required List<Permission> permissionList})async{
 String getMoneyUnit()=>Platform.isAndroid?"":"\$";
 
 String getMoneyIcon()=>Platform.isAndroid?"coin1":"icon_money1";
+
+String getMoneyCode(){
+  var code = Get.deviceLocale?.countryCode??"US";
+  switch(code){
+    case "BR": return "R\$";
+    case "VN": return "₫";
+    case "ID": return "Rp";
+    case "TH": return "฿";
+    case "RU": return "₽";
+    case "PH": return "₱";
+    default: return "\$";
+  }
+}
+
+int getExchangeRateByCountry(){
+  var code = Get.deviceLocale?.countryCode??"US";
+  switch(code){
+    case "BR": return 10;
+    case "VN": return 10000;
+    case "ID": return 10000;
+    case "TH": return 10;
+    case "PH": return 100;
+    case "RU": return 100;
+    default: return 1;
+  }
+}

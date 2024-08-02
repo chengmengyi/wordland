@@ -9,6 +9,7 @@ import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/stroked_text_widget.dart';
+import 'package:wordland/widget/text_widget.dart';
 
 class AnswerRightDialog extends RootDialog<AnswerRightCon>{
   var addNum=NewValueUtils.instance.getRewardAddNum();
