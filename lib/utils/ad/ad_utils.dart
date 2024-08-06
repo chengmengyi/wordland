@@ -36,8 +36,8 @@ class AdUtils{
     var json = jsonDecode(_getLocalStr());
     FlutterMaxAd.instance.initMax(
       maxKey: maxAdKey.base64(),
-      topOnAppId: "a66ac48309f476",
-      topOnAppKey: "a1ae9e42b0e8036b198b304587fda3631",
+      topOnAppId: androidTopOnAppId.base64(),
+      topOnAppKey: androidTopOnAppKey.base64(),
       maxAdBean: MaxAdBean(
         maxShowNum: json["xhfhennt"],
         maxClickNum: json["nxscvbbw"],
@@ -46,7 +46,6 @@ class AdUtils{
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
         secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
-      maxOpenDebugger: true,
       // topOnTestDeviceId: "df0c1cf7-6405-463f-9105-10ca1ad1abe1",
       topOnTestDeviceId: "57535bec-dff7-437d-849a-d4a66292214d",
       maxTestDeviceIds: ["df0c1cf7-6405-463f-9105-10ca1ad1abe1","57535bec-dff7-437d-849a-d4a66292214d"]

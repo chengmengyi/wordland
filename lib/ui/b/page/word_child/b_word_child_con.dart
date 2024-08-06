@@ -404,7 +404,6 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    print("kk====${await FlutterTbaInfo.instance.getGaid()}===${Get.locale?.languageCode}");
   }
 
   @override

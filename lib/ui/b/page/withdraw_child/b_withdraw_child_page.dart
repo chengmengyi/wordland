@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
@@ -47,35 +48,41 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
       children: [
         ImageWidget(image: "cash1",width: 102.w,height: 32.h,),
         SizedBox(height: 16.h,),
-        Container(
-          width: double.infinity,
-          height: 32.h,
-          alignment: Alignment.centerLeft,
-          padding: EdgeInsets.only(left: 12.w,right: 12.w),
-          decoration: BoxDecoration(
-            color: color2B2D2B,
-            borderRadius: BorderRadius.circular(16.w),
-          ),
-          child: Row(
-            children: [
-              ImageWidget(image: "cash3",width: 24.w,height: 24.h,),
-              SizedBox(width: 4.w,),
-              Expanded(
-                child: Marquee(
-                  text: rootController.marqueeStr,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    color: colorAAAAAA,
+        Visibility(
+          visible: FlutterCheckAdjustCloak.instance.getUserType(),
+          maintainAnimation: true,
+          maintainState: true,
+          maintainSize: true,
+          child: Container(
+            width: double.infinity,
+            height: 32.h,
+            alignment: Alignment.centerLeft,
+            padding: EdgeInsets.only(left: 12.w,right: 12.w),
+            decoration: BoxDecoration(
+              color: color2B2D2B,
+              borderRadius: BorderRadius.circular(16.w),
+            ),
+            child: Row(
+              children: [
+                ImageWidget(image: "cash3",width: 24.w,height: 24.h,),
+                SizedBox(width: 4.w,),
+                Expanded(
+                  child: Marquee(
+                    text: rootController.marqueeStr,
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: colorAAAAAA,
+                    ),
+                    scrollAxis: Axis.horizontal,
+                    blankSpace: 20.0,
+                    velocity: 100.0,
+                    startPadding: 10.0,
+                    accelerationCurve: Curves.linear,
+                    decelerationCurve: Curves.easeOut,
                   ),
-                  scrollAxis: Axis.horizontal,
-                  blankSpace: 20.0,
-                  velocity: 100.0,
-                  startPadding: 10.0,
-                  accelerationCurve: Curves.linear,
-                  decelerationCurve: Curves.easeOut,
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
         SizedBox(height: 16.h,),
