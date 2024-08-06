@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -60,33 +62,45 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
         TextWidget(text: "${getMoneyUnit()}${rootController.addNum}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 12.h,),
-        Row(
-          children: [
-            SizedBox(width: 16.w,),
-            TextWidget(text: Local.youCan.tr, color: color000000, size: 12.sp)
-          ],
+        Visibility(
+          visible: Platform.isIOS,
+          maintainAnimation: true,
+          maintainState: true,
+          maintainSize: true,
+          child: Row(
+            children: [
+              SizedBox(width: 16.w,),
+              TextWidget(text: Local.youCan.tr, color: color000000, size: 12.sp)
+            ],
+          ),
         ),
         SizedBox(height: 16.h,),
-        Container(
-          width: double.infinity,
-          height: 48.h,
-          margin: EdgeInsets.only(left: 16.w,right: 16.w),
-          child: GetBuilder<NewUserCon>(
-            id: "pay_type",
-            builder: (_)=>ListView.builder(
-              itemCount: rootController.payTypeList.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context,index)=>Container(
-                margin: EdgeInsets.only(right: 8.w),
-                child: InkWell(
-                  onTap: (){
-                    rootController.clickPayType(index);
-                  },
-                  child: ImageWidget(
-                    image: NumUtils.instance.payType==index?NumUtils.instance.getPayTypeSel():rootController.payTypeList[index],
-                    width: 112.w,
-                    height: 48.h,
-                    fit: BoxFit.fill,
+        Visibility(
+          visible: Platform.isIOS,
+          maintainAnimation: true,
+          maintainState: true,
+          maintainSize: true,
+          child: Container(
+            width: double.infinity,
+            height: 48.h,
+            margin: EdgeInsets.only(left: 16.w,right: 16.w),
+            child: GetBuilder<NewUserCon>(
+              id: "pay_type",
+              builder: (_)=>ListView.builder(
+                itemCount: rootController.payTypeList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context,index)=>Container(
+                  margin: EdgeInsets.only(right: 8.w),
+                  child: InkWell(
+                    onTap: (){
+                      rootController.clickPayType(index);
+                    },
+                    child: ImageWidget(
+                      image: NumUtils.instance.payType==index?NumUtils.instance.getPayTypeSel():rootController.payTypeList[index],
+                      width: 112.w,
+                      height: 48.h,
+                      fit: BoxFit.fill,
+                    ),
                   ),
                 ),
               ),

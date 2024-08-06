@@ -56,8 +56,8 @@ dependencies:
   flutter_app_lifecycle: 0.0.1
   decimal: 3.0.2
   permission_handler: 11.3.1
-  flutter_local_notifications:
-    path: plugins/flutter_local_notifications-17.1.2
+#  flutter_local_notifications:
+#    path: plugins/flutter_local_notifications-17.1.2
 
 dev_dependencies:
   flutter_test:

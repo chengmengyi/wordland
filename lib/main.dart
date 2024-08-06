@@ -18,10 +18,10 @@ import 'package:wordland/utils/user_type/user_type_utils.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  var details = await NotifiUtils.instance.getNotiDetails();
-  if(null!=details&&details.didNotificationLaunchApp){
-    NotifiUtils.instance.fromBackgroundId=details.notificationResponse?.id??-1;
-  }
+  // var details = await NotifiUtils.instance.getNotiDetails();
+  // if(null!=details&&details.didNotificationLaunchApp){
+  //   NotifiUtils.instance.fromBackgroundId=details.notificationResponse?.id??-1;
+  // }
 
   initInfo();
   await SystemChrome.setPreferredOrientations([

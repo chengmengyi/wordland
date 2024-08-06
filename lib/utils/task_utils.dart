@@ -1,5 +1,7 @@
+import 'package:get/get.dart';
 import 'package:wordland/bean/task_bean.dart';
 import 'package:wordland/enums/task_type.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
@@ -64,17 +66,17 @@ class TaskUtils{
   List<TaskBean> getBTaskList(){
     List<TaskBean> list=[];
     if(!_getReceivedByType(TaskType.useRemove)){
-      list.add(TaskBean(text: "The “Erase”prop was used 2 times in total", canReceive: NumUtils.instance.tipsNum>=2, addNum: 5,taskType: TaskType.useRemove));
+      list.add(TaskBean(text: Local.theErase.tr, canReceive: NumUtils.instance.tipsNum>=2, addNum: 5,taskType: TaskType.useRemove));
     }
     if(!_getReceivedByType(TaskType.useTime)){
-      list.add(TaskBean(text: "The “Time”prop was used 2 times in total", canReceive: NumUtils.instance.useTimeNum>=2, addNum: 5,taskType: TaskType.useTime));
+      list.add(TaskBean(text: Local.theTime.tr, canReceive: NumUtils.instance.useTimeNum>=2, addNum: 5,taskType: TaskType.useTime));
     }
     if(!_getReceivedByType(TaskType.collect5Bubble)){
-      list.add(TaskBean(text: "Collect 5 cash bubbles", canReceive: NumUtils.instance.collectBubbleNum>=5, addNum: 10,taskType: TaskType.collect5Bubble));
+      list.add(TaskBean(text: Local.collect5.tr, canReceive: NumUtils.instance.collectBubbleNum>=5, addNum: 10,taskType: TaskType.collect5Bubble));
     }
 
     if(!_getReceivedByType(TaskType.upLevel5)){
-      list.add(TaskBean(text: "Pass 5 normal mode levels", canReceive: QuestionUtils.instance.bAnswerIndex>=5, addNum: 20,taskType: TaskType.upLevel5));
+      list.add(TaskBean(text: Local.pass5.tr, canReceive: QuestionUtils.instance.bAnswerIndex>=5, addNum: 20,taskType: TaskType.upLevel5));
     }
     return list;
   }

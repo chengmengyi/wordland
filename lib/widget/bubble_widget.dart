@@ -45,8 +45,8 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
     Future((){
       var size = globalKey.currentContext?.size;
       if(null!=size){
-        width=size.width-100.w;
-        height=size.height-100.h;
+        width=size.width-80.w;
+        height=size.height-80.h;
       }
       _initAnimator();
     });

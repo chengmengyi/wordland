@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
@@ -41,7 +42,7 @@ class _MoneyAnimatorWidgetState extends State<MoneyAnimatorWidget> with TickerPr
   Widget build(BuildContext context) => Offstage(
     offstage: !show,
     child: Lottie.asset(
-        "assets/money.json",
+        "assets/${Platform.isIOS?"money":"money_android"}.json",
         controller: _controller
       // repeat: false
     ),

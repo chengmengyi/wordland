@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
+import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:get/get.dart';
 import 'package:wordland/bean/answer_bean.dart';
@@ -11,6 +12,7 @@ import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
 import 'package:wordland/enums/word_finger_from.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
@@ -53,11 +55,11 @@ class BWordChildCon extends RootController{
   void onReady() {
     super.onReady();
     NewGuideUtils.instance.checkNewUserGuide();
-    _updateQuestionData();
+    _updateQuestionData(fromNext: false);
   }
 
-  _updateQuestionData(){
-    if(QuestionUtils.instance.bAnswerIndex==1){
+  _updateQuestionData({bool fromNext=true}){
+    if(QuestionUtils.instance.bAnswerIndex==1&&fromNext){
       NewGuideUtils.instance.checkNewUserGuide();
     }
     currentQuestion=QuestionUtils.instance.getBQuestion();
@@ -402,8 +404,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    NotifiUtils.instance.test();
-
+    print("kk====${await FlutterTbaInfo.instance.getGaid()}===${Get.locale?.languageCode}");
   }
 
   @override

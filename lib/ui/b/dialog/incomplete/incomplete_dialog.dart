@@ -44,7 +44,7 @@ class IncompleteDialog extends RootDialog<IncompleteCon>{
         ),
         TextWidget(text: rootController.getStr(), color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
         ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
-        TextWidget(text: "${getMoneyCode()}${NewValueUtils.instance.getCoinToMoney(chooseNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: "${NewValueUtils.instance.getCoinToMoney(chooseNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 20.h,),
         BtnWidget(text: Local.go.tr, click: (){rootController.clickGo();})
       ],

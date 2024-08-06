@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:wordland/enums/top_cash.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/base_widget.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
@@ -21,46 +22,73 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
   TopMoneyCon setController() => TopMoneyCon();
 
   @override
-  Widget contentWidget() => SizedBox(
-    width: Platform.isAndroid?150.w:200.w,
-    height: 38.h,
-    child: Stack(
-      children: [
-        ImageWidget(image: Platform.isAndroid?"top_money_bg2":"top_money_bg",width: Platform.isAndroid?150.w:200.w,height: 38.h,fit: BoxFit.fill,),
-        Align(
+  Widget contentWidget() => Stack(
+    children: [
+      Container(
+        height: 38.h,
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.only(left: 2.w,right: 2.w),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.w),
+          gradient: const LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [color785600,color865000]
+          )
+        ),
+        child: Container(
+          height: 34.h,
           alignment: Alignment.centerLeft,
-          child: GetBuilder<TopMoneyCon>(
-            id: "coin",
-            builder: (_)=>Row(
+          padding: EdgeInsets.only(left: 4.w,right: 4.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20.w),
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [colorF9E423,colorFFB00E]
+            ),
+          ),
+          child: Container(
+            height: 26.h,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20.w),
+                gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [color785600,color865000]
+                )
+            ),
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(width: 44.w,),
-                // TextWidget(text: "${NumUtils.instance.coinNum}≈", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
-                TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
+                SizedBox(width: 42.w,),
+                GetBuilder<TopMoneyCon>(
+                  id: "coin",
+                  builder: (_)=>TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
+                ),
+                SizedBox(width: 20.w,),
+                InkWell(
+                  onTap: (){
+                    rootController.clickCash(topCash, clickCall);
+                  },
+                  child: Container(
+                    height: 24.h,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 1.w),
+                    padding: EdgeInsets.only(left: 4.w,right: 4.w,),
+                    decoration: BoxDecoration(
+                        color: colorFFDD28,
+                        borderRadius: BorderRadius.circular(12.w)
+                    ),
+                    child: TextWidget(text: Local.cash.tr, color: colorFF2B2B, size: 12.sp,fontWeight: FontWeight.w700,),
+                  ),
+                )
               ],
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: InkWell(
-            onTap: (){
-              rootController.clickCash(topCash, clickCall);
-            },
-            child: Container(
-              width: 36.w,
-              height: 24.h,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(right: 8.w),
-              decoration: BoxDecoration(
-                color: colorFFDD28,
-                borderRadius: BorderRadius.circular(12.w)
-              ),
-              child: TextWidget(text: "Cash", color: colorFF2B2B, size: 12.sp,fontWeight: FontWeight.w700,),
-            ),
-          ),
-        )
-      ],
-    ),
+      ),
+      ImageWidget(image: Platform.isAndroid?"coin2":"icon_money2",width: 42.w,height: 38.h,),
+    ],
   );
 }

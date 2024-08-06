@@ -45,3 +45,7 @@ const color2D5B00=Color(0xFF2D5B00);
 const color434343=Color(0xFF434343);
 const colorFFA800=Color(0xFFFFA800);
 const colorDA2D2D=Color(0xFFDA2D2D);
+const color785600=Color(0xFF785600);
+const color865000=Color(0xFF865000);
+const colorF9E423=Color(0xFFF9E423);
+const colorFFB00E=Color(0xFFFFB00E);

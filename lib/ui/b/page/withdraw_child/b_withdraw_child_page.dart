@@ -113,35 +113,38 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
     ),
   );
 
-  _payTypeList()=>Container(
-    width: double.infinity,
-    height: 68.h,
-    margin: EdgeInsets.only(top: 12.h,left: 12.w),
-    child: ListView.builder(
-      itemCount: 6,
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context,index)=>InkWell(
-        onTap: (){
-          rootController.clickPayType(index);
-        },
-        child: Container(
-          width: 112.w,
-          height: 68.h,
-          alignment: Alignment.center,
-          margin: EdgeInsets.only(right: 8.w),
-          decoration: BoxDecoration(
-            color: colorFFFFFF,
-            borderRadius: BorderRadius.circular(8.w),
-            border: Border.all(
-              width: 2.w,
-              color: NumUtils.instance.payType==index?colorFBAD16:colorFFFFFF
-            )
+  _payTypeList(){
+    var cashTypeList = rootController.getCashTypeList();
+    return Container(
+      width: double.infinity,
+      height: 68.h,
+      margin: EdgeInsets.only(top: 12.h,left: 12.w),
+      child: ListView.builder(
+        itemCount: cashTypeList.length,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context,index)=>InkWell(
+          onTap: (){
+            rootController.clickPayType(index);
+          },
+          child: Container(
+            width: 112.w,
+            height: 68.h,
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(right: 8.w),
+            decoration: BoxDecoration(
+                color: colorFFFFFF,
+                borderRadius: BorderRadius.circular(8.w),
+                border: Border.all(
+                    width: 2.w,
+                    color: NumUtils.instance.payType==index?colorFBAD16:colorFFFFFF
+                )
+            ),
+            child: ImageWidget(image: cashTypeList[index],width: 100.w,height: 40.h,),
           ),
-          child: ImageWidget(image: "cash_pay${index+1}",width: 100.w,height: 40.h,),
         ),
       ),
-    ),
-  );
+    );
+  }
 
   _payNumList()=>Container(
     width: double.infinity,
@@ -152,6 +155,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
       scrollDirection: Axis.horizontal,
       itemBuilder: (context,index){
         var num = rootController.withdrawNumList[index];
+        var cashBgBean = rootController.getCashBgBean();
         return InkWell(
           onTap: (){
             rootController.clickWithdrawNumItem(index);
@@ -164,7 +168,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
             child: Stack(
               children: [
                 ImageWidget(
-                  image: rootController.chooseIndex==index?"cash_num_sel${NumUtils.instance.payType+1}":"cash_num_uns${NumUtils.instance.payType+1}",
+                  image: rootController.chooseIndex==index?cashBgBean.selBg:cashBgBean.unsBg,
                   width: 112.w,
                   height: 120.h,
                   fit: BoxFit.fill,

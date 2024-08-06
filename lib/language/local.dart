@@ -25,7 +25,7 @@ class Local {
   static const String freeToPlay = 'Free To Play';
   static const String getMore = 'Get More Chance';
   static const String todayRemaining = 'today remaining times';
-  static const String oneLast = 'One last step left to withdraw';
+  static const String oneLast = 'Current balance is insufficient, Complete the task';
   static const String pendingSign7Days = 'Pending：Sign 7 days';
   static const String pendingPass10Level = 'Pending：Pass 10 level';
   static const String insufficientBalance = 'Insufficient balance';
@@ -35,5 +35,10 @@ class Local {
   static const String pleaseInput = 'Please input your account';
   static const String yourCashWill = 'Your cash will arrive in your account within 3-7 business days. Please keep an eye on your account!';
   static const String withdrawNow = 'Withdraw Now';
+  static const String cash = 'Cash';
+  static const String theErase = 'The “Erase”prop was used 2 times in total';
+  static const String theTime = 'The “Time”prop was used 2 times in total';
+  static const String collect5 = 'Collect 5 cash bubbles';
+  static const String pass5 = 'Pass 5 normal mode levels';
 }
 

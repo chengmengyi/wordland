@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:wordland/bean/cash_bg_bean.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -96,8 +97,79 @@ class BWithdrawChildCon extends RootController{
     for(var index=0; index<5;index++){
       var phone = "${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}${Random().nextInt(9)}";
       var cash = NewValueUtils.instance.getCashList().random();
-      marqueeStr+="Congratulations 1*******$phone just cashed out ${getMoneyUnit()}$cash     ";
+      marqueeStr+=_getMarqueeByCode(phone,cash);
     }
   }
 
+  String _getMarqueeByCode(String phone,int cash){
+    var code = Get.deviceLocale?.countryCode??"US";
+    switch(code){
+      case "BR": return "Parabéns 1*******$phone acabou de sacar $cash     ";
+      case "VN": return "Xin chúc mừng 1*******$phone vừa rút được $cash     ";
+      case "ID": return "Selamat 1*******$phone baru cair $cash     ";
+      case "TH": return "ยินดีด้วย 1*******$phone เพิ่งถอนเงินออกไป $cash     ";
+      case "RU": return "Тахния 1*******$phone бару тунайкан $cash     ";
+      case "PH": return "Congratulations 1*******$phone kaka-cash out lang ng $cash     ";
+      default: return "Congratulations 1*******$phone just cashed out $cash     ";
+    }
+  }
+
+  List<String> getCashTypeList(){
+    List<String> list=[];
+    var code = Get.deviceLocale?.countryCode??"US";
+    switch(code){
+      case "BR":
+        list.add("baxi_1");
+        list.add("baxi_2");
+        break;
+      case "VN":
+        list.add("yuenan_1");
+        list.add("yuenan_2");
+        break;
+      case "ID":
+        list.add("yinni_1");
+        list.add("yinni_2");
+        break;
+      case "TH":
+        list.add("taiguo_1");
+        break;
+      case "RU":
+        list.add("eluosi_1");
+        break;
+      case "PH":
+        list.add("feilvbin_1");
+        list.add("feilvbin_2");
+        break;
+      default:
+        list.add("cash_pay1");
+        list.add("cash_pay2");
+        list.add("cash_pay3");
+        list.add("cash_pay4");
+        list.add("cash_pay5");
+        list.add("cash_pay6");
+        break;
+    }
+    return list;
+  }
+
+  CashBgBean getCashBgBean(){
+    var payType = NumUtils.instance.payType;
+    var code = Get.deviceLocale?.countryCode??"US";
+    switch(code){
+      case "BR":
+        return CashBgBean(unsBg: "baxi_${payType+1}_uns", selBg: "baxi_${payType+1}_sel");
+      case "VN":
+        return CashBgBean(unsBg: "yuenan_${payType+1}_uns", selBg: "yuenan_${payType+1}_sel");
+      case "ID":
+        return CashBgBean(unsBg: "yinni_${payType+1}_uns", selBg: "yinni_${payType+1}_sel");
+      case "TH":
+        return CashBgBean(unsBg: "taiguo_1_uns", selBg: "taiguo_1_sel");
+      case "RU":
+        return CashBgBean(unsBg: "eluosi_1_uns", selBg: "eluosi_1_sel");
+      case "PH":
+        return CashBgBean(unsBg: "feilvbin_${payType+1}_uns", selBg: "feilvbin_${payType+1}_sel");
+      default:
+        return CashBgBean(unsBg: "cash_num_uns${payType+1}", selBg: "cash_num_sel${payType+1}");
+    }
+  }
 }

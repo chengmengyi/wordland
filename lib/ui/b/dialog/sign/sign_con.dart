@@ -123,6 +123,9 @@ class SignCon extends RootController{
         onAdHidden: (ad){
           RoutersUtils.back();
         },
+        showAdFail: (ad,error){
+          RoutersUtils.back();
+        }
       ),
     );
 

@@ -43,7 +43,7 @@ class NumUtils{
     coinNum=StorageUtils.read<int>(StorageName.coinNum)??0;
     userRemoveFailNum=StorageUtils.read<int>(StorageName.userRemoveFailNum)??0;
     useTimeNum=StorageUtils.read<int>(StorageName.useTimeNum)??0;
-    payType=StorageUtils.read<int>(StorageName.payType)??0;
+    // payType=StorageUtils.read<int>(StorageName.payType)??0;
     collectBubbleNum=StorageUtils.read<int>(StorageName.collectBubbleNum)??0;
     userMoneyNum=StorageUtils.read<double>(StorageName.userMoneyNum)??0.0;
     hasCommentApp=StorageUtils.read<bool>(StorageName.hasCommentApp)??false;
