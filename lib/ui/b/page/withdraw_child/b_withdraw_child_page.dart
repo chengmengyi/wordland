@@ -5,6 +5,7 @@ import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
+import 'package:wordland/bean/withdraw_task_bean.dart';
 import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/withdraw_child/b_withdraw_child_con.dart';
@@ -13,6 +14,7 @@ import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -241,83 +243,113 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
     ),
   );
 
-  _taskWidget()=>Container(
-    width: double.infinity,
-    height: 88.5.h,
-    padding: EdgeInsets.only(left: 12.w,right: 12.w),
-    margin: EdgeInsets.only(left: 12.w,right: 12.w,top: 12.h),
-    decoration: BoxDecoration(
-      color: colorFBF9F1,
-      borderRadius: BorderRadius.circular(8.w)
-    ),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: double.infinity,
-          height: 44.h,
-          child: Row(
-            children: [
-              Expanded(
-                child: TextWidget(text: "${Local.checkIn7Days.tr}:${NumUtils.instance.signDays}/7", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
-              ),
-              InkWell(
-                onTap: (){
-                  rootController.clickSign();
-                },
-                child: Container(
-                  width: 80.w,
-                  height: 28.h,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14.w),
-                    color: NumUtils.instance.todaySigned?colorBEBEBE:colorF26910
-                  ),
-                  child: TextWidget(
-                    text: NumUtils.instance.todaySigned?Local.done.tr:Local.checkIn.tr,
-                    color: colorFFFFFF,
-                    size: 14.sp,
-                    fontWeight: FontWeight.w700,
+  _taskWidget()=>GetBuilder<BWithdrawChildCon>(
+    id: "task",
+    builder: (_)=>Container(
+      width: double.infinity,
+      padding: EdgeInsets.only(left: 12.w,right: 12.w),
+      margin: EdgeInsets.only(left: 12.w,right: 12.w,top: 12.h),
+      decoration: BoxDecoration(
+          color: colorFBF9F1,
+          borderRadius: BorderRadius.circular(8.w)
+      ),
+      child: MediaQuery.removePadding(
+        removeTop: true,
+        removeBottom: true,
+        context: rootController.context,
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: rootController.taskList.length,
+          itemBuilder: (context,index){
+            var bean = rootController.taskList[index];
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 44.h,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextWidget(
+                          text: "${bean.text}:${bean.current}/${bean.total}",
+                          color: color333333,
+                          size: 14.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
+                          rootController.clickTask(bean);
+                        },
+                        child: Container(
+                          width: 80.w,
+                          height: 28.h,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14.w),
+                              color: (bean.type==WithdrawTaskType.sign&&WithdrawTaskUtils.instance.todaySigned)||bean.current>=bean.total?colorBEBEBE:colorF26910
+                          ),
+                          child: TextWidget(
+                            text: bean.btn,
+                            color: colorFFFFFF,
+                            size: 14.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-        Container(
-          width: double.infinity,
-          height: 0.5.h,
-          color: colorDFDAC9,
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: 44.h,
-          child: Row(
-            children: [
-              // TextWidget(text: "Pass ", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
-              // TextWidget(text: "10", color: colorF26910, size: 14.sp,fontWeight: FontWeight.w700,),
-              Expanded(
-                child: TextWidget(text: "${Local.pass10Level.tr}: ${QuestionUtils.instance.bAnswerIndex}/10", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
-              ),
-              InkWell(
-                onTap: (){
-                  rootController.clickLevel();
-                },
-                child: Container(
-                  width: 80.w,
-                  height: 28.h,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14.w),
-                      color: colorF26910
+                Offstage(
+                  offstage: index==rootController.taskList.length-1,
+                  child: Container(
+                    width: double.infinity,
+                    height: 0.5.h,
+                    color: colorDFDAC9,
                   ),
-                  child: TextWidget(text: Local.go.tr, color: colorFFFFFF, size: 14.sp,fontWeight: FontWeight.w700,),
-                ),
-              )
-            ],
-          ),
+                )
+              ],
+            );
+          },
         ),
-      ],
+      )
+      // Column(
+      //   mainAxisSize: MainAxisSize.min,
+      //   children: [
+      //    ,
+      //     ,
+      //     SizedBox(
+      //       width: double.infinity,
+      //       height: 44.h,
+      //       child: Row(
+      //         children: [
+      //           // TextWidget(text: "Pass ", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
+      //           // TextWidget(text: "10", color: colorF26910, size: 14.sp,fontWeight: FontWeight.w700,),
+      //           Expanded(
+      //             child: TextWidget(text: "${Local.pass10Level.tr}: ${QuestionUtils.instance.bAnswerIndex}/10", color: color333333, size: 14.sp,fontWeight: FontWeight.w700,),
+      //           ),
+      //           InkWell(
+      //             onTap: (){
+      //               rootController.clickLevel();
+      //             },
+      //             child: Container(
+      //               width: 80.w,
+      //               height: 28.h,
+      //               alignment: Alignment.center,
+      //               decoration: BoxDecoration(
+      //                   borderRadius: BorderRadius.circular(14.w),
+      //                   color: colorF26910
+      //               ),
+      //               child: TextWidget(text: Local.go.tr, color: colorFFFFFF, size: 14.sp,fontWeight: FontWeight.w700,),
+      //             ),
+      //           )
+      //         ],
+      //       ),
+      //     ),
+      //   ],
+      // ),
     ),
   );
   

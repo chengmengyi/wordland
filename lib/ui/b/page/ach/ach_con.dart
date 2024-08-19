@@ -1,3 +1,4 @@
+import 'package:wordland/bean/ach_bean.dart';
 import 'package:wordland/bean/task_bean.dart';
 import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -7,7 +8,7 @@ import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 
 class AchCon extends RootController{
-  List<TaskBean> taskList=[];
+  List<AchBean> taskList=[];
 
   @override
   void onInit() {
@@ -27,8 +28,8 @@ class AchCon extends RootController{
     update(["list"]);
   }
 
-  clickBtn(TaskBean bean){
-    if(!bean.canReceive){
+  clickBtn(AchBean bean){
+    if(bean.current<bean.total){
       TbaUtils.instance.appEvent(AppEventName.achievement_page_c);
       return;
     }

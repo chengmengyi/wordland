@@ -5,6 +5,7 @@ import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -62,7 +63,7 @@ class SignGuideWidget extends StatelessWidget{
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: TextWidget(text: "${NumUtils.instance.signDays+1}", color: colorBEBEBE, size: 10.sp,fontWeight: FontWeight.w700,),
+            child: TextWidget(text: "${WithdrawTaskUtils.instance.signDays+1}", color: colorBEBEBE, size: 10.sp,fontWeight: FontWeight.w700,),
           ),
           Align(
             alignment: Alignment.topCenter,
@@ -76,7 +77,7 @@ class SignGuideWidget extends StatelessWidget{
                   height: 32.w,
                 ),
                 TextWidget(
-                  text: "+${NewValueUtils.instance.getSignList()[NumUtils.instance.signDays]}",
+                  text: "+${NewValueUtils.instance.getSignList()[WithdrawTaskUtils.instance.signDays]}",
                   color: colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,

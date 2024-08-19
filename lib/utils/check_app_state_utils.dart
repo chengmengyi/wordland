@@ -10,6 +10,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
+import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 
 class CheckAppStateUtils{
@@ -68,6 +69,7 @@ class CheckAppStateUtils{
           }
         );
         NotifiUtils.instance.appBackGround=false;
+        NumUtils.instance.updateAppLaunchNum();
       }
     });
   }

@@ -40,5 +40,23 @@ class Local {
   static const String theTime = 'The “Time”prop was used 2 times in total';
   static const String collect5 = 'Collect 5 cash bubbles';
   static const String pass5 = 'Pass 5 normal mode levels';
+  static const String thanksYourFeedback = 'Thanks your feedback';
+
+
+  static const String signInFor7Days = 'Sign in for tihuan days';
+  static const String reachLevel = 'Reach Level tihuan';
+  static const String collectBubbles = 'Collect tihuan bubbles';
+  static const String spinx = 'Spin xtihuan';
+
+  static const String pleaseSignInTomorrow = 'Please sign in tomorrow';
+  static const String signIn = 'Sign in';
+  static const String tomorrow = 'Tomorrow';
+  static const String play = 'Play';
+  static const String collect = 'Collect';
+  static const String spin = 'Spin';
+  static const String rateWordRing = 'Rate Word Ring';
+  static const String fiveStars = 'Five stars help us serve you better.';
+  static const String give5Stars = 'Give 5 Stars';
+  static const String levelLocked = 'Level Locked';
 }
 

@@ -13,7 +13,7 @@ enum EventCode{
   showWordsGuideFromOther,
   oldUserShowBubbleGuide,
   oldUserShowWordsGuide,
-  signSuccess,
+  updateWithdrawTask,
   showMoneyLottie,
   showWithdrawChild,
   playWheel,
@@ -22,4 +22,5 @@ enum EventCode{
   updateHintNum,
   showHomeBubbleGuide,
   taskHasBubble,
+  showBubbleFinger,
 }

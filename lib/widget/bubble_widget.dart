@@ -5,6 +5,8 @@ import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wordland/event/event_code.dart';
+import 'package:wordland/event/event_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/color_utils.dart';
@@ -27,21 +29,19 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
   double height=760.h,currentY=0.0;
   Timer? _timer;
   bool right=true,down=true,showGuide=false,showBubble=true;
-  // late StreamSubscription<EventBean>? _bus;
+  late StreamSubscription<EventCode>? _bus;
   var addNum=NewValueUtils.instance.getFloatAddNum();
 
   @override
   void initState() {
     super.initState();
-    // _bus=EventUtils.getInstance()?.on<EventBean>().listen((event) {
-    //   if(event.eventName==EventName.updateHomeIndex){
-    //     if(event.intValue==0&&event.boolValue==true){
-    //       setState(() {
-    //         showGuide=true;
-    //       });
-    //     }
-    //   }
-    // });
+    _bus=EventUtils.getInstance()?.on<EventCode>().listen((event) {
+      if(event.name==EventCode.showBubbleFinger.name){
+        setState(() {
+          showGuide=true;
+        });
+      }
+    });
     Future((){
       var size = globalKey.currentContext?.size;
       if(null!=size){
@@ -83,6 +83,10 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
                       fontSize: 14.sp,
                       textColor: colorFFE600,
                       strokeColor: color000000,
+                    ),
+                    Offstage(
+                      offstage: !showGuide,
+                      child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
                     )
                   ],
                 ),
@@ -166,7 +170,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    // _bus?.cancel();
+    _bus?.cancel();
     _timer?.cancel();
     super.dispose();
   }

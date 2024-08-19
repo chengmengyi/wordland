@@ -137,3 +137,7 @@ int getExchangeRateByCountry(){
     default: return 1;
   }
 }
+
+extension ReplaceNum on String{
+  String replaceNum(int num)=>replaceAll("tihuan", "$num");
+}

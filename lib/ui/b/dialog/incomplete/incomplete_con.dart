@@ -6,11 +6,12 @@ import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 
 class IncompleteCon extends RootController{
 
   String getStr(){
-    if(NumUtils.instance.signDays<7){
+    if(WithdrawTaskUtils.instance.signDays<7){
       return Local.pendingSign7Days.tr;
     }
     return Local.pendingPass10Level.tr;
@@ -18,7 +19,7 @@ class IncompleteCon extends RootController{
 
   clickGo(){
     RoutersUtils.back();
-    if(NumUtils.instance.signDays<7&&!NumUtils.instance.todaySigned){
+    if(WithdrawTaskUtils.instance.signDays<7&&!WithdrawTaskUtils.instance.todaySigned){
       RoutersUtils.showSignDialog(signFrom: SignFrom.other);
     }else{
       EventCode.showWordChild.sendMsg();

@@ -15,6 +15,7 @@ import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 
 class SignCon extends RootController{
   SignFrom _signFrom=SignFrom.other;
@@ -41,7 +42,7 @@ class SignCon extends RootController{
     if(_signFrom!=SignFrom.newUserGuide&&_signFrom!=SignFrom.oldUserGuide){
       return;
     }
-    var renderBox = globalList[NumUtils.instance.signDays].currentContext!.findRenderObject() as RenderBox;
+    var renderBox = globalList[WithdrawTaskUtils.instance.signDays].currentContext!.findRenderObject() as RenderBox;
     guideOffset = renderBox.localToGlobal(Offset.zero);
     update(["guide"]);
   }
@@ -60,7 +61,7 @@ class SignCon extends RootController{
   }
 
   clickItem(index){
-    if(NumUtils.instance.signDays!=index){
+    if(WithdrawTaskUtils.instance.signDays!=index){
       return;
     }
     TbaUtils.instance.appEvent(
@@ -72,7 +73,7 @@ class SignCon extends RootController{
         adPosId: AdPosId.wpdnd_rv_sign_in,
         adShowListener: AdShowListener(
             onAdHidden: (ad){
-              NumUtils.instance.sign();
+              WithdrawTaskUtils.instance.sign();
               NumUtils.instance.updateUserMoney(getSignNum(index).toDouble(),(){
                 _watchAdCall();
               });
@@ -97,7 +98,7 @@ class SignCon extends RootController{
           var show = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.getQuestionNum();
           if(show){
             var completeTask = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.bAnswerRightNum;
-            var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
+            var showBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex);
             if(completeTask&&showBubble){
               TaskUtils.instance.largeIndex=largeIndex;
               TaskUtils.instance.smallIndex=smallIndex;

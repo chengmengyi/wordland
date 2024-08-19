@@ -4,6 +4,7 @@ import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/enums/incent_from.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
@@ -30,38 +31,24 @@ class BTaskChildCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.task_page);
   }
 
-  getTaskLength()=>(QuestionUtils.instance.getQuestionNum()/30).ceil();
+  getTaskLength()=>(QuestionUtils.instance.getQuestionNum()/10).ceil();
 
-  getShowOrHideTask(int largeIndex,int smallIndex)=>(largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.getQuestionNum();
+  getShowOrHideTask(int largeIndex,int smallIndex)=>(largeIndex*10+smallIndex)<QuestionUtils.instance.getQuestionNum();
 
-  getCompleteTask(int largeIndex,int smallIndex)=>(largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.bAnswerRightNum;
+  getCompleteTask(int largeIndex,int smallIndex)=>(largeIndex*10+smallIndex)<QuestionUtils.instance.bAnswerRightNum;
 
-  bool isCurrentTask(int largeIndex,int smallIndex){
-    var i = largeIndex*30+(smallIndex+1)*3-QuestionUtils.instance.bAnswerRightNum;
-    return i<=3&&i>0;
-  }
+  bool isCurrentTask(int largeIndex,int smallIndex)=>(largeIndex*10+smallIndex)==QuestionUtils.instance.bAnswerRightNum;
 
 
-  clickItem(bool completeTask,bool currentTask,int largeIndex,int smallIndex,double addNum,bool showBubble){
-    if(showBubble&&completeTask){
+  clickItem(bool completeTask,int largeIndex,int smallIndex,double addNum,bool canReceiveTaskBubble){
+    if(canReceiveTaskBubble&&completeTask){
       TbaUtils.instance.appEvent(AppEventName.task_pop_claim,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
-      if(!currentTask&&!completeTask){
-        showToast("Level Locked!");
-        return;
-      }
-      if(currentTask){
-        EventCode.showWordChild.sendMsg();
-        return;
-      }
-      if(!showBubble){
-        return;
-      }
       clickBubbleShowAd(largeIndex, smallIndex);
       return;
     }
     TbaUtils.instance.appEvent(AppEventName.task_pop_go,params: {"task_from":"${largeIndex*30+smallIndex+1}"});
-    if(!currentTask&&!completeTask){
-      showToast("Level Locked!");
+    if(!completeTask){
+      showToast(Local.levelLocked);
       return;
     }
     EventCode.showWordChild.sendMsg();

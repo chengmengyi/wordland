@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
@@ -34,6 +35,7 @@ import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 
 class BWordChildCon extends RootController{
   var canClick=true,downCountTime=30,_totalCountTime=30;
@@ -48,7 +50,7 @@ class BWordChildCon extends RootController{
   void onInit() {
     super.onInit();
     PlayMusicUtils.instance.playMusic();
-
+    NumUtils.instance.updateAppLaunchNum();
   }
 
   @override
@@ -137,9 +139,6 @@ class BWordChildCon extends RootController{
                   )
               );
             }
-            if(Platform.isIOS&&NumUtils.instance.checkCanShowCommentDialog()){
-              RoutersUtils.dialog(child: GoodCommentDialog());
-            }
           }else{
             TbaUtils.instance.appEvent(AppEventName.word_flase_c);
             RoutersUtils.dialog(
@@ -192,10 +191,10 @@ class BWordChildCon extends RootController{
         break;
       case 2:
         TbaUtils.instance.appEvent(AppEventName.wheel_c);
-        if(QuestionUtils.instance.bAnswerIndex<3){
-          showToast("After pass 3 levels you can play the Lucky Wheel");
-          return;
-        }
+        // if(QuestionUtils.instance.bAnswerIndex<3){
+        //   showToast(Local.afterPass3);
+        //   return;
+        // }
         RoutersUtils.toNamed(routerName: RoutersData.wheel);
         break;
     }
@@ -404,6 +403,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
+    print("kk====${QuestionUtils.instance.bAnswerRightNum}");
   }
 
   @override

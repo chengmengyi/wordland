@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/enums/level_status.dart';
+import 'package:wordland/event/event_code.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/utils/data.dart';
@@ -51,7 +52,6 @@ class QuestionUtils{
     }
   }
 
-  int getQuestionListLength() => (_questionList.length/30).ceil();
 
   int getQuestionNum()=>_questionList.length;
 
@@ -108,6 +108,7 @@ class QuestionUtils{
       bAnswerRightNum++;
       StorageUtils.write(StorageName.bAnswerRightNum, bAnswerRightNum);
     }
+    EventCode.updateWithdrawTask.sendMsg();
   }
 
   // updateAnswerRightNum(){

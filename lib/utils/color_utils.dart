@@ -49,3 +49,4 @@ const color785600=Color(0xFF785600);
 const color865000=Color(0xFF865000);
 const colorF9E423=Color(0xFFF9E423);
 const colorFFB00E=Color(0xFFFFB00E);
+const color2EFF2E=Color(0xFF2EFF2E);

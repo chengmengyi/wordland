@@ -1,7 +1,4 @@
 import 'package:get/get.dart';
-import 'package:wordland/ui/a/page/achieve/achieve_page.dart';
-import 'package:wordland/ui/a/page/answer/answer_page.dart';
-import 'package:wordland/ui/a/page/home/home_page.dart';
 import 'package:wordland/ui/a/page/launch/launch_page.dart';
 import 'package:wordland/ui/a/page/set/set_page.dart';
 import 'package:wordland/ui/a/page/web/web_page.dart';
@@ -24,21 +21,6 @@ class RoutersData{
     GetPage(
         name: launch,
         page: () => LaunchPage(),
-        transition: Transition.fadeIn
-    ),
-    GetPage(
-        name: home,
-        page: () => HomePage(),
-        transition: Transition.fadeIn
-    ),
-    GetPage(
-        name: answer,
-        page: () => AnswerPage(),
-        transition: Transition.fadeIn
-    ),
-    GetPage(
-        name: achieve,
-        page: () => AchievePage(),
         transition: Transition.fadeIn
     ),
     GetPage(

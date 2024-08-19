@@ -3,9 +3,12 @@ import 'dart:math';
 
 import 'package:get/get.dart';
 import 'package:wordland/bean/cash_bg_bean.dart';
+import 'package:wordland/bean/withdraw_task_bean.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
+import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
@@ -16,15 +19,23 @@ import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 
 class BWithdrawChildCon extends RootController{
   var chooseIndex=0,marqueeStr="";
   List<int> withdrawNumList=NewValueUtils.instance.getCashList();
+  List<WithdrawTaskBean> taskList=[];
 
   @override
   void onInit() {
     super.onInit();
     _initMarqueeStr();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    _initTaskList();
   }
 
   @override
@@ -48,17 +59,29 @@ class BWithdrawChildCon extends RootController{
     }
   }
 
-  clickSign(){
-    if(NumUtils.instance.todaySigned){
-      showToast("Signed in today, please come back tomorrow");
-      return;
+  clickTask(WithdrawTaskBean bean){
+    switch(bean.type){
+      case WithdrawTaskType.sign:
+        if(WithdrawTaskUtils.instance.todaySigned){
+          showToast(Local.pleaseSignInTomorrow.tr);
+        }else{
+          RoutersUtils.showSignDialog(signFrom: SignFrom.other);
+        }
+        break;
+      case WithdrawTaskType.level10:
+      case WithdrawTaskType.level20:
+      case WithdrawTaskType.level50:
+        EventCode.showWordChild.sendMsg();
+        EventCode.showWordsGuideFromOther.sendMsg();
+        break;
+      case WithdrawTaskType.collectBubble:
+        EventCode.showWordChild.sendMsg();
+        EventCode.showBubbleFinger.sendMsg();
+        break;
+      case WithdrawTaskType.wheel:
+        RoutersUtils.toNamed(routerName: RoutersData.wheel);
+        break;
     }
-    RoutersUtils.showSignDialog(signFrom: SignFrom.other);
-  }
-
-  clickLevel(){
-    EventCode.showWordChild.sendMsg();
-    EventCode.showWordsGuideFromOther.sendMsg();
   }
 
   clickPayType(index){
@@ -69,12 +92,20 @@ class BWithdrawChildCon extends RootController{
   clickWithdraw(){
     TbaUtils.instance.appEvent(AppEventName.withdraw_page_c);
     var chooseMoneyNum = withdrawNumList[chooseIndex];
-    if(NumUtils.instance.signDays<7||QuestionUtils.instance.bAnswerIndex<10){
-      RoutersUtils.dialog(child: IncompleteDialog(chooseNum: chooseMoneyNum,));
-      return;
-    }
     if(NumUtils.instance.userMoneyNum<chooseMoneyNum){
       RoutersUtils.dialog(child: NoMoneyDialog());
+      return;
+    }
+    if(taskList.isNotEmpty){
+      RoutersUtils.dialog(
+        child: IncompleteDialog(
+          chooseNum: chooseMoneyNum,
+          bean: taskList.first,
+          clickGo: (){
+            clickTask(taskList.first);
+          },
+        ),
+      );
       return;
     }
     RoutersUtils.dialog(child: AccountDialog(chooseNum: chooseMoneyNum,));
@@ -84,13 +115,22 @@ class BWithdrawChildCon extends RootController{
   void receiveBusMsg(EventCode code) {
     switch(code){
       case EventCode.updateCoinNum:
-      case EventCode.signSuccess:
+        update(["child"]);
+        break;
+      case EventCode.updateWithdrawTask:
+        _initTaskList();
         update(["child"]);
         break;
       default:
 
         break;
     }
+  }
+
+  _initTaskList(){
+    taskList.clear();
+    taskList.addAll(WithdrawTaskUtils.instance.getWithdrawTaskList());
+    update(["task"]);
   }
 
   _initMarqueeStr(){

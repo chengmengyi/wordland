@@ -11,6 +11,7 @@ import 'package:wordland/ui/b/dialog/sign/sign_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 
@@ -67,7 +68,7 @@ class SignDialog extends RootDialog<SignCon>{
                 offstage: null==rootController.guideOffset,
                 child: InkWell(
                   onTap: (){
-                    rootController.clickItem(NumUtils.instance.signDays);
+                    rootController.clickItem(WithdrawTaskUtils.instance.signDays);
                   },
                   child: Lottie.asset("assets/guide1.json",width: 52.w,height: 52.w),
                 ),
@@ -143,7 +144,7 @@ class SignDialog extends RootDialog<SignCon>{
       child: Stack(
         children: [
           ImageWidget(
-            image: NumUtils.instance.signDays>index?"sign8":"sign2",
+            image: WithdrawTaskUtils.instance.signDays>index?"sign8":"sign2",
             width: 60.w,
             height: 72.w,
             fit: BoxFit.fill,
@@ -164,7 +165,7 @@ class SignDialog extends RootDialog<SignCon>{
                 ),
                 TextWidget(
                   text: "${getMoneyUnit()}${rootController.getSignNum(index)}",
-                  color: NumUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
+                  color: WithdrawTaskUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,
                 )

@@ -29,11 +29,12 @@ class StorageName {
   static const String receivedBubble="receivedBubble";
   static const String collectBubbleNum="collectBubbleNum";
   static const String completeNewUserGuideTimer="completeNewUserGuideTimer";
-  static const String todayCommentDialogShowNum="todayCommentDialogShowNum";
+  static const String appLaunchNum="appLaunchNum";
   static const String todayAnswerNum="todayAnswerNum";
   static const String hasCommentApp="hasCommentApp";
   static const String installEvent="installEvent";
   static const String tipsNum="tipsNum";
+  static const String playWheelNum="playWheelNum";
 
 
   static const String newNewUserSteps="newNewUserSteps";

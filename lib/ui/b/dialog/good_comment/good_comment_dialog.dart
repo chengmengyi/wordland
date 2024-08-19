@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/good_comment/good_comment_con.dart';
@@ -16,91 +17,59 @@ class GoodCommentDialog extends RootDialog<GoodCommentCon>{
   GoodCommentCon setController() => GoodCommentCon();
 
   @override
-  Widget contentWidget() => SizedBox(
+  Widget contentWidget() => Container(
     width: double.infinity,
-    height: double.infinity,
-    child: Stack(
+    height: 320.h,
+    margin: EdgeInsets.only(left: 36.w,right: 36.w),
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.w),
+        gradient: const LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [colorFFFEFA,colorE8DEC8]
+        )
+    ),
+    child: Column(
       children: [
-        Align(
+        _closeWidget(),
+        ImageWidget(image: "logo",width: 80.w,height: 80.w,),
+        SizedBox(height: 16.h,),
+        TextWidget(text: Local.rateWordRing.tr, color: color421000, size: 18.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: Local.fiveStars.tr, color: color421000, size: 14.sp),
+        SizedBox(height: 16.h,),
+        Container(
+          width: double.infinity,
+          height: 36.w,
           alignment: Alignment.center,
-          child: Container(
-            width: double.infinity,
-            height: 320.h,
-            margin: EdgeInsets.only(left: 36.w,right: 36.w),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16.w),
-                gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [colorFFFEFA,colorE8DEC8]
-                )
-            ),
-            child: Column(
-              children: [
-                _closeWidget(),
-                ImageWidget(image: "logo",width: 80.w,height: 80.w,),
-                SizedBox(height: 6.h,),
-                TextWidget(text: "Give Us A Good Review", color: color421000, size: 18.sp,fontWeight: FontWeight.w700,),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextWidget(text: "Complete reviews earn 5000", color: colorFF490F, size: 14.sp),
-                    SizedBox(width: 8.w,),
-                    ImageWidget(image: "icon_money2",width: 24.w,height: 24.w,),
-                  ],
-                ),
-                SizedBox(height: 6.h,),
-                Container(
-                  width: double.infinity,
-                  height: 36.w,
-                  alignment: Alignment.center,
-                  child: GetBuilder<GoodCommentCon>(
-                    id: "list",
-                    builder: (_)=>ListView.builder(
-                      itemCount: 5,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context,index)=>InkWell(
-                        onTap: (){
-                          rootController.clickStar(index);
-                        },
-                        child: Container(
-                          key: index==4?rootController.lastGlobalKey:null,
-                          margin: EdgeInsets.only(left: 6.w,right: 6.w),
-                          child: ImageWidget(
-                            image: rootController.chooseIndex>=index?"icon_start_sel":"icon_start_uns",
-                            width: 36.w,
-                            height: 36.w,
-                          ),
-                        ),
-                      ),
-                    ),
+          child: GetBuilder<GoodCommentCon>(
+            id: "list",
+            builder: (_)=>ListView.builder(
+              itemCount: 5,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context,index)=>InkWell(
+                onTap: (){
+                  rootController.clickStar(index);
+                },
+                child: Container(
+                  margin: EdgeInsets.only(left: 6.w,right: 6.w),
+                  child: ImageWidget(
+                    image: rootController.chooseIndex>=index?"icon_start_sel":"icon_start_uns",
+                    width: 36.w,
+                    height: 36.w,
                   ),
                 ),
-                SizedBox(height: 10.h,),
-                BtnWidget(
-                  text: "Give 5 Stars",
-                  click: (){
-                    rootController.clickStar(4);
-                  },
-                )
-              ],
+              ),
             ),
           ),
         ),
-        GetBuilder<GoodCommentCon>(
-          id: "figer",
-          builder: (_)=>Positioned(
-            top: rootController.lastOffset?.dy??0,
-            left: (rootController.lastOffset?.dx??0)+20.w,
-            child: InkWell(
-              onTap: (){
-                rootController.clickStar(4);
-              },
-              child: Lottie.asset("assets/guide1.json",width: 52.w,height: 52.w),
-            ),
-          ),
+        SizedBox(height: 16.h,),
+        BtnWidget(
+          text: Local.give5Stars.tr,
+          click: (){
+            rootController.clickStar(4);
+          },
         )
       ],
     ),

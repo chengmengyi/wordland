@@ -145,37 +145,59 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
   _stepWidget(int largeIndex,int smallIndex){
     var show = rootController.getShowOrHideTask(largeIndex, smallIndex);
     var completeTask = rootController.getCompleteTask(largeIndex, smallIndex);
-    var currentTask = rootController.isCurrentTask(largeIndex, smallIndex);
-    var showBubble = TaskUtils.instance.showBubble(largeIndex, smallIndex);
+    // var currentTask = rootController.isCurrentTask(largeIndex, smallIndex);
+    var canReceiveTaskBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex);
+    var showLockReward = (largeIndex*10+smallIndex+1)%5==0;
+
+    // var completeTask = true;
+    // var showBubble = true;
     // if(showBubble&&completeTask&&rootController.firstLargeIndex==-1&&rootController.firstSmallIndex==-1){
     //   rootController.firstLargeIndex=largeIndex;
     //   rootController.firstSmallIndex=smallIndex;
     // }
-    var addNum=0.0;
-    if(showBubble&&completeTask){
+    var addNum=0.0,showReceiveBubble=canReceiveTaskBubble&&completeTask;
+    if(showReceiveBubble||showLockReward){
       addNum=rootController.getAddNum(largeIndex, smallIndex);
     }
     return Offstage(
       offstage: !show,
       child: InkWell(
         onTap: (){
-          rootController.clickItem(completeTask,currentTask,largeIndex,smallIndex,addNum,showBubble);
+          rootController.clickItem(completeTask,largeIndex,smallIndex,addNum,canReceiveTaskBubble);
         },
         child: SizedBox(
           width: 100.h,
-          height:  currentTask?100.h:66.h,
+          height:  showLockReward?100.h:66.h,
           key: rootController.getGlobalKey(largeIndex, smallIndex),
           child: Stack(
             children: [
-              ImageWidget(
-                image: currentTask?"home9":completeTask?"home10":"home6",
-                width: 80.h,
-                height: currentTask?100.h:80.h,
+              Stack(
+                children: [
+                  ImageWidget(
+                    image: showLockReward?"home16":completeTask?"home10":"home6",
+                    width: 80.h,
+                    height: showLockReward?100.h:80.h,
+                  ),
+                  Positioned(
+                    top: 42.h,
+                    left: 0,
+                    right: 0,
+                    child: Offstage(
+                      offstage: !showLockReward,
+                      child: StrokedTextWidget(
+                        text: "+$addNum",
+                        fontSize: 14.sp,
+                        textColor: color2EFF2E,
+                        strokeColor: color434343,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               Positioned(
                 left: 6.w,
                 child: Offstage(
-                  offstage: !(showBubble&&completeTask),
+                  offstage: !(canReceiveTaskBubble&&completeTask),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -193,7 +215,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Offstage(
-                  offstage: !(showBubble&&completeTask),
+                  offstage: !showReceiveBubble,
                   child: Container(
                     width: 66.h,
                     height: 24.h,
@@ -215,9 +237,9 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
                 bottom: 0,
                 left: 30.w,
                 child: Offstage(
-                  offstage: completeTask||currentTask,
+                  offstage: completeTask||showLockReward,
                   child: StrokedTextWidget(
-                    text: "${(largeIndex*10+smallIndex+1)*3}",
+                    text: "${largeIndex*10+smallIndex+1}",
                     fontSize: 16.sp,
                     textColor: colorFFDD28,
                     strokeColor: color434343,
@@ -227,7 +249,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
               Align(
                 alignment: Alignment.bottomRight,
                 child: Offstage(
-                  offstage: !(showBubble&&completeTask),
+                  offstage: !showReceiveBubble,
                   child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
                 ),
               )

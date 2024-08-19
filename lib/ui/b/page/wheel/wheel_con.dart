@@ -12,6 +12,7 @@ import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
+import 'package:wordland/utils/withdraw_task_util.dart';
 
 class WheelCon extends RootController{
   @override
@@ -74,6 +75,7 @@ class WheelCon extends RootController{
         break;
       case EventCode.stopWheel:
         NumUtils.instance.updateWheelNum(-1);
+        WithdrawTaskUtils.instance.updateWheelNum();
         AdUtils.instance.showAd(
             adType: AdType.inter,
             adPosId: AdPosId.wpdnd_int_spin_go,

@@ -9,6 +9,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/storage/storage_name.dart';
 import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/ui/b/dialog/congratulations/congratulations_dialog.dart';
+import 'package:wordland/ui/b/dialog/good_comment/good_comment_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/notifi/notifi_id.dart';
@@ -30,8 +31,8 @@ class NumUtils{
 
   var addDownCountNum=2,removeFailNum=2,lastRemoveFailQuestion="",
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
-      payType=0,signDays=0,todaySigned=false,wheelNum=3,
-  wordDis=5,collectBubbleNum=0,hasCommentApp=false,todayCommentDialogShowNum=0,todayAnswerNum=0,
+      payType=0,wheelNum=3,
+  wordDis=5,collectBubbleNum=0,hasCommentApp=false,appLaunchNum=0,todayAnswerNum=0,
   tipsNum=10,userMoneyNum=0.0;
 
   NumUtils._internal(){
@@ -47,10 +48,9 @@ class NumUtils{
     collectBubbleNum=StorageUtils.read<int>(StorageName.collectBubbleNum)??0;
     userMoneyNum=StorageUtils.read<double>(StorageName.userMoneyNum)??0.0;
     hasCommentApp=StorageUtils.read<bool>(StorageName.hasCommentApp)??false;
-    todayCommentDialogShowNum=getTodayNum(StorageName.todayCommentDialogShowNum, 0);
+    appLaunchNum=getTodayNum(StorageName.appLaunchNum, 0);
     todayAnswerNum=getTodayNum(StorageName.todayAnswerNum, 0);
     tipsNum=getTodayNum(StorageName.tipsNum, 10);
-    _getSignInfo();
   }
 
   updateUserMoney(double num,Function() dismissDialog){
@@ -117,25 +117,6 @@ class NumUtils{
     EventCode.updatePayType.sendMsg();
   }
 
-  _getSignInfo(){
-    try {
-      var s = StorageUtils.read<String>(StorageName.signInfo)??"";
-      var list = s.split("_");
-      todaySigned=list.first==getTodayTime();
-      signDays=list.last.toInt();
-    } catch (e) {
-
-    }
-  }
-
-  sign(){
-    signDays++;
-    todaySigned=true;
-    StorageUtils.write(StorageName.signInfo, "${getTodayTime()}_$signDays");
-    EventCode.signSuccess.sendMsg();
-    NotifiUtils.instance.cancelNotification(NotifiId.qiandao);
-  }
-
   getFirebaseConfInfo()async{
     // wlandIntCd=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int_cd")).toInt(defaultNum: 3);
     wordDis=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_dis")).toInt(defaultNum: 5);
@@ -171,15 +152,18 @@ class NumUtils{
   }
 
   bool checkCanShowCommentDialog() {
-    if(todayCommentDialogShowNum<2&&!hasCommentApp){
+    if(appLaunchNum<2&&!hasCommentApp){
       return todayAnswerNum==2||todayAnswerNum==5;
     }
     return false;
   }
 
-  updateCommentDialogShowNum(){
-    todayCommentDialogShowNum++;
-    StorageUtils.write(StorageName.todayCommentDialogShowNum, "${getTodayTime()}_$todayCommentDialogShowNum");
+  updateAppLaunchNum(){
+    appLaunchNum++;
+    StorageUtils.write(StorageName.appLaunchNum, "${getTodayTime()}_$appLaunchNum");
+    if(appLaunchNum==2){
+      RoutersUtils.dialog(child: GoodCommentDialog());
+    }
   }
 
   updateHasCommentApp(){

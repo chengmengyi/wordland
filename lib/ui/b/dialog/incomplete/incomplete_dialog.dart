@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wordland/bean/withdraw_task_bean.dart';
 import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
@@ -14,8 +15,13 @@ import 'package:wordland/widget/text_widget.dart';
 
 class IncompleteDialog extends RootDialog<IncompleteCon>{
   int chooseNum;
+  WithdrawTaskBean bean;
+  Function() clickGo;
+
   IncompleteDialog({
     required this.chooseNum,
+    required this.bean,
+    required this.clickGo,
   });
 
   @override
@@ -42,11 +48,14 @@ class IncompleteDialog extends RootDialog<IncompleteCon>{
           margin: EdgeInsets.only(left: 16.w,right: 16.w),
           child: TextWidget(text: Local.oneLast.tr, color: color421000, size: 16.sp,fontWeight: FontWeight.w700,),
         ),
-        TextWidget(text: rootController.getStr(), color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
+        TextWidget(text: bean.text, color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w600,),
         ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
         TextWidget(text: "${NewValueUtils.instance.getCoinToMoney(chooseNum)}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 20.h,),
-        BtnWidget(text: Local.go.tr, click: (){rootController.clickGo();})
+        BtnWidget(text: Local.go.tr, click: (){
+          RoutersUtils.back();
+          clickGo.call();
+        })
       ],
     ),
   );

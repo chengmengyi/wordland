@@ -1,21 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:in_app_review/in_app_review.dart';
+import 'package:flutter_tba_info/flutter_tba_info.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/good_comment/comment_success_dialog.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/utils.dart';
 
 class GoodCommentCon extends RootController{
-  GlobalKey lastGlobalKey=GlobalKey();
-  Offset? lastOffset;
   int chooseIndex=-1;
-
-  @override
-  void onInit() {
-    super.onInit();
-    NumUtils.instance.updateCommentDialogShowNum();
-  }
 
   clickStar(index){
     chooseIndex=index;
@@ -23,27 +18,18 @@ class GoodCommentCon extends RootController{
     NumUtils.instance.updateHasCommentApp();
     Future.delayed(const Duration(milliseconds: 500),(){
       RoutersUtils.back();
-      if(chooseIndex>=3){
+      if(chooseIndex==4){
         _showSystemDialog();
       }else{
-        RoutersUtils.dialog(child: CommentSuccessDialog());
+        showToast("Thanks your feedback");
       }
     });
   }
 
   _showSystemDialog()async{
-    var instance = InAppReview.instance;
-    var ava = await instance.isAvailable();
-    if(ava){
-      instance.requestReview();
+    var url="https://play.google.com/store/apps/details?id=${await FlutterTbaInfo.instance.getBundleId()}";
+    if(await canLaunchUrlString(url)){
+      launchUrlString(url);
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    var renderBox = lastGlobalKey.currentContext!.findRenderObject() as RenderBox;
-    lastOffset = renderBox.localToGlobal(Offset.zero);
-    update(["figer"]);
   }
 }

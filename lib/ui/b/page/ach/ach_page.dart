@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:wordland/bean/ach_bean.dart';
 import 'package:wordland/bean/task_bean.dart';
 import 'package:wordland/enums/top_cash.dart';
 import 'package:wordland/root/root_page.dart';
@@ -37,7 +38,7 @@ class AchPage extends RootPage<AchCon>{
     ],
   );
 
-  _itemWidget(TaskBean bean)=>Container(
+  _itemWidget(AchBean bean)=>Container(
     width: double.infinity,
     height: 80.h,
     margin: EdgeInsets.only(left: 8.w,right: 8.w,top: 10.h),
@@ -51,7 +52,7 @@ class AchPage extends RootPage<AchCon>{
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                ImageWidget(image: Platform.isIOS?"achieve5":"achieve6",width: 51.w,height: 55.h,),
+                ImageWidget(image: "achieve6",width: 51.w,height: 55.h,),
                 TextWidget(text: "+${bean.addNum}", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
               ],
             ),
@@ -64,7 +65,7 @@ class AchPage extends RootPage<AchCon>{
                 rootController.clickBtn(bean);
               },
               child: ImageWidget(
-                image: bean.canReceive?"achieve3":"achieve4",
+                image: bean.current>=bean.total?"achieve3":"achieve4",
                 width: 95.w,
                 height: 36.h,
               ),
