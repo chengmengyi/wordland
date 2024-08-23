@@ -47,8 +47,8 @@ class AdUtils{
         secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
       // topOnTestDeviceId: "df0c1cf7-6405-463f-9105-10ca1ad1abe1",
-      topOnTestDeviceId: "57535bec-dff7-437d-849a-d4a66292214d",
-      maxTestDeviceIds: ["df0c1cf7-6405-463f-9105-10ca1ad1abe1","57535bec-dff7-437d-849a-d4a66292214d"]
+      // topOnTestDeviceId: "57535bec-dff7-437d-849a-d4a66292214d",
+      // maxTestDeviceIds: ["df0c1cf7-6405-463f-9105-10ca1ad1abe1","57535bec-dff7-437d-849a-d4a66292214d"]
     );
   }
 
