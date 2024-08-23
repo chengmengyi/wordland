@@ -16,6 +16,7 @@ import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
+import 'package:wordland/utils/utils.dart';
 
 class BHomeCon extends RootController{
   var homeIndex=0,showFinger=false;
@@ -37,6 +38,9 @@ class BHomeCon extends RootController{
   }
 
   clickBottom(index){
+    if(index==0){
+      EventCode.refreshAchNum.sendMsg();
+    }
     if(homeIndex==index){
       return;
     }

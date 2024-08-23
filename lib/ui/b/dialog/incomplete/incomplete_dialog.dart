@@ -6,8 +6,10 @@ import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_dialog.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_con.dart';
+import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/btn_widget.dart';
 import 'package:wordland/widget/image_widget.dart';
@@ -64,6 +66,7 @@ class IncompleteDialog extends RootDialog<IncompleteCon>{
     alignment: Alignment.topRight,
     child: InkWell(
       onTap: (){
+        TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop_go_close);
         RoutersUtils.back();
       },
       child: Padding(

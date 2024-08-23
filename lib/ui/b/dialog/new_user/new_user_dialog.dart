@@ -60,7 +60,7 @@ class NewUserDialog  extends RootDialog<NewUserCon>{
         ),
         SizedBox(height: 12.h,),
         ImageWidget(image: getMoneyIcon(),width: 120.w,height: 120.h,),
-        TextWidget(text: "${getMoneyUnit()}${rootController.addNum}", color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
+        TextWidget(text: getOtherCountryMoneyNum(rootController.addNum), color: colorDE832F, size: 28.sp,fontWeight: FontWeight.w700,),
         SizedBox(height: 12.h,),
         Visibility(
           visible: Platform.isIOS,

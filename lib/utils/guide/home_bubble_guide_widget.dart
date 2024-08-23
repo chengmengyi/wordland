@@ -46,7 +46,7 @@ class HomeBubbleGuideWidget extends StatelessWidget{
                     ImageWidget(image: Platform.isAndroid?"home15":"home13",width: 60.h,height: 60.w,),
                     // TextWidget(text: "+$addNum", color: colorFFE600, size: 14.sp,fontWeight: FontWeight.w700,)
                     StrokedTextWidget(
-                      text: "${getMoneyUnit()}$addNum",
+                      text: getOtherCountryMoneyNum(addNum),
                       fontSize: 14.sp,
                       textColor: colorFFE600,
                       strokeColor: color000000,

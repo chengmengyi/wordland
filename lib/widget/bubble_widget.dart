@@ -79,7 +79,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
                     //   fontWeight: FontWeight.w900,
                     // ),
                     StrokedTextWidget(
-                      text: "${getMoneyUnit()}$addNum",
+                      text: "+${getOtherCountryMoneyNum(addNum)}",
                       fontSize: 14.sp,
                       textColor: colorFFE600,
                       strokeColor: color000000,

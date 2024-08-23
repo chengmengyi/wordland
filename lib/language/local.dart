@@ -25,7 +25,7 @@ class Local {
   static const String freeToPlay = 'Free To Play';
   static const String getMore = 'Get More Chance';
   static const String todayRemaining = 'today remaining times';
-  static const String oneLast = 'Current balance is insufficient, Complete the task';
+  static const String oneLast = 'One last step left to withdraw';
   static const String pendingSign7Days = 'Pending：Sign 7 days';
   static const String pendingPass10Level = 'Pending：Pass 10 level';
   static const String insufficientBalance = 'Insufficient balance';
@@ -58,5 +58,7 @@ class Local {
   static const String fiveStars = 'Five stars help us serve you better.';
   static const String give5Stars = 'Give 5 Stars';
   static const String levelLocked = 'Level Locked';
+  static const String daily3FreeSpins = 'Daily 3 Free Spins';
+  static const String reachLevelToEarn = 'Reach Level 10 to Earn a Spin Reward';
 }
 

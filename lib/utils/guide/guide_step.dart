@@ -13,7 +13,15 @@ class OldUserGuideStep{
   static const int completeOldUserGuide=3;
 }
 
+enum BPackageOldUserGuideStep{
+  showSignDialog,showWheelGuideOverlay,completed
+}
+
 
 enum NewNewUserGuideStep{
   newUserDialog,newUserWordsGuide,showHomeBubble,complete
+}
+
+enum BPackageNewUserGuideStep{
+  newUserDialog,withdrawSignBtnGuide,showSignDialog,level20Guide,showRightWordsGuide,showHomeBubbleGuide,completed
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:get/get.dart';
 import 'package:wordland/bean/withdraw_task_bean.dart';
@@ -37,26 +38,32 @@ class WithdrawTaskUtils{
         current: WithdrawTaskUtils.instance.signDays,
         total: 7,
         btn: WithdrawTaskUtils.instance.signDays>=7?Local.done.tr:WithdrawTaskUtils.instance.todaySigned?Local.tomorrow.tr:Local.signIn.tr,
-        type: WithdrawTaskType.sign
+        type: WithdrawTaskType.sign,
+        globalKey: GlobalKey(),
       ));
-      list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(10), current: QuestionUtils.instance.bAnswerIndex,btn: Local.play.tr, total: 10,type: WithdrawTaskType.level10));
+      list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(10), current: QuestionUtils.instance.bAnswerIndex,btn: Local.play.tr, total: 10,type: WithdrawTaskType.level10,globalKey: GlobalKey(),));
     }else{
-      if(WithdrawTaskUtils.instance.signDays<7){
+      if(WithdrawTaskUtils.instance.signDays<7&&list.length<2){
         list.add(WithdrawTaskBean(
           text: Local.signInFor7Days.tr.replaceNum(7),
           current: WithdrawTaskUtils.instance.signDays,
           total: 7,
           btn: WithdrawTaskUtils.instance.signDays>=7?Local.done.tr:WithdrawTaskUtils.instance.todaySigned?Local.tomorrow.tr:Local.signIn.tr,
           type: WithdrawTaskType.sign,
+          globalKey: GlobalKey(),
         ));
-      }else if(QuestionUtils.instance.bAnswerIndex<20){
-        list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(20), current: QuestionUtils.instance.bAnswerIndex, total: 20,btn: Local.play.tr,type: WithdrawTaskType.level20));
-      }else if(NumUtils.instance.collectBubbleNum<10){
-        list.add(WithdrawTaskBean(text: Local.collectBubbles.tr.replaceNum(10), current: NumUtils.instance.collectBubbleNum, total: 10,btn: Local.collect.tr,type: WithdrawTaskType.collectBubble));
-      }else if(WithdrawTaskUtils.instance.playWheelNum<10){
-        list.add(WithdrawTaskBean(text: Local.spinx.tr.replaceNum(10), current: WithdrawTaskUtils.instance.playWheelNum, total: 10,btn: Local.spin.tr,type: WithdrawTaskType.wheel));
-      }else if(QuestionUtils.instance.bAnswerIndex<50){
-        list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(50), current: QuestionUtils.instance.bAnswerIndex, total: 50,btn: Local.play.tr,type: WithdrawTaskType.level50));
+      }
+      if(QuestionUtils.instance.bAnswerIndex<20&&list.length<2){
+        list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(20), current: QuestionUtils.instance.bAnswerIndex, total: 20,btn: Local.play.tr,type: WithdrawTaskType.level20,globalKey: GlobalKey(),));
+      }
+      if(NumUtils.instance.collectBubbleNum<10&&list.length<2){
+        list.add(WithdrawTaskBean(text: Local.collectBubbles.tr.replaceNum(10), current: NumUtils.instance.collectBubbleNum, total: 10,btn: Local.collect.tr,type: WithdrawTaskType.collectBubble,globalKey: GlobalKey(),));
+      }
+      if(WithdrawTaskUtils.instance.playWheelNum<10&&list.length<2){
+        list.add(WithdrawTaskBean(text: Local.spinx.tr.replaceNum(10), current: WithdrawTaskUtils.instance.playWheelNum, total: 10,btn: Local.spin.tr,type: WithdrawTaskType.wheel,globalKey: GlobalKey(),));
+      }
+      if(QuestionUtils.instance.bAnswerIndex<50&&list.length<2){
+        list.add(WithdrawTaskBean(text: Local.reachLevel.tr.replaceNum(50), current: QuestionUtils.instance.bAnswerIndex, total: 50,btn: Local.play.tr,type: WithdrawTaskType.level50,globalKey: GlobalKey(),));
       }
     }
     return list;
@@ -84,7 +91,9 @@ class WithdrawTaskUtils{
     signDays++;
     todaySigned=true;
     StorageUtils.write(StorageName.signInfo, "${getTodayTime()}_$signDays");
+    StorageUtils.write(StorageName.lastSignTime, DateTime.now().millisecondsSinceEpoch);
     EventCode.updateWithdrawTask.sendMsg();
+    EventCode.signSuccess.sendMsg();
     NotifiUtils.instance.cancelNotification(NotifiId.qiandao);
   }
 }

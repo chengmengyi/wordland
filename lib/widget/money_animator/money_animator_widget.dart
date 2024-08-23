@@ -42,7 +42,7 @@ class _MoneyAnimatorWidgetState extends State<MoneyAnimatorWidget> with TickerPr
   Widget build(BuildContext context) => Offstage(
     offstage: !show,
     child: Lottie.asset(
-        "assets/${Platform.isIOS?"money":"money_android"}.json",
+        "assets/money_android.zip",
         controller: _controller
       // repeat: false
     ),

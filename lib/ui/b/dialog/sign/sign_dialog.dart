@@ -39,11 +39,11 @@ class SignDialog extends RootDialog<SignCon>{
               children: [
                 Container(
                   width: double.infinity,
-                  height: 266.w,
+                  height: 300.w,
                   margin: EdgeInsets.only(left: 40.w,right: 40.w),
                   child: Stack(
                     children: [
-                      ImageWidget(image: "sign1",width: double.infinity,height: 266.w,fit: BoxFit.fill,),
+                      ImageWidget(image: "sign1",width: double.infinity,height: 300.w,fit: BoxFit.fill,),
                       _topWidget(),
                       _listWidget(),
                     ],
@@ -94,7 +94,10 @@ class SignDialog extends RootDialog<SignCon>{
           textAlign: TextAlign.center,
         ),
       ),
-      TextWidget(text: Local.comeBack.tr, color: colorFFE9E9, size: 12.sp)
+      Container(
+        margin: EdgeInsets.only(left: 16.w,right: 16.w),
+        child: TextWidget(text: Local.comeBack.tr, color: colorFFE9E9, size: 12.sp,textAlign: TextAlign.center,height: 1.0,),
+      )
     ],
   );
 
@@ -164,9 +167,9 @@ class SignDialog extends RootDialog<SignCon>{
                     width: 32.w
                 ),
                 TextWidget(
-                  text: "${getMoneyUnit()}${rootController.getSignNum(index)}",
+                  text: "+${getOtherCountryMoneyNum(rootController.getSignNum(index).toDouble())}",
                   color: WithdrawTaskUtils.instance.signDays>index?colorB6B6B6:colorFF490F,
-                  size: 12.sp,
+                  size: 10.sp,
                   fontWeight: FontWeight.w700,
                 )
               ],
@@ -178,12 +181,15 @@ class SignDialog extends RootDialog<SignCon>{
   );
 
   _getIcon(int index){
+    if(WithdrawTaskUtils.instance.signDays>index){
+      return "sign10";
+    }
     if(index==4){
       return "sign3";
     }
     if(index==6&&Platform.isIOS){
       return "sign4";
     }
-    return "coin2";
+    return "icon_money4";
   }
 }

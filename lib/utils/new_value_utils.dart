@@ -48,6 +48,14 @@ class NewValueUtils{
 
   List<int> getSignList()=>_valueBean?.checkReward??[5,6,8,10,15,20,50];
 
+  int getAchAddNum(int index){
+    try{
+      return _valueBean?.achievementReward?[index]??20;
+    }catch(e){
+      return 20;
+    }
+  }
+
   int getCurrentCashRange(){
     var list = getCashList();
     for(var value in list){
@@ -75,6 +83,8 @@ class NewValueUtils{
     }
     return coins~/(_valueBean?.conversion??10000)*getExchangeRateByCountry();
   }
+
+  int getConversion()=>_valueBean?.conversion??10000;
 
   double _getRandomReward(List<FloatReward> common){
     if(common.isEmpty){

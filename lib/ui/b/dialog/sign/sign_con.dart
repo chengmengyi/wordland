@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:get/get.dart';
 import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/event/event_code.dart';
+import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
@@ -29,6 +32,9 @@ class SignCon extends RootController{
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
     for (var value in signList) {
       globalList.add(GlobalKey());
+    }
+    if(NewGuideUtils.instance.guidePlanB()){
+      TbaUtils.instance.appEvent(AppEventName.userb_sign);
     }
   }
 
@@ -64,6 +70,10 @@ class SignCon extends RootController{
     if(WithdrawTaskUtils.instance.signDays!=index){
       return;
     }
+    if(WithdrawTaskUtils.instance.todaySigned){
+      showToast(Local.pleaseSignInTomorrow.tr);
+      return;
+    }
     TbaUtils.instance.appEvent(
         AppEventName.wl_signin_pop_c,
         params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"}
@@ -90,27 +100,36 @@ class SignCon extends RootController{
     // if(_signFrom==SignFrom.newUserGuide){
     //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showWordsGuide);
     // }else
+
+    if(_signFrom==SignFrom.newUserGuide&&NewGuideUtils.instance.guidePlanB()){
+      NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.level20Guide);
+    }
+
     if(_signFrom==SignFrom.oldUserGuide){
-      var largeLength = (QuestionUtils.instance.getQuestionNum()/30).ceil();
-      var hasCompleteTask=false;
-      for(int largeIndex=0;largeIndex<largeLength;largeIndex++){
-        for(int smallIndex=0;smallIndex<10;smallIndex++){
-          var show = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.getQuestionNum();
-          if(show){
-            var completeTask = (largeIndex*30+(smallIndex+1)*3)<=QuestionUtils.instance.bAnswerRightNum;
-            var showBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex);
-            if(completeTask&&showBubble){
-              TaskUtils.instance.largeIndex=largeIndex;
-              TaskUtils.instance.smallIndex=smallIndex;
-              hasCompleteTask=true;
+      if(NewGuideUtils.instance.guidePlanB()){
+        NewGuideUtils.instance.updatePlanBOldUser(BPackageOldUserGuideStep.showWheelGuideOverlay);
+      }else{
+        var largeLength = (QuestionUtils.instance.getQuestionNum()/10).ceil();
+        var hasCompleteTask=false;
+        for(int largeIndex=0;largeIndex<largeLength;largeIndex++){
+          for(int smallIndex=0;smallIndex<10;smallIndex++){
+            var show = (largeIndex*10+smallIndex+1)<=QuestionUtils.instance.getQuestionNum();
+            if(show){
+              var completeTask = (largeIndex*10+smallIndex+1)<=QuestionUtils.instance.bAnswerRightNum;
+              var showBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex);
+              if(completeTask&&showBubble){
+                TaskUtils.instance.largeIndex=largeIndex;
+                TaskUtils.instance.smallIndex=smallIndex;
+                hasCompleteTask=true;
+              }
             }
           }
         }
-      }
-      if(hasCompleteTask){
-        EventCode.oldUserShowBubbleGuide.sendMsg();
-      }else{
-        EventCode.oldUserShowWordsGuide.sendMsg();
+        if(hasCompleteTask){
+          EventCode.oldUserShowBubbleGuide.sendMsg();
+        }else{
+          EventCode.oldUserShowWordsGuide.sendMsg();
+        }
       }
     }
   }
@@ -122,13 +141,12 @@ class SignCon extends RootController{
       adPosId: AdPosId.wpdnd_step_close,
       adShowListener: AdShowListener(
         onAdHidden: (ad){
-          RoutersUtils.back();
+          _watchAdCall();
         },
         showAdFail: (ad,error){
-          RoutersUtils.back();
+          _watchAdCall();
         }
       ),
     );
-
   }
 }

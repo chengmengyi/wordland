@@ -43,4 +43,19 @@ class AchCon extends RootController{
       }
     );
   }
+
+  double getProgress(AchBean bean){
+    var d = bean.current/bean.total;
+    if(d>=1.0) {
+      return 1.0;
+    } else if(d<=0) {
+      return 0.0;
+    } else {
+      return d;
+    }
+  }
+
+  clickBack(){
+    RoutersUtils.back(backParams: {"back":true});
+  }
 }

@@ -146,8 +146,8 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
     var show = rootController.getShowOrHideTask(largeIndex, smallIndex);
     var completeTask = rootController.getCompleteTask(largeIndex, smallIndex);
     // var currentTask = rootController.isCurrentTask(largeIndex, smallIndex);
-    var canReceiveTaskBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex);
-    var showLockReward = (largeIndex*10+smallIndex+1)%5==0;
+    var canReceiveTaskBubble = TaskUtils.instance.canReceiveTaskBubble(largeIndex, smallIndex)&&(largeIndex*10+smallIndex+1)%5==0;
+    var showLockReward = (largeIndex*10+smallIndex+1)%5==0&&!completeTask;
 
     // var completeTask = true;
     // var showBubble = true;
@@ -185,7 +185,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
                     child: Offstage(
                       offstage: !showLockReward,
                       child: StrokedTextWidget(
-                        text: "+$addNum",
+                        text: "+${getOtherCountryMoneyNum(addNum)}",
                         fontSize: 14.sp,
                         textColor: color2EFF2E,
                         strokeColor: color434343,
@@ -201,9 +201,9 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ImageWidget(image: Platform.isIOS?"icon_money1":"coin2",width: 20.h,height: 20.h,),
+                      ImageWidget(image: Platform.isIOS?"icon_money1":"icon_money4",width: 20.h,height: 20.h,),
                       StrokedTextWidget(
-                        text: "+${getMoneyUnit()}$addNum",
+                        text: "+${getOtherCountryMoneyNum(addNum)}",
                         fontSize: 12.sp,
                         textColor: colorFFDD28,
                         strokeColor: color434343,

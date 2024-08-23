@@ -35,7 +35,10 @@ class GoodCommentDialog extends RootDialog<GoodCommentCon>{
         ImageWidget(image: "logo",width: 80.w,height: 80.w,),
         SizedBox(height: 16.h,),
         TextWidget(text: Local.rateWordRing.tr, color: color421000, size: 18.sp,fontWeight: FontWeight.w700,),
-        TextWidget(text: Local.fiveStars.tr, color: color421000, size: 14.sp),
+        Container(
+          margin: const EdgeInsets.only(left: 16,right: 16),
+          child: TextWidget(text: Local.fiveStars.tr, color: color421000, size: 14.sp,textAlign: TextAlign.center,),
+        ),
         SizedBox(height: 16.h,),
         Container(
           width: double.infinity,
@@ -79,7 +82,7 @@ class GoodCommentDialog extends RootDialog<GoodCommentCon>{
     alignment: Alignment.topRight,
     child: InkWell(
       onTap: (){
-        RoutersUtils.back();
+        rootController.clickClose();
       },
       child: Padding(
         padding: EdgeInsets.all(4.w),

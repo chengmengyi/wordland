@@ -11,6 +11,7 @@ import 'package:wordland/routers/routers_utils.dart';
 import 'package:wordland/ui/b/page/ach/ach_con.dart';
 import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/task_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
 import 'package:wordland/widget/top_money/top_money_widget.dart';
@@ -23,19 +24,25 @@ class AchPage extends RootPage<AchCon>{
   AchCon setController() => AchCon();
 
   @override
-  Widget contentWidget() => Column(
-    children: [
-      _topWidget(),
-      Expanded(
-        child: GetBuilder<AchCon>(
-          id: "list",
-          builder: (_)=>ListView.builder(
-            itemCount: rootController.taskList.length,
-            itemBuilder: (context,index)=>_itemWidget(rootController.taskList[index]),
+  Widget contentWidget() => WillPopScope(
+    child: Column(
+      children: [
+        _topWidget(),
+        Expanded(
+          child: GetBuilder<AchCon>(
+            id: "list",
+            builder: (_)=>ListView.builder(
+              itemCount: rootController.taskList.length,
+              itemBuilder: (context,index)=>_itemWidget(rootController.taskList[index]),
+            ),
           ),
-        ),
-      )
-    ],
+        )
+      ],
+    ),
+    onWillPop: ()async{
+      rootController.clickBack();
+      return false;
+    },
   );
 
   _itemWidget(AchBean bean)=>Container(
@@ -52,13 +59,36 @@ class AchPage extends RootPage<AchCon>{
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
-                ImageWidget(image: "achieve6",width: 51.w,height: 55.h,),
-                TextWidget(text: "+${bean.addNum}", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
+                ImageWidget(image: "achieve7",width: 51.w,height: 55.h,),
+                TextWidget(text: "+${getOtherCountryMoneyNum(bean.addNum.toDouble())}", color: colorFFFFFF, size: 10.sp,fontWeight: FontWeight.w700,),
               ],
             ),
             SizedBox(width: 12.w,),
             Expanded(
-              child: TextWidget(text: bean.text, color: color421000, size: 14.sp,fontWeight: FontWeight.w700,),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextWidget(text: bean.text, color: color421000, size: 14.sp,fontWeight: FontWeight.w700,),
+                  SizedBox(height: 6.h,),
+                  Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(16.w),
+                        child:  SizedBox(
+                          width: 90.w,
+                          child: LinearProgressIndicator(
+                            value: rootController.getProgress(bean),
+                            minHeight: 6.h,
+                            color: colorCD7012,
+                          ),
+                        ),
+                      ),
+                      TextWidget(text: "(${bean.current}/${bean.total})", color: colorFF2B2B, size: 12.sp,fontWeight: FontWeight.w700,)
+                    ],
+                  )
+                ],
+              ),
             ),
             InkWell(
               onTap: (){
@@ -82,7 +112,7 @@ class AchPage extends RootPage<AchCon>{
       SizedBox(width: 12.w,),
       InkWell(
         onTap: (){
-          RoutersUtils.back();
+          rootController.clickBack();
         },
         child: ImageWidget(image: "back",width: 36.w,height: 36.h,),
       ),

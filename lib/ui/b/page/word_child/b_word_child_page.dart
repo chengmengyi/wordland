@@ -7,6 +7,7 @@ import 'package:wordland/root/root_child.dart';
 import 'package:wordland/ui/b/page/word_child/b_word_child_con.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/widget/bubble_widget.dart';
 import 'package:wordland/widget/float_widget.dart';
 import 'package:wordland/widget/money_animator/money_animator_widget.dart';
@@ -35,7 +36,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
             SizedBox(height: 6.h,),
             _topWidget(),
             SizedBox(height: 6.h,),
-            _levelWidget(),
+            _signDownCountWidget(),
             SizedBox(height: 6.h,),
             _questionWidget(),
               SizedBox(height: 6.h,),
@@ -58,6 +59,23 @@ class BWordChildPage extends RootChild<BWordChildCon>{
     children: [
       SizedBox(width: 12.w,),
       TopMoneyWidget(topCash: TopCash.word,),
+      const Spacer(),
+      GetBuilder<BWordChildCon>(
+        id: "level",
+        builder: (_)=>InkWell(
+          onTap: (){
+            rootController.test();
+          },
+          child: StrokedTextWidget(
+              text: "Level ${QuestionUtils.instance.bAnswerIndex}",
+              fontSize: 26.sp,
+              textColor: colorFFFFFF,
+              strokeColor: color177200,
+              strokeWidth: 2.w
+          ),
+        ),
+      ),
+      SizedBox(width: 12.w,),
     ],
   );
 
@@ -170,7 +188,10 @@ class BWordChildPage extends RootChild<BWordChildCon>{
               SizedBox(height: 4.h,),
               Container(
                 margin: EdgeInsets.only(left: 36.w,right: 36.w),
-                child: TextWidget(text: Local.pass9Level.tr, color: color8F7E53, size: 12.sp),
+                child: GetBuilder<BWordChildCon>(
+                  id: "wheel_text",
+                  builder: (_)=>TextWidget(text: Local.reachLevelToEarn.tr.replaceNum(rootController.getNextWheelNum()), color: color8F7E53, size: 12.sp),
+                ),
               ),
               SizedBox(height: 32.h,)
             ],
@@ -218,105 +239,113 @@ class BWordChildPage extends RootChild<BWordChildCon>{
     builder: (_)=>Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _bottomItemWidget(0),
-        // SizedBox(width: 40.w,),
-        // _bottomItemWidget(1),
-        SizedBox(width: 40.w,),
-        _bottomItemWidget(2),
+        SizedBox(width: 24.w,),
+        InkWell(
+          onTap: (){
+            rootController.clickAch();
+          },
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              ImageWidget(image: "home18",width: 80.w,height: 62.h,),
+              GetBuilder<BWordChildCon>(
+                id: "ach",
+                builder: (_)=>Offstage(
+                  offstage: rootController.achNum==0,
+                  child: Container(
+                    width: 24.w,
+                    height: 24.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.w),
+                        color: color2FCB37,
+                        border: Border.all(
+                            width: 3.w,
+                            color: colorE7FDAA
+                        )
+                    ),
+                    child: TextWidget(
+                      text: "${rootController.achNum}",
+                      color: colorFFFFFF,
+                      size: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        const Spacer(),
+        InkWell(
+          onTap: (){
+            rootController.clickWheel();
+          },
+          child: SizedBox(
+            width: 62.w,
+            height: 62.h,
+            key: rootController.wheelGlobalKey,
+            child: Stack(
+              children: [
+                ImageWidget(image: "answer13",width: 60.w,height: 62.h,),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Container(
+                    width: 24.w,
+                    height: 24.w,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.w),
+                        color: color2FCB37,
+                        border: Border.all(
+                            width: 3.w,
+                            color: colorE7FDAA
+                        )
+                    ),
+                    child: TextWidget(
+                      text: "${NumUtils.instance.wheelNum}",
+                      color: colorFFFFFF,
+                      size: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(width: 24.w,),
       ],
     ),
   );
 
-  _bottomItemWidget(index)=>InkWell(
-    onTap: (){
-      rootController.clickBottom(index);
-    },
-    child: SizedBox(
-      width: 50.w,
-      height: 50.h,
-      child: Stack(
-        children: [
-          ImageWidget(image:  rootController.getBottomFuncIcon(index),width: 50.w,height: 50.h,),
-          Align(
-            alignment: Alignment.topRight,
-            child: Container(
-              width: 24.w,
-              height: 24.w,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.w),
-                  color: color2FCB37,
-                  border: Border.all(
-                      width: 3.w,
-                      color: colorE7FDAA
-                  )
-              ),
-              child: TextWidget(
-                text: "${index==0?NumUtils.instance.tipsNum:index==1?NumUtils.instance.addTimeNum:NumUtils.instance.wheelNum}",
-                color: colorFFFFFF,
-                size: 14.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Offstage(
-              offstage: index!=1,
-              child: ImageWidget(image: "answer11",width: 36.w,height: 18.h,),
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-
-  _levelWidget()=>Row(
+  _signDownCountWidget()=>Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      // SizedBox(width: 12.w,),
-      // GetBuilder<BWordChildCon>(
-      //   id: "time",
-      //   builder: (_)=>Container(
-      //     margin: EdgeInsets.only(right: 14.w),
-      //     child: Stack(
-      //       alignment: Alignment.center,
-      //       children: [
-      //         ImageWidget(image: "home11",width: 46.w,height: 46.w,),
-      //         TextWidget(text: "${rootController.downCountTime}s", color: colorFFFFFF, size: 16.sp,fontWeight: FontWeight.w600,),
-      //         Container(
-      //           width: 46.w,
-      //           height: 46.w,
-      //           padding: EdgeInsets.all(2.5.w),
-      //           child: CircularProgressIndicator(
-      //             value: rootController.getTimeProgress(),
-      //             color: colorFF490F,
-      //             strokeWidth: 2.w,
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
-      // const Spacer(),
-      GetBuilder<BWordChildCon>(
-        id: "level",
-        builder: (_)=>InkWell(
-          onTap: (){
-            rootController.test();
-          },
-          child: StrokedTextWidget(
-              text: "Level ${QuestionUtils.instance.bAnswerIndex+1}",
-              fontSize: 26.sp,
-              textColor: colorFFFFFF,
-              strokeColor: color177200,
-              strokeWidth: 2.w
+      InkWell(
+        onTap: (){
+          rootController.clickTopSign();
+        },
+        child: GetBuilder<BWordChildCon>(
+          id: "sign_down_count",
+          builder: (_)=>Stack(
+            alignment: Alignment.centerLeft,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: 10.w),
+                child: ImageWidget(image: "home20",width: 143.w,height: 65.h,),
+              ),
+              rootController.signDownCountTimer.isEmpty?
+              Lottie.asset("assets/down_count.zip",width: 65.w,height: 65.h):
+              ImageWidget(image: "home21",width: 65.w,height: 65.h,),
+              Container(
+                margin: EdgeInsets.only(left: 72.w),
+                child: TextWidget(text: rootController.signDownCountTimer, color: Colors.white, size: 14.sp,fontWeight: FontWeight.w700,),
+              ),
+            ],
           ),
         ),
       ),
-      // const Spacer(),
-      // SizedBox(width: 60.w,),
-      // SizedBox(width: 12.w,),
     ],
   );
   

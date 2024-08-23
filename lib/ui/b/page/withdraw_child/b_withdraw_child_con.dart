@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wordland/bean/cash_bg_bean.dart';
 import 'package:wordland/bean/withdraw_task_bean.dart';
@@ -14,6 +15,10 @@ import 'package:wordland/ui/b/dialog/account/account_dialog.dart';
 import 'package:wordland/ui/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:wordland/ui/b/dialog/no_money/no_money_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/guide/guide_step.dart';
+import 'package:wordland/utils/guide/new_guide_utils.dart';
+import 'package:wordland/utils/guide/withdraw_level20_guide_widget.dart';
+import 'package:wordland/utils/guide/withdraw_sign_btn_guide_widget.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
@@ -60,6 +65,7 @@ class BWithdrawChildCon extends RootController{
   }
 
   clickTask(WithdrawTaskBean bean){
+    TbaUtils.instance.appEvent(AppEventName.withdraw_page_task_c,params: {"task_type":bean.type.name});
     switch(bean.type){
       case WithdrawTaskType.sign:
         if(WithdrawTaskUtils.instance.todaySigned){
@@ -97,11 +103,13 @@ class BWithdrawChildCon extends RootController{
       return;
     }
     if(taskList.isNotEmpty){
+      TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop);
       RoutersUtils.dialog(
         child: IncompleteDialog(
           chooseNum: chooseMoneyNum,
           bean: taskList.first,
           clickGo: (){
+            TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop_go);
             clickTask(taskList.first);
           },
         ),
@@ -121,10 +129,55 @@ class BWithdrawChildCon extends RootController{
         _initTaskList();
         update(["child"]);
         break;
+      case EventCode.bPackageShowCashSignOverlay:
+        _showSignOverlay();
+        break;
+      case EventCode.bPackageShowCashLevel20Overlay:
+        _showLevel20Overlay();
+        break;
       default:
 
         break;
     }
+  }
+
+  _showLevel20Overlay(){
+    var indexWhere = taskList.indexWhere((element) => element.type==WithdrawTaskType.level20);
+    if(indexWhere<0){
+      return;
+    }
+    var renderBox = taskList[indexWhere].globalKey.currentContext!.findRenderObject() as RenderBox;
+    var offset = renderBox.localToGlobal(Offset.zero);
+    TbaUtils.instance.appEvent(AppEventName.userb_withdraw_reach20);
+    NewGuideUtils.instance.showGuideOver(
+      context: context,
+      widget: WithdrawLevel20GuideWidget(
+        offset: offset,
+        hideCall: (){
+          NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showRightWordsGuide);
+        },
+      ),
+    );
+  }
+
+
+  _showSignOverlay(){
+    var indexWhere = taskList.indexWhere((element) => element.type==WithdrawTaskType.sign);
+    if(indexWhere<0){
+      return;
+    }
+    var renderBox = taskList[indexWhere].globalKey.currentContext!.findRenderObject() as RenderBox;
+    var offset = renderBox.localToGlobal(Offset.zero);
+    NewGuideUtils.instance.showGuideOver(
+      context: context,
+      widget: WithdrawSignBtnGuideWidget(
+        offset: offset,
+        hideCall: (){
+          TbaUtils.instance.appEvent(AppEventName.userb_withdraw_sign);
+          NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showSignDialog);
+        },
+      ),
+    );
   }
 
   _initTaskList(){

@@ -13,8 +13,10 @@ import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/ui/b/dialog/load_fail/load_fail_dialog.dart';
 import 'package:wordland/ui/b/dialog/loading/loading_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
+import 'package:wordland/utils/adjust_point_utils.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/new_value_utils.dart';
+import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 
@@ -76,7 +78,9 @@ class AdUtils{
             adShowListener.onAdHidden.call(ad);
           },
           showAdSuccess: (ad,info){
+            NumUtils.instance.uploadLaunchDaysAdNum();
             TbaUtils.instance.adEvent(ad, info, adPosId, adType==AdType.reward?AdFomat.rv:AdFomat.int);
+            AdjustPointUtils.instance.showAdSuccess(ad,info);
             adShowListener.showAdSuccess?.call(ad,info);
           },
           showAdFail: (ad,error){
@@ -120,7 +124,9 @@ class AdUtils{
         adType: AdType.inter,
         adShowListener: AdShowListener(
           showAdSuccess: (ad,info){
+            NumUtils.instance.uploadLaunchDaysAdNum();
             TbaUtils.instance.adEvent(ad, info, AdPosId.wpdnd_launch, AdFomat.int);
+            AdjustPointUtils.instance.showAdSuccess(ad,info);
           },
           onAdHidden: (ad){
           },

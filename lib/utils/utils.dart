@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/event/event_utils.dart';
@@ -110,7 +112,7 @@ Future<bool> requestPermission({required List<Permission> permissionList})async{
 
 String getMoneyUnit()=>Platform.isAndroid?"":"\$";
 
-String getMoneyIcon()=>Platform.isAndroid?"coin1":"icon_money1";
+String getMoneyIcon()=>Platform.isAndroid?"icon_money3":"icon_money1";
 
 String getMoneyCode(){
   var code = Get.deviceLocale?.countryCode??"US";
@@ -141,3 +143,30 @@ int getExchangeRateByCountry(){
 extension ReplaceNum on String{
   String replaceNum(int num)=>replaceAll("tihuan", "$num");
 }
+
+
+String millisecondsToHMS(int milliseconds) {
+  var duration = Duration(milliseconds: milliseconds);
+  var h = duration.inHours;
+  var m = duration.inMinutes.remainder(60);
+  var s = duration.inSeconds.remainder(60);
+  return '${h.toString().padLeft(2, '0')}:${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
+}
+
+String getOtherCountryMoneyNum(double money){
+  var decimal = (Decimal.fromInt(getExchangeRateByCountry())*Decimal.parse("$money")).toDouble();
+  var format = NumberFormat.currency(
+    locale: Get.deviceLocale?.toString(),
+    symbol: "",
+  ).format(decimal);
+  var code = Get.deviceLocale?.countryCode??"US";
+  if(code=="RU"||code=="VN"){
+    return "$format${getMoneyCode()}";
+  }
+  return "${getMoneyCode()}$format";
+}
+
+String formatCurrencyMoney(double money)=>NumberFormat.currency(
+  locale: Get.deviceLocale?.toString(),
+  symbol: "",
+).format(money);

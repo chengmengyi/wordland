@@ -1,3 +1,4 @@
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:wordland/root/root_controller.dart';
@@ -17,7 +18,10 @@ class NewUserCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
-    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop);
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop,params: {"user_type":FlutterCheckAdjustCloak.instance.getUserType()?"B":"A"});
+    if(NewGuideUtils.instance.guidePlanB()){
+      TbaUtils.instance.appEvent(AppEventName.userb_newuser_pop);
+    }
   }
 
  //  clickClose(){
@@ -33,10 +37,14 @@ class NewUserCon extends RootController{
   }
 
   clickDouble()async{
-    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop_c);
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop_c,params: {"user_type":FlutterCheckAdjustCloak.instance.getUserType()?"B":"A"});
     RoutersUtils.back();
     NumUtils.instance.updateUserMoney(addNum,(){
-      NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.newUserWordsGuide);
+      if(NewGuideUtils.instance.guidePlanB()){
+        NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.withdrawSignBtnGuide);
+      }else{
+        NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.newUserWordsGuide);
+      }
     });
 
     // AdUtils.instance.showAd(

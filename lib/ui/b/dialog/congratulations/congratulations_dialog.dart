@@ -40,7 +40,7 @@ class CongratulationsDialog extends RootDialog<CongratulationsCon>{
             ],
           ),
           SizedBox(height: 16.h,),
-          TextWidget(text: "+${getMoneyUnit()}$addNum", color: colorFF490F, size: 28.sp,fontWeight: FontWeight.w700,)
+          TextWidget(text: "+${getOtherCountryMoneyNum(addNum)}", color: colorFF490F, size: 28.sp,fontWeight: FontWeight.w700,)
         ],
       ),
     );

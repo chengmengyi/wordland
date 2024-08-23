@@ -61,12 +61,12 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(width: 42.w,),
+                SizedBox(width: 38.w,),
                 GetBuilder<TopMoneyCon>(
                   id: "coin",
-                  builder: (_)=>TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
+                  builder: (_)=>TextWidget(text: getOtherCountryMoneyNum(NumUtils.instance.userMoneyNum), color: colorFFE600, size: 12.sp,fontWeight: FontWeight.w700),
                 ),
-                SizedBox(width: 20.w,),
+                SizedBox(width: 10.w,),
                 InkWell(
                   onTap: (){
                     rootController.clickCash(topCash, clickCall);
@@ -88,7 +88,7 @@ class TopMoneyWidget extends BaseWidget<TopMoneyCon>{
           ),
         ),
       ),
-      ImageWidget(image: Platform.isAndroid?"coin2":"icon_money2",width: 42.w,height: 38.h,),
+      ImageWidget(image: Platform.isAndroid?"icon_money4":"icon_money2",width: 42.w,height: 38.h,),
     ],
   );
 }

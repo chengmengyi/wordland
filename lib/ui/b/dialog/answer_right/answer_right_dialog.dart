@@ -45,16 +45,23 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
               children: [
                 ImageWidget(image: "icon_video",width: 16.w,height: 16.w,),
                 SizedBox(width: 6.w,),
+                // StrokedTextWidget(
+                //   text: "Claim",
+                //   fontSize: 16.sp,
+                //   textColor: Colors.white,
+                //   strokeColor: color2D5B00,
+                // ),
+                // SizedBox(width: 6.w,),
+                // StrokedTextWidget(
+                //   text: "${getMoneyUnit()}${NewValueUtils.instance.getDoubleNum(addNum)}",
+                //   fontSize: 24.sp,
+                //   textColor: Colors.white,
+                //   strokeColor: color2D5B00,
+                // ),
+
                 StrokedTextWidget(
-                  text: "Claim",
+                  text: getOtherCountryMoneyNum(NewValueUtils.instance.getDoubleNum(addNum)),
                   fontSize: 16.sp,
-                  textColor: Colors.white,
-                  strokeColor: color2D5B00,
-                ),
-                SizedBox(width: 6.w,),
-                StrokedTextWidget(
-                  text: "${getMoneyUnit()}${NewValueUtils.instance.getDoubleNum(addNum)}",
-                  fontSize: 24.sp,
                   textColor: Colors.white,
                   strokeColor: color2D5B00,
                 ),
@@ -69,7 +76,7 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
          rootController.clickContinue(call, addNum);
         },
         child: StrokedTextWidget(
-          text: "${getMoneyUnit()}$addNum",
+          text: getOtherCountryMoneyNum(addNum),
           fontSize: 16.sp,
           textColor: Colors.white,
           strokeColor: color5B2600,

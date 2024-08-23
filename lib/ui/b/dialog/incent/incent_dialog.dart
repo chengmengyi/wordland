@@ -61,7 +61,7 @@ class IncentDialog extends RootDialog<IncentCon>{
             SizedBox(height: 16.h,),
             ImageWidget(image: getMoneyIcon(),width:172.w, height: 172.h,),
             SizedBox(height: 16.h,),
-            TextWidget(text: "+${getMoneyUnit()}${rootController.addNum}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
+            TextWidget(text: "+${getOtherCountryMoneyNum(rootController.addNum)}", color: colorFF490F, size: 24.sp,fontWeight: FontWeight.w700,),
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -86,7 +86,7 @@ class IncentDialog extends RootDialog<IncentCon>{
                                   color: colorFFFFFF,
                                   borderRadius: BorderRadius.circular(8.w),
                                 ),
-                                child: TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
+                                child: TextWidget(text: getOtherCountryMoneyNum(NumUtils.instance.userMoneyNum), color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
                               ),
                               ImageWidget(image: "icon_down_arrow",height: 2.h,),
                             ],
@@ -113,8 +113,8 @@ class IncentDialog extends RootDialog<IncentCon>{
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    ImageWidget(image: Platform.isIOS?"icon_money2":"coin2",width: 24.w,height: 24.h,),
-                    TextWidget(text: "${getMoneyUnit()}${NewValueUtils.instance.getCurrentCashRange()}", color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
+                    ImageWidget(image: Platform.isIOS?"icon_money2":"icon_money4",width: 24.w,height: 24.h,),
+                    TextWidget(text: getOtherCountryMoneyNum(NewValueUtils.instance.getCurrentCashRange().toDouble()), color: colorF26910, size: 12.sp,fontWeight: FontWeight.w700,),
                   ],
                 ),
               ],

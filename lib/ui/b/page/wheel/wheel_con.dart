@@ -33,18 +33,19 @@ class WheelCon extends RootController{
 
   clickClose(bool clickBack){
     if(clickBack){
-      AdUtils.instance.showAd(
-        adType: AdType.inter,
-        adPosId: AdPosId.wpdnd_int_close_spin,
-        adShowListener: AdShowListener(
-          onAdHidden: (ad){
-            RoutersUtils.back(backParams: {"back":true});
-          },
-          showAdFail: (ad,error){
-            RoutersUtils.back(backParams: {"back":true});
-          }
-        ),
-      );
+      // AdUtils.instance.showAd(
+      //   adType: AdType.inter,
+      //   adPosId: AdPosId.wpdnd_int_close_spin,
+      //   adShowListener: AdShowListener(
+      //     onAdHidden: (ad){
+      //       RoutersUtils.back(backParams: {"back":true});
+      //     },
+      //     showAdFail: (ad,error){
+      //       RoutersUtils.back(backParams: {"back":true});
+      //     }
+      //   ),
+      // );
+      RoutersUtils.back(backParams: {"back":true});
     }else{
       RoutersUtils.back(backParams: {"back":false});
     }

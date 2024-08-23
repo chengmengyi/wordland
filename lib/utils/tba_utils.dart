@@ -110,9 +110,9 @@ class TbaUtils{
     }
   }
 
-  appEvent(AppEventName eventName,{Map<String,String>? params,int tryNum=5})async{
+  appEvent(dynamic eventName,{Map<String,String>? params,int tryNum=5})async{
     var map = await _getCommonMap();
-    map["nitrous"]=eventName.name;
+    map["nitrous"]=eventName is AppEventName?eventName.name:eventName;
     if(null!=params){
       for (var key in params.keys) {
         map["$key~ho"]=params[key];

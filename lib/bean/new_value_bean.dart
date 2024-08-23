@@ -8,13 +8,16 @@ class NewValueBean {
       this.rewardWord, 
       this.levelReward, 
       this.wheelReward, 
-      this.floatReward,});
+      this.floatReward,
+      this.achievementReward,
+  });
 
   NewValueBean.fromJson(dynamic json) {
     wordRange = json['word_range'] != null ? json['word_range'].cast<int>() : [];
     newReward = json['new_reward'];
     conversion = json['conversion'];
     checkReward = json['check_reward'] != null ? json['check_reward'].cast<int>() : [];
+    achievementReward = json['achievement_reward'] != null ? json['achievement_reward'].cast<int>() : [];
     if (json['int_ad'] != null) {
       intAd = [];
       json['int_ad'].forEach((v) {
@@ -56,6 +59,7 @@ class NewValueBean {
   int? newReward;
   int? conversion;
   List<int>? checkReward;
+  List<int>? achievementReward;
   List<IntAd>? intAd;
   List<IntAd>? rvAd;
   List<FloatReward>? rewardWord;
@@ -69,6 +73,7 @@ class NewValueBean {
     map['new_reward'] = newReward;
     map['conversion'] = conversion;
     map['check_reward'] = checkReward;
+    map['achievement_reward'] = achievementReward;
     if (intAd != null) {
       map['int_ad'] = intAd?.map((v) => v.toJson()).toList();
     }

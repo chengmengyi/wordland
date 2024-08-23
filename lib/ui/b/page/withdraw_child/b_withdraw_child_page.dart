@@ -100,20 +100,23 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Row(
-                  children: [
-                    SizedBox(width: 20.w,),
-                    TextWidget(text: Platform.isIOS?Local.myCash.tr:Local.myAccount.tr, color: colorDFC78B, size: 24.sp,fontWeight: FontWeight.w700,),
-                    const Spacer(),
-                    Offstage(
-                      offstage: Platform.isIOS,
-                      child: ImageWidget(image: "coin2",width: 32.w,height: 32.w,),
-                    ),
-                    SizedBox(width: 4.w,),
-                    TextWidget(text: "${getMoneyUnit()}${NumUtils.instance.userMoneyNum}", color: color73562D, size: 24.sp,fontWeight: FontWeight.w700,),
-                    SizedBox(width: 20.w,),
-                  ],
-                ),
+                child: Container(
+                  margin: EdgeInsets.only(left: 16.w),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextWidget(text: Local.myCash.tr, color: colorDFC78B, size: 24.sp,fontWeight: FontWeight.w700,),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ImageWidget(image: "icon_money4",width: 32.w,height: 32.w,),
+                          TextWidget(text: getOtherCountryMoneyNum(NumUtils.instance.userMoneyNum), color: color73562D, size: 24.sp,fontWeight: FontWeight.w700,),
+                        ],
+                      )
+                    ],
+                  ),
+                )
               )
             ],
           ),
@@ -187,9 +190,9 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                   child: Container(
                     margin: EdgeInsets.only(top: 18.h),
                     child: TextWidget(
-                      text: "${getMoneyCode()}${NewValueUtils.instance.getCoinToMoney(num)}",
+                      text: getOtherCountryMoneyNum(num/NewValueUtils.instance.getConversion()),
                       color: color111111,
-                      size: 18.sp,
+                      size: 14.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -202,17 +205,18 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Offstage(
-                          offstage: Platform.isIOS,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
-                              ImageWidget(image: "coin2",width: 20.w,height: 20.h,),
-                              TextWidget(text: "$num", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
-                            ],
-                          ),
-                        ),
+                        // Offstage(
+                        //   offstage: Platform.isIOS,
+                        //   child: Row(
+                        //     mainAxisSize: MainAxisSize.min,
+                        //     children: [
+                        //       TextWidget(text: "≈", color: colorDE832F, size: 16.sp),
+                        //       ImageWidget(image: "icon_money4",width: 20.w,height: 20.h,),
+                        //       TextWidget(text: "$num", color: colorDE832F, size: 12.sp,fontWeight: FontWeight.w700,),
+                        //     ],
+                        //   ),
+                        // ),
+                        TextWidget(text: "${getOtherCountryMoneyNum(NumUtils.instance.userMoneyNum)}/\n${getOtherCountryMoneyNum(num/NewValueUtils.instance.getConversion())}", color: color333333, size: 12.sp),
                         SizedBox(height: 4.h,),
                         Container(
                           width: 104.w,
@@ -287,6 +291,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
                           width: 80.w,
                           height: 28.h,
                           alignment: Alignment.center,
+                          key: bean.globalKey,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(14.w),
                               color: (bean.type==WithdrawTaskType.sign&&WithdrawTaskUtils.instance.todaySigned)||bean.current>=bean.total?colorBEBEBE:colorF26910

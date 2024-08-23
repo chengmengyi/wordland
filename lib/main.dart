@@ -8,11 +8,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:wordland/language/messages.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/adjust_point_utils.dart';
 import 'package:wordland/utils/check_app_state_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/network_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
+import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/user_type/user_type_utils.dart';
 
@@ -44,9 +46,8 @@ void main() async{
 initInfo()async{
   CheckAppStateUtils.instance.init();
   await GetStorage.init();
-  // NewValueUtils.instance.initValue();
-  NewGuideUtils.instance.initInfo();
-  NetWorkUtils.instance.initListen();
+  AdjustPointUtils.instance.initInfo();
+  NumUtils.instance.initInfo();
   UserTypeUtils.instance.init();
   AdUtils.instance.initAd();
   TbaUtils.instance.installEvent();

@@ -33,9 +33,14 @@ class NumUtils{
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
       payType=0,wheelNum=3,
   wordDis=5,collectBubbleNum=0,hasCommentApp=false,appLaunchNum=0,todayAnswerNum=0,
-  tipsNum=10,userMoneyNum=0.0;
+  tipsNum=10,userMoneyNum=0.0,wl_newuser_guide="B",adShowNum=0;
+  final List<String> _launchDaysList=[];
+  final List<String> _alreadyUploadCoinsNumList=[];
+  final List<String> _alreadyUploadAdNumList=[];
 
-  NumUtils._internal(){
+  NumUtils._internal();
+
+  initInfo(){
     addDownCountNum=getTodayNum(StorageName.addDownCountNum, 2);
     removeFailNum=getTodayNum(StorageName.removeFailNum, 3);
     addTimeNum=getTodayNum(StorageName.addTimeNum, 3);
@@ -48,14 +53,17 @@ class NumUtils{
     collectBubbleNum=StorageUtils.read<int>(StorageName.collectBubbleNum)??0;
     userMoneyNum=StorageUtils.read<double>(StorageName.userMoneyNum)??0.0;
     hasCommentApp=StorageUtils.read<bool>(StorageName.hasCommentApp)??false;
-    appLaunchNum=getTodayNum(StorageName.appLaunchNum, 0);
+    appLaunchNum=StorageUtils.read<int>(StorageName.appLaunchNum)??0;
+    adShowNum=StorageUtils.read<int>(StorageName.adShowNum)??0;
     todayAnswerNum=getTodayNum(StorageName.todayAnswerNum, 0);
     tipsNum=getTodayNum(StorageName.tipsNum, 10);
+    _initLaunchDaysList();
   }
 
   updateUserMoney(double num,Function() dismissDialog){
     userMoneyNum=(Decimal.parse("$num")+Decimal.parse("$userMoneyNum")).toDouble();
     StorageUtils.write(StorageName.userMoneyNum, userMoneyNum);
+    _uploadLaunchDaysCoinsNum();
     if(num>0){
       RoutersUtils.dialog(
           barrierColor: Colors.transparent,
@@ -120,6 +128,7 @@ class NumUtils{
   getFirebaseConfInfo()async{
     // wlandIntCd=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int_cd")).toInt(defaultNum: 3);
     wordDis=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_dis")).toInt(defaultNum: 5);
+    wl_newuser_guide=await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wl_newuser_guide");
   }
 
   // updateHasWlandIntCd(AdPosId adPosId){
@@ -151,16 +160,9 @@ class NumUtils{
     StorageUtils.write(StorageName.collectBubbleNum, collectBubbleNum);
   }
 
-  bool checkCanShowCommentDialog() {
-    if(appLaunchNum<2&&!hasCommentApp){
-      return todayAnswerNum==2||todayAnswerNum==5;
-    }
-    return false;
-  }
-
   updateAppLaunchNum(){
     appLaunchNum++;
-    StorageUtils.write(StorageName.appLaunchNum, "${getTodayTime()}_$appLaunchNum");
+    StorageUtils.write(StorageName.appLaunchNum, appLaunchNum);
     if(appLaunchNum==2){
       RoutersUtils.dialog(child: GoodCommentDialog());
     }
@@ -180,5 +182,94 @@ class NumUtils{
     tipsNum+=addNum;
     StorageUtils.write(StorageName.tipsNum, "${getTodayTime()}_$tipsNum");
     EventCode.updateHintNum.sendMsg();
+  }
+
+  _initLaunchDaysList(){
+    var s = StorageUtils.read<String>(StorageName.appLaunchDaysList)??"";
+    if(s.isNotEmpty){
+      _launchDaysList.clear();
+      _launchDaysList.addAll(s.split("|"));
+    }
+    var todayTime = getTodayTime();
+    if(!_launchDaysList.contains(todayTime)){
+      _launchDaysList.add(todayTime);
+      StorageUtils.write(StorageName.appLaunchDaysList, _launchDaysList.join("|"));
+    }
+    var t = StorageUtils.read<String>(StorageName.alreadyUploadCoinsNum)??"";
+    if(t.isNotEmpty){
+      _alreadyUploadCoinsNumList.clear();
+      _alreadyUploadCoinsNumList.addAll(t.split("|"));
+    }
+
+    var k = StorageUtils.read<String>(StorageName.alreadyUploadAdNum)??"";
+    if(k.isNotEmpty){
+      _alreadyUploadAdNumList.clear();
+      _alreadyUploadAdNumList.addAll(k.split("|"));
+    }
+  }
+
+  _uploadLaunchDaysCoinsNum(){
+    for (var value in [1,2,3,5,7,10,14]) {
+      if(_launchDaysList.length==value){
+        _uploadCoinsByDay(value);
+      }
+    }
+    for (var value in [100,200,300,400,500,600,700,800]) {
+      var stoKey = "coin_dall_$value";
+      var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
+      if(userMoneyNum>=value&&!hasUploadCoinsNum){
+        TbaUtils.instance.appEvent("coin_dall",params: {"coin_numbers":"$value"});
+        StorageUtils.write(stoKey, true);
+      }
+    }
+  }
+
+  _uploadCoinsByDay(int day){
+    for (var value in [100,200,300,400,500,600,700,800]) {
+      var stoKey = "coin_d${day}_$value";
+      var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
+      if(userMoneyNum>=value&&!_alreadyUploadCoinsNumList.contains("$value")&&!hasUploadCoinsNum){
+        TbaUtils.instance.appEvent("coin_d$day",params: {"coin_numbers":"$value"});
+        StorageUtils.write(stoKey, true);
+        _alreadyUploadCoinsNumList.add("$value");
+        StorageUtils.write(StorageName.alreadyUploadCoinsNum, _alreadyUploadCoinsNumList.join("|"));
+      }
+    }
+  }
+
+  bool _checkHasUploadCoinsNumByKey(String key)=> StorageUtils.read<bool>(key)??false;
+
+  uploadLaunchDaysAdNum(){
+    adShowNum++;
+    StorageUtils.write(StorageName.adShowNum, adShowNum);
+
+    for (var value in [1,2,3,5,7,10,14]) {
+      if(_launchDaysList.length==value){
+        _uploadAdNumByDay(value);
+      }
+    }
+    //pv_numbers: 5,10,15,20,25,30,35,40,45,50
+    // for (var value in [5,10,15,20,25,30,35,40,45,50]) {
+    //   var stoKey = "pv_d_$value";
+    //   var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
+    //   if(userMoneyNum>=value&&!hasUploadCoinsNum){
+    //     TbaUtils.instance.appEvent("coin_dall",params: {"coin_numbers":"$value"});
+    //     StorageUtils.write(stoKey, true);
+    //   }
+    // }
+  }
+
+
+  _uploadAdNumByDay(int day){
+    for (var value in [5,10,15,20,25,30,35,40,45,50]) {
+      var stoKey = "pv_d${day}_$value";
+      var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
+      if(adShowNum>=value&&!_alreadyUploadAdNumList.contains("$value")&&!hasUploadCoinsNum){
+        TbaUtils.instance.appEvent("pv_d$day",params: {"pv_numbers":"$value"});
+        StorageUtils.write(stoKey, true);
+        _alreadyUploadAdNumList.add("$value");
+        StorageUtils.write(StorageName.alreadyUploadAdNum, _alreadyUploadAdNumList.join("|"));
+      }
+    }
   }
 }

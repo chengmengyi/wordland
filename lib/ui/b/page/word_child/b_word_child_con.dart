@@ -11,46 +11,54 @@ import 'package:get/get.dart';
 import 'package:wordland/bean/answer_bean.dart';
 import 'package:wordland/bean/question_bean.dart';
 import 'package:wordland/bean/words_choose_bean.dart';
+import 'package:wordland/enums/sign_from.dart';
 import 'package:wordland/enums/word_finger_from.dart';
 import 'package:wordland/event/event_code.dart';
 import 'package:wordland/language/local.dart';
 import 'package:wordland/root/root_controller.dart';
 import 'package:wordland/routers/routers_data.dart';
 import 'package:wordland/routers/routers_utils.dart';
+import 'package:wordland/storage/storage_name.dart';
+import 'package:wordland/storage/storage_utils.dart';
 import 'package:wordland/ui/b/dialog/add_chance/add_chance_dialog.dart';
 import 'package:wordland/ui/b/dialog/add_hint/add_hint_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_fail/answer_fail_dialog.dart';
 import 'package:wordland/ui/b/dialog/answer_right/answer_right_dialog.dart';
 import 'package:wordland/ui/b/dialog/good_comment/good_comment_dialog.dart';
+import 'package:wordland/ui/b/dialog/new_user/new_user_dialog.dart';
 import 'package:wordland/utils/ad/ad_pos_id.dart';
 import 'package:wordland/utils/ad/ad_utils.dart';
+import 'package:wordland/utils/adjust_point_utils.dart';
 import 'package:wordland/utils/data.dart';
 import 'package:wordland/utils/guide/guide_step.dart';
 import 'package:wordland/utils/guide/home_bubble_guide_widget.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
+import 'package:wordland/utils/guide/wheel_guide_widget.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/notifi/notifi_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
 import 'package:wordland/utils/play_music_utils.dart';
 import 'package:wordland/utils/question_utils.dart';
+import 'package:wordland/utils/task_utils.dart';
 import 'package:wordland/utils/tba_utils.dart';
 import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/withdraw_task_util.dart';
 
 class BWordChildCon extends RootController{
-  var canClick=true,downCountTime=30,_totalCountTime=30;
+  var canClick=true,downCountTime=30,_totalCountTime=30,signDownCountTimer="",achNum=0;
   QuestionBean? currentQuestion;
   List<WordsChooseBean> chooseList=[];
   List<AnswerBean> answerList=[];
-  Timer? _timer,_wordsTipsTimer;
+  Timer? _timer,_wordsTipsTimer,_signDownCountTimer;
   Offset? guideOffset;
   WordFingerFrom? _wordFingerFrom;
+  GlobalKey wheelGlobalKey=GlobalKey();
 
   @override
   void onInit() {
     super.onInit();
     PlayMusicUtils.instance.playMusic();
-    NumUtils.instance.updateAppLaunchNum();
+    _startSignDownCount();
   }
 
   @override
@@ -58,6 +66,9 @@ class BWordChildCon extends RootController{
     super.onReady();
     NewGuideUtils.instance.checkNewUserGuide();
     _updateQuestionData(fromNext: false);
+    NumUtils.instance.updateAppLaunchNum();
+    update(["bubble"]);
+    _refreshAchNum();
   }
 
   _updateQuestionData({bool fromNext=true}){
@@ -88,7 +99,7 @@ class BWordChildCon extends RootController{
         answerList[1]=AnswerBean(result: currentQuestion?.answerList?[1]??"", isRight: true);
       }
     }
-    update(["question","choose","answer","level","bottom","wheel_pro"]);
+    update(["question","choose","answer","level","bottom","wheel_pro","wheel_text"]);
     _startWordsTipsTimer();
   }
 
@@ -96,6 +107,7 @@ class BWordChildCon extends RootController{
     if(!canClick||char.isEmpty){
       return;
     }
+    _stopWordsTipsTimer();
     _hideWordsGuide();
     canClick=false;
     var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
@@ -105,14 +117,20 @@ class BWordChildCon extends RootController{
       update(["answer"]);
       Future.delayed(const Duration(milliseconds: 500),(){
         canClick=true;
-        if(answerList.last.result.isEmpty){
+        if(!isRight){
+          if(answerList.last.result.isNotEmpty){
+            TbaUtils.instance.appEvent(AppEventName.word_flase_c);
+          }
+          answerList[indexWhere].result="";
+          update(["answer"]);
           _startWordsTipsTimer();
-        }else{
-          if(isRight){
+        }else {
+          if(answerList.last.result.isNotEmpty){
             TbaUtils.instance.appEvent(AppEventName.word_true_c);
             _timer?.cancel();
             EventCode.answerRight.sendMsg();
             QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
+            AdjustPointUtils.instance.answerRight();
             update(["wheel_pro"]);
             NumUtils.instance.updateTodayAnswerRightNum();
             if(QuestionUtils.instance.bAnswerRightNum%9==0){
@@ -140,23 +158,7 @@ class BWordChildCon extends RootController{
               );
             }
           }else{
-            TbaUtils.instance.appEvent(AppEventName.word_flase_c);
-            RoutersUtils.dialog(
-                child: AnswerFailDialog(
-                  nextWordsCall: (next){
-                    if(next){
-                      QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
-                      _updateQuestionData();
-                    }else{
-                      for (var element in answerList) {
-                        element.result="";
-                        element.isRight=false;
-                      }
-                      update(["answer"]);
-                    }
-                  },
-                )
-            );
+            _startWordsTipsTimer();
           }
         }
       });
@@ -164,6 +166,9 @@ class BWordChildCon extends RootController{
   }
 
   _showBubbleGuideOverlay(){
+    if(NewGuideUtils.instance.guidePlanB()){
+      TbaUtils.instance.appEvent(AppEventName.userb_float_ball);
+    }
     TbaUtils.instance.appEvent(AppEventName.float_guide);
     NewGuideUtils.instance.showGuideOver(
       context: context,
@@ -171,7 +176,11 @@ class BWordChildCon extends RootController{
         hideCall: (money){
           TbaUtils.instance.appEvent(AppEventName.float_guide_c);
           NumUtils.instance.updateUserMoney(money,(){
-            NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.complete);
+            if(NewGuideUtils.instance.guidePlanB()){
+              NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.completed);
+            }else{
+              NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.complete);
+            }
             update(["bubble"]);
           });
         },
@@ -179,25 +188,25 @@ class BWordChildCon extends RootController{
     );
   }
 
-  clickBottom(index){
-    switch(index){
-      case 0:
-        TbaUtils.instance.appEvent(AppEventName.hint_c);
-        _clickHint();
-        break;
-      case 1:
-        TbaUtils.instance.appEvent(AppEventName.add_time_c);
-        _clickAddNum();
-        break;
-      case 2:
-        TbaUtils.instance.appEvent(AppEventName.wheel_c);
-        // if(QuestionUtils.instance.bAnswerIndex<3){
-        //   showToast(Local.afterPass3);
-        //   return;
-        // }
-        RoutersUtils.toNamed(routerName: RoutersData.wheel);
-        break;
-    }
+  clickWheel(){
+    TbaUtils.instance.appEvent(AppEventName.wheel_c);
+    // if(QuestionUtils.instance.bAnswerIndex<3){
+    //   showToast(Local.afterPass3);
+    //   return;
+    // }
+    RoutersUtils.toNamed(routerName: RoutersData.wheel);
+  }
+
+  clickAch(){
+    TbaUtils.instance.appEvent(AppEventName.word_page_achievement);
+    RoutersUtils.toNamed(
+      routerName: RoutersData.bAch,
+      backResult: (map){
+        if(map?["back"]==true){
+          _refreshAchNum();
+        }
+      }
+    );
   }
 
   _clickAddNum(){
@@ -241,7 +250,7 @@ class BWordChildCon extends RootController{
   String getBottomFuncIcon(index){
     switch(index){
       case 0:
-        return "answer14";
+        return "home18";
       case 1:return "answer10";
       default:return "answer13";
     }
@@ -303,6 +312,11 @@ class BWordChildCon extends RootController{
       case EventCode.showWordsGuideFromOther:
         _showWordsGuide(WordFingerFrom.cash_task);
         break;
+      case EventCode.bPackageShowWordsFinger:
+        TbaUtils.instance.appEvent(AppEventName.userb_abc);
+        _showWordsGuide(WordFingerFrom.bPackageNewUserGuide);
+        NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showHomeBubbleGuide);
+        break;
       case EventCode.oldUserShowWordsGuide:
         _showWordsGuide(WordFingerFrom.old);
         NewGuideUtils.instance.updateOldUserGuideStep(OldUserGuideStep.completeOldUserGuide);
@@ -318,10 +332,66 @@ class BWordChildCon extends RootController{
           _showBubbleGuideOverlay();
         }
         break;
+      case EventCode.signSuccess:
+        _startSignDownCount();
+        break;
+      case EventCode.showWheelOverlayGuide:
+        _showWheelOverlayGuide();
+        break;
+      case EventCode.refreshAchNum:
+        _refreshAchNum();
+        break;
       default:
 
         break;
     }
+  }
+
+  _refreshAchNum(){
+    var list = TaskUtils.instance.getBTaskList();
+    achNum=0;
+    for (var value in list) {
+      if(value.current>=value.total){
+        achNum++;
+      }
+    }
+    update(["ach"]);
+  }
+
+  _showWheelOverlayGuide(){
+    var renderBox = wheelGlobalKey.currentContext!.findRenderObject() as RenderBox;
+    var offset = renderBox.localToGlobal(Offset.zero);
+    TbaUtils.instance.appEvent(AppEventName.wheel_guide);
+    NewGuideUtils.instance.showGuideOver(
+      context: context,
+      widget: WheelGuideWidget(
+        offset: offset,
+        hideCall: (){
+          TbaUtils.instance.appEvent(AppEventName.wheel_guide_c);
+          NewGuideUtils.instance.updatePlanBOldUser(BPackageOldUserGuideStep.completed);
+          clickWheel();
+        },
+      ),
+    );
+  }
+
+  _startSignDownCount(){
+    _signDownCountTimer?.cancel();
+
+    var lastSignTime = StorageUtils.read<int>(StorageName.lastSignTime)??0;
+    DateTime now = DateTime.now();
+    DateTime tomorrow = DateTime(now.year, now.month, now.day + 1);
+    int tomorrowMidnightTimestamp = DateTime(tomorrow.year, tomorrow.month, tomorrow.day).millisecondsSinceEpoch;
+    var time = tomorrowMidnightTimestamp-lastSignTime-(now.millisecondsSinceEpoch-lastSignTime);
+    _signDownCountTimer=Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+      time-=1000;
+      if(time<=0||!WithdrawTaskUtils.instance.todaySigned){
+        _signDownCountTimer?.cancel();
+        return;
+      }
+      signDownCountTimer=millisecondsToHMS(time);
+      update(["sign_down_count"]);
+    });
   }
 
   _showWordsGuide(WordFingerFrom? wordFingerFrom){
@@ -399,11 +469,33 @@ class BWordChildCon extends RootController{
 
   }
 
+  clickTopSign(){
+    // if(WithdrawTaskUtils.instance.todaySigned){
+    //   return;
+    // }
+    TbaUtils.instance.appEvent(AppEventName.word_page_sign);
+    RoutersUtils.showSignDialog(signFrom: SignFrom.other);
+  }
+
+  int getNextWheelNum(){
+    var i = QuestionUtils.instance.bAnswerIndex~/10;
+    return (i+1)*10;
+  }
+
   test()async{
     if(!kDebugMode){
       return;
     }
-    print("kk====${QuestionUtils.instance.bAnswerRightNum}");
+    var renderBox = wheelGlobalKey.currentContext!.findRenderObject() as RenderBox;
+    var offset = renderBox.localToGlobal(Offset.zero);
+    NewGuideUtils.instance.showGuideOver(
+      context: context,
+      widget: WheelGuideWidget(
+        offset: offset,
+        hideCall: (){
+        },
+      ),
+    );
   }
 
   @override

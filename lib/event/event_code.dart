@@ -23,4 +23,10 @@ enum EventCode{
   showHomeBubbleGuide,
   taskHasBubble,
   showBubbleFinger,
+  signSuccess,
+  bPackageShowCashSignOverlay,
+  bPackageShowCashLevel20Overlay,
+  bPackageShowWordsFinger,
+  showWheelOverlayGuide,
+  refreshAchNum,
 }

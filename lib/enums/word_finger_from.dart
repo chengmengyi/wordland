@@ -1,3 +1,3 @@
 enum WordFingerFrom{
-  guide,old,cash_task,other
+  guide,old,cash_task,bPackageNewUserGuide,other
 }

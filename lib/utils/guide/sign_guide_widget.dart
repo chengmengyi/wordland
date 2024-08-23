@@ -5,6 +5,7 @@ import 'package:wordland/utils/color_utils.dart';
 import 'package:wordland/utils/guide/new_guide_utils.dart';
 import 'package:wordland/utils/new_value_utils.dart';
 import 'package:wordland/utils/num_utils.dart';
+import 'package:wordland/utils/utils.dart';
 import 'package:wordland/utils/withdraw_task_util.dart';
 import 'package:wordland/widget/image_widget.dart';
 import 'package:wordland/widget/text_widget.dart';
@@ -77,7 +78,7 @@ class SignGuideWidget extends StatelessWidget{
                   height: 32.w,
                 ),
                 TextWidget(
-                  text: "+${NewValueUtils.instance.getSignList()[WithdrawTaskUtils.instance.signDays]}",
+                  text: "+${getOtherCountryMoneyNum(NewValueUtils.instance.getSignList()[WithdrawTaskUtils.instance.signDays].toDouble())}",
                   color: colorFF490F,
                   size: 12.sp,
                   fontWeight: FontWeight.w700,
