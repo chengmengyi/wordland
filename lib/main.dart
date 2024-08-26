@@ -1,22 +1,19 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:wordland/language/messages.dart';
-import 'package:wordland/routers/routers_data.dart';
-import 'package:wordland/utils/ad/ad_utils.dart';
-import 'package:wordland/utils/adjust_point_utils.dart';
-import 'package:wordland/utils/check_app_state_utils.dart';
-import 'package:wordland/utils/guide/new_guide_utils.dart';
-import 'package:wordland/utils/network_utils.dart';
-import 'package:wordland/utils/new_value_utils.dart';
-import 'package:wordland/utils/notifi/notifi_utils.dart';
-import 'package:wordland/utils/num_utils.dart';
-import 'package:wordland/utils/tba_utils.dart';
-import 'package:wordland/utils/user_type/user_type_utils.dart';
+import 'package:plugin_a/routers/routers_list.dart';
+import 'package:plugin_b/routers/routers_list.dart';
+import 'package:plugin_base/utils/check_app_state_utils.dart';
+import 'package:plugin_base/language/messages.dart';
+import 'package:plugin_base/routers/routers_data.dart';
+import 'package:plugin_base/utils/ad/ad_utils.dart';
+import 'package:plugin_base/utils/adjust_point_utils.dart';
+import 'package:plugin_base/utils/num_utils.dart';
+import 'package:plugin_base/utils/tba_utils.dart';
+import 'package:plugin_base/utils/user_type/user_type_utils.dart';
+import 'package:wordland/routers_list.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,14 +54,16 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
+    var list=bRoutersList+aRoutersList+mainRoutersList;
+
     return ScreenUtilInit(
       designSize: const Size(360, 760),
       builder: (context,child)=>GetMaterialApp(
-        title: Platform.isAndroid?'WordRing':'WordLand',
+        title: 'WordRing',
         debugShowCheckedModeBanner: false,
         enableLog: true,
         initialRoute: RoutersData.launch,
-        getPages: RoutersData.routersList,
+        getPages: list,
         defaultTransition: Transition.rightToLeft,
         themeMode: ThemeMode.system,
         darkTheme: ThemeData.dark(),

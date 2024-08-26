@@ -34,7 +34,7 @@ packages:
     source: hosted
     version: "1.0.2"
   app_tracking_transparency:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: app_tracking_transparency
       sha256: "7b011da3165ebb5a2f93d19da22e43a94b45bb6471c825b7d163b30eff937d30"
@@ -114,7 +114,7 @@ packages:
     source: hosted
     version: "1.0.8"
   decimal:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: decimal
       sha256: "4140a688f9e443e2f4de3a1162387bf25e1ac6d51e24c9da263f245210f41440"
@@ -130,7 +130,7 @@ packages:
     source: hosted
     version: "5.3.3"
   event_bus:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: event_bus
       sha256: "44baa799834f4c803921873e7446a2add0f3efa45e101a054b1f0ab9b95f8edc"
@@ -247,7 +247,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_app_lifecycle:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_app_lifecycle
       sha256: ce24c31a9ec83f2baffbc391ec4c179585ba72ef8562faa42d2d250a914a271d
@@ -255,7 +255,7 @@ packages:
     source: hosted
     version: "0.0.1"
   flutter_check_adjust_cloak:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_check_adjust_cloak
       sha256: "7f499fac29b0fa235d59a06762c3f5ebb94b645b8eabbafe6152dd5d5927cda4"
@@ -271,15 +271,15 @@ packages:
     source: hosted
     version: "3.0.2"
   flutter_max_ad:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_max_ad
-      sha256: ca8d67929619337892ba85cabf69ac0f24af1bbbfbd7c0ae16bf7c14156d5bd1
+      sha256: "3924118ac1c077348553057c8628822b05a2cd7bc306b37504fa129a7bd15064"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.9"
+    version: "0.3.1"
   flutter_screenutil:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_screenutil
       sha256: "8cf100b8e4973dc570b6415a2090b0bfaa8756ad333db46939efc3e774ee100d"
@@ -287,7 +287,7 @@ packages:
     source: hosted
     version: "5.9.0"
   flutter_staggered_grid_view:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_staggered_grid_view
       sha256: f0b6d8c0fa7b4b444985cdde68492c0138a4fb6fc57a641b24cb234b7ee0f5c4
@@ -295,7 +295,7 @@ packages:
     source: hosted
     version: "0.4.1"
   flutter_tba_info:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_tba_info
       sha256: "3aaa5ce892875888b5e96f5533abcc69ba04857a734de9151ac74b8d9857f677"
@@ -313,7 +313,7 @@ packages:
     source: sdk
     version: "0.0.0"
   fluttertoast:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: fluttertoast
       sha256: b528e78a4e69957bb8a33d9e8ceaa728801bb7c6ce599e811e49cf6d94d17fef
@@ -321,7 +321,7 @@ packages:
     source: hosted
     version: "8.0.9"
   get:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: get
       sha256: e4e7335ede17452b391ed3b2ede016545706c01a02292a6c97619705e7d2a85e
@@ -329,7 +329,7 @@ packages:
     source: hosted
     version: "4.6.6"
   get_storage:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: get_storage
       sha256: "39db1fffe779d0c22b3a744376e86febe4ade43bf65e06eab5af707dc84185a2"
@@ -345,7 +345,7 @@ packages:
     source: hosted
     version: "4.0.2"
   intl:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: intl
       sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
@@ -385,7 +385,7 @@ packages:
     source: hosted
     version: "3.0.0"
   lottie:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: lottie
       sha256: b8bdd54b488c54068c57d41ae85d02808da09e2bee8b8dd1f59f441e7efa60cd
@@ -393,7 +393,7 @@ packages:
     source: hosted
     version: "2.6.0"
   marquee:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: marquee
       sha256: "4b5243d2804373bdc25fc93d42c3b402d6ec1f4ee8d0bb72276edd04ae7addb8"
@@ -481,7 +481,7 @@ packages:
     source: hosted
     version: "2.3.0"
   permission_handler:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: permission_handler
       sha256: "18bf33f7fefbd812f37e72091a15575e72d5318854877e0e4035a24ac1113ecb"
@@ -536,6 +536,27 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.5"
+  plugin_a:
+    dependency: "direct main"
+    description:
+      path: plugin_a
+      relative: true
+    source: path
+    version: "0.0.1"
+  plugin_b:
+    dependency: "direct main"
+    description:
+      path: plugin_b
+      relative: true
+    source: path
+    version: "0.0.1"
+  plugin_base:
+    dependency: "direct main"
+    description:
+      path: plugin_base
+      relative: true
+    source: path
+    version: "0.0.1"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -614,7 +635,7 @@ packages:
     source: hosted
     version: "1.3.2"
   url_launcher:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: url_launcher
       sha256: "21b704ce5fa560ea9f3b525b43601c678728ba46725bab9b01187b4831377ed3"
@@ -702,7 +723,7 @@ packages:
     source: hosted
     version: "0.5.1"
   webview_flutter:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: webview_flutter
       sha256: "25e1b6e839e8cbfbd708abc6f85ed09d1727e24e08e08c6b8590d7c65c9a8932"
