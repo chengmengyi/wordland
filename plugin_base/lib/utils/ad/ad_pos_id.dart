@@ -106,4 +106,6 @@ enum AppEventName{
   userb_float_ball,
   wheel_guide,
   wheel_guide_c,
+  wpdnd_ad_request,
+  wpdnd_ad_fill,
 }

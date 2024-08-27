@@ -252,7 +252,7 @@ class BTaskChildPage extends RootChild<BTaskChildCon>{
           child: InkWell(
             onTap: (){
               TbaUtils.instance.appEvent(AppEventName.task_page_achievement);
-              RoutersUtils.toNamed(routerName: RoutersData.bAch);
+              RoutersUtils.toNamed(routerName: RoutersData.aAch);
             },
             child: Lottie.asset(
                 "assets/receive_ach.json",

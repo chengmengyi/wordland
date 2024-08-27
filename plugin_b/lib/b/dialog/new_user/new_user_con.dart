@@ -18,7 +18,7 @@ class NewUserCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
-    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop,params: {"user_type":FlutterCheckAdjustCloak.instance.getUserType()?"B":"A"});
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop,params: {"user_type":"B"});
     if(NewGuideUtils.instance.guidePlanB()){
       TbaUtils.instance.appEvent(AppEventName.userb_newuser_pop);
     }

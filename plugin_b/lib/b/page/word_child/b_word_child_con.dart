@@ -482,7 +482,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event");
+    NumUtils.instance.updateUserMoney(50,(){});
   }
 
   @override

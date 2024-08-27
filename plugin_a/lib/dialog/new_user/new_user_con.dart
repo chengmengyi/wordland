@@ -17,7 +17,7 @@ class NewUserCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
-    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop);
+    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop,params: {"user_type":"A"});
   }
 
  //  clickClose(){

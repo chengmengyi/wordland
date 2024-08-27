@@ -5,6 +5,7 @@ import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_bean/max_ad_bean.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
+import 'package:flutter_max_ad/ad/listener/load_ad_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:plugin_base/root/load_fail/load_fail_dialog.dart';
@@ -48,9 +49,19 @@ class AdUtils{
         firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
         secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
       ),
-      topOnTestDeviceId: "df0c1cf7-6405-463f-9105-10ca1ad1abe1",
+      // topOnTestDeviceId: "df0c1cf7-6405-463f-9105-10ca1ad1abe1",
       // topOnTestDeviceId: "57535bec-dff7-437d-849a-d4a66292214d",
       // maxTestDeviceIds: ["df0c1cf7-6405-463f-9105-10ca1ad1abe1","57535bec-dff7-437d-849a-d4a66292214d"]
+    );
+    FlutterMaxAd.instance.setLoadAdListener(
+        LoadAdListener(
+          startLoad: (){
+            TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_request);
+          }, 
+          loadSuccess: (ad,info){
+            TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_fill,params: {"platform":info?.plat??"","networkName":ad?.networkName??""});
+          },
+        )
     );
   }
 

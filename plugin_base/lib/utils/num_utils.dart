@@ -248,15 +248,14 @@ class NumUtils{
         _uploadAdNumByDay(value);
       }
     }
-    //pv_numbers: 5,10,15,20,25,30,35,40,45,50
-    // for (var value in [5,10,15,20,25,30,35,40,45,50]) {
-    //   var stoKey = "pv_d_$value";
-    //   var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
-    //   if(userMoneyNum>=value&&!hasUploadCoinsNum){
-    //     TbaUtils.instance.appEvent("coin_dall",params: {"coin_numbers":"$value"});
-    //     StorageUtils.write(stoKey, true);
-    //   }
-    // }
+    for (var value in [5,10,15,20,25,30,35,40,45,50]) {
+      var stoKey = "pv_dall_$value";
+      var hasUploadCoinsNum = _checkHasUploadCoinsNumByKey(stoKey);
+      if(adShowNum>=value&&!hasUploadCoinsNum){
+        TbaUtils.instance.appEvent("pv_dall",params: {"pv_numbers":"$value"});
+        StorageUtils.write(stoKey, true);
+      }
+    }
   }
 
 

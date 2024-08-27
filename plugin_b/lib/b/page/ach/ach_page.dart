@@ -117,6 +117,7 @@ class AchPage extends RootPage<AchCon>{
       ),
       SizedBox(width: 12.w,),
       TopMoneyWidget(
+        
         topCash: TopCash.ach,
         clickCall: (){
           RoutersUtils.back();

@@ -274,10 +274,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_max_ad
-      sha256: "3924118ac1c077348553057c8628822b05a2cd7bc306b37504fa129a7bd15064"
+      sha256: "6e301cd529553f037309f66b3905c1c7925e297557259781094f5a4e9f1878de"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.2"
   flutter_screenutil:
     dependency: transitive
     description:
