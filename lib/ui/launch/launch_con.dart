@@ -12,6 +12,7 @@ import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
+import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_id.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
@@ -66,6 +67,7 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
   _toHome(){
     _stopTimer();
     var checkType = FlutterCheckAdjustCloak.instance.checkType();
+    NewValueUtils.instance.initValue();
     RoutersUtils.offNamed(router: checkType?RoutersData.bHome:RoutersData.aHome);
   }
 

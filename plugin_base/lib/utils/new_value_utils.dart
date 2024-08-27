@@ -170,22 +170,14 @@ class NewValueUtils{
   }
 
   getFirebaseInfo()async{
-    if(Platform.isIOS){
-      var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_numbers2");
-      if(s.isNotEmpty){
-        StorageUtils.write(StorageName.newLocalValueConf, s);
-        initValue();
-      }
-    }else{
-      var small = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_a_number");
-      if(small.isNotEmpty){
-        StorageUtils.write(StorageName.androidSmallValueConf, small);
-      }
-      var large = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_b_number");
-      if(large.isNotEmpty){
-        StorageUtils.write(StorageName.androidLargeValueConf, large);
-      }
-      initValue();
+    var small = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_a_number");
+    if(small.isNotEmpty){
+      StorageUtils.write(StorageName.androidSmallValueConf, small);
     }
+    var large = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_b_number");
+    if(large.isNotEmpty){
+      StorageUtils.write(StorageName.androidLargeValueConf, large);
+    }
+    initValue();
   }
 }

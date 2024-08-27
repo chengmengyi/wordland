@@ -28,7 +28,6 @@ class BHomeCon extends RootController{
 
   @override
   void onInit() {
-    NewValueUtils.instance.initValue();
     super.onInit();
     AppTrackingTransparency.requestTrackingAuthorization();
     NotifiUtils.instance.initNotifi();
