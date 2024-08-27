@@ -21,7 +21,7 @@ class UserTypeUtils{
   init()async{
     var distinctId = await FlutterTbaInfo.instance.getDistinctId();
     var cloakStr = await _getCloakStr(distinctId);
-    FlutterCheckAdjustCloak.instance.forceBuyUser(true);
+    // FlutterCheckAdjustCloak.instance.forceBuyUser(true);
     FlutterCheckAdjustCloak.instance.initCheck(
       cloakPath: cloakStr,
       normalModeStr: "binaural",

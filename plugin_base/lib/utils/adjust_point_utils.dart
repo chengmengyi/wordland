@@ -46,14 +46,14 @@ class AdjustPointUtils{
     _adRevenueTotal+=(ad?.revenue??0.0);
     StorageUtils.write(StorageName.adRevenueTotal, _adRevenueTotal);
     if(_firstLaunchAppTimer==getTodayTime()&&_adRevenueTotal>=(_adjustPointBean?.wrLtv0??1.5)){
-      AdjustEvent adjustEvent = AdjustEvent(kDebugMode?"vitqr9":"tt0z0s");
+      AdjustEvent adjustEvent = AdjustEvent("tt0z0s");
       adjustEvent.addPartnerParameter("kwai_key_event_action_type", "4");
       adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0??1.5}");
       Adjust.trackEvent(adjustEvent);
       TbaUtils.instance.appEvent(AppEventName.wr_ltv0,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0??1.5}"});
     }
     if(_adShowNumTotal>=(_adjustPointBean?.wrPv??10)){
-      AdjustEvent adjustEvent = AdjustEvent(kDebugMode?"lrtsfe":"viyaaw");
+      AdjustEvent adjustEvent = AdjustEvent("viyaaw");
       adjustEvent.addPartnerParameter("kwai_key_event_action_type", "1");
       adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrPv??10}");
       Adjust.trackEvent(adjustEvent);
@@ -61,7 +61,7 @@ class AdjustPointUtils{
     }
     var ecpm = _adRevenueTotal/_adShowNumTotal*1000;
     if(ecpm>=(_adjustPointBean?.wrEcpm??3)){
-      AdjustEvent adjustEvent = AdjustEvent(kDebugMode?"323baw":"59vbtr");
+      AdjustEvent adjustEvent = AdjustEvent("59vbtr");
       adjustEvent.addPartnerParameter("kwai_key_event_action_type", "2");
       adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrEcpm??3}");
       Adjust.trackEvent(adjustEvent);
@@ -72,7 +72,7 @@ class AdjustPointUtils{
 
   answerRight(){
     if(QuestionUtils.instance.bAnswerRightNum>=(_adjustPointBean?.wrLevel??6)){
-      AdjustEvent adjustEvent = AdjustEvent(kDebugMode?"bo4muy":"frmf9j");
+      AdjustEvent adjustEvent = AdjustEvent("frmf9j");
       adjustEvent.addPartnerParameter("kwai_key_event_action_type", "5");
       adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLevel??6}");
       Adjust.trackEvent(adjustEvent);
