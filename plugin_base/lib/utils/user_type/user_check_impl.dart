@@ -59,7 +59,7 @@ class UserCheckImpl implements CheckListener{
   }
 
   _checkBuyType(){
-    if(!FlutterCheckAdjustCloak.instance.getUserType()&&FlutterCheckAdjustCloak.instance.checkType()&&!NotifiUtils.instance.launchShowing&&!NotifiUtils.instance.hasBuyHome){
+    if(!NotifiUtils.instance.launchShowing&&!NotifiUtils.instance.hasBuyHome&&!FlutterCheckAdjustCloak.instance.getUserType()&&FlutterCheckAdjustCloak.instance.checkType()){
       RoutersUtils.toNamed(routerName: RoutersData.bHome);
     }
   }
