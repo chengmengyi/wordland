@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "268082253128",
+    "project_id": "c37wordland-android",
+    "storage_bucket": "c37wordland-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:268082253128:android:119bd21812aa3461c2377d",
+        "android_client_info": {
+          "package_name": "com.word.land.winguess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFIqYLim8hwRJSomegkTKSEzCg_1oVG8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

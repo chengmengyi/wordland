@@ -482,16 +482,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    var renderBox = wheelGlobalKey.currentContext!.findRenderObject() as RenderBox;
-    var offset = renderBox.localToGlobal(Offset.zero);
-    NewGuideUtils.instance.showGuideOver(
-      context: context,
-      widget: WheelGuideWidget(
-        offset: offset,
-        hideCall: (){
-        },
-      ),
-    );
+    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event");
   }
 
   @override

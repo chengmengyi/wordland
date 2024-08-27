@@ -2,6 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
 }
 
 def localProperties = new Properties()
@@ -42,7 +43,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.newordap.demo"
+        applicationId "com.word.land.winguess"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion 26
@@ -53,10 +54,10 @@ android {
 
     signingConfigs {
         release {
-            keyAlias 'test'
-            keyPassword '123456'
-            storeFile file('key/test.jks')
-            storePassword '123456'
+            keyAlias 'word'
+            keyPassword 'word123'
+            storeFile file('key/word.jks')
+            storePassword 'word123'
             v1SigningEnabled true
             v2SigningEnabled true
         }
