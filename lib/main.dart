@@ -44,7 +44,6 @@ initInfo()async{
   CheckAppStateUtils.instance.init();
   await GetStorage.init();
   AdjustPointUtils.instance.initInfo();
-  NumUtils.instance.initInfo();
   UserTypeUtils.instance.init();
   AdUtils.instance.initAd();
   TbaUtils.instance.installEvent();
