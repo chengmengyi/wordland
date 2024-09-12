@@ -201,4 +201,6 @@ dependencies {
     implementation 'com.applovin.mediation:mintegral-adapter:+'
     implementation 'com.applovin.mediation:bytedance-adapter:+'
     implementation 'com.applovin.mediation:unityads-adapter:+'
+    implementation 'com.applovin.mediation:moloco-adapter:+'
+
 }

@@ -64,6 +64,10 @@ class Messages extends Translations {
       Local.levelLocked: 'Level Locked',
       Local.daily3FreeSpins: 'Daily 3 Free Spins',
       Local.reachLevelToEarn: 'Reach Level tihuan to Earn a Spin Reward',
+
+      Local.check:"Check",
+      Local.checkYourAccount:"Check your account",
+      Local.completeTasks:"Complete tasks to earning",
     },
     'pt_BR': {
       Local.newUser: 'Recompensas exclusivas para novos usuários',
@@ -124,6 +128,10 @@ class Messages extends Translations {
       Local.levelLocked: 'Nível bloqueado',
       Local.daily3FreeSpins: '3 rodadas grátis diárias',
       Local.reachLevelToEarn: 'Alcance o nível tihuan para ganhar uma recompensa de giro',
+
+      Local.check:"Verificar",
+      Local.checkYourAccount:"Verifique sua conta",
+      Local.completeTasks:"Conclua tarefas para ganhar",
     },
     'vi_VN': {
       Local.newUser: 'Phần thưởng độc quyền cho người dùng mới',
@@ -184,6 +192,9 @@ class Messages extends Translations {
       Local.levelLocked: 'Đã khóa cấp độ',
       Local.daily3FreeSpins: '3 vòng quay miễn phí hàng ngày',
       Local.reachLevelToEarn: 'Đạt cấp tihuan để kiếm phần thưởng quay',
+      Local.check:"Kiểm tra",
+      Local.checkYourAccount:"Kiểm tra tài khoản của bạn",
+      Local.completeTasks:"Hoàn thành nhiệm vụ để kiếm tiền",
     },
     'id_ID': {
       Local.newUser: 'Hadiah eksklusif pengguna baru',
@@ -244,6 +255,9 @@ class Messages extends Translations {
       Local.levelLocked: 'Tingkat Terkunci',
       Local.daily3FreeSpins: '3 Putaran Gratis Setiap Hari',
       Local.reachLevelToEarn: 'Capai Level tihuan untuk Mendapatkan Hadiah Putaran',
+      Local.check:"Memeriksa",
+      Local.checkYourAccount:"Periksa akun Anda",
+      Local.completeTasks:"Selesaikan tugas untuk mendapatkan penghasilan",
     },
     'th_TH': {
       Local.newUser: 'รางวัลพิเศษสำหรับผู้ใช้ใหม่',
@@ -304,6 +318,9 @@ class Messages extends Translations {
       Local.levelLocked: 'ล็อคระดับแล้ว',
       Local.daily3FreeSpins: '3 ฟรีสปินทุกวัน',
       Local.reachLevelToEarn: 'ไปถึงระดับ tihuan เพื่อรับรางวัลการหมุน',
+      Local.check:"ตรวจสอบ",
+      Local.checkYourAccount:"ตรวจสอบบัญชีของคุณ",
+      Local.completeTasks:"ทำภารกิจให้สำเร็จเพื่อรับรายได้",
     },
     'fil_PH': {
       Local.newUser: 'Mga eksklusibong reward ng bagong user',
@@ -364,6 +381,9 @@ class Messages extends Translations {
       Local.levelLocked: 'Naka-lock ang Antas',
       Local.daily3FreeSpins: 'Araw-araw na 3 Libreng Spins',
       Local.reachLevelToEarn: 'Abutin ang Level tihuan para Makakuha ng Spin Reward',
+      Local.check:"Suriin",
+      Local.checkYourAccount:"Suriin ang iyong account",
+      Local.completeTasks:"Kumpletuhin ang mga gawain upang kumita",
     },
     'ru_RU': {
       Local.newUser: 'Ганджаранский эксклюзивный пенггуна бахару',
@@ -424,6 +444,9 @@ class Messages extends Translations {
       Local.levelLocked: 'Тахап Дикунчи',
       Local.daily3FreeSpins: '3 Путаран Перкума Хариан',
       Local.reachLevelToEarn: 'Капай Тахап tihuan до Мендапата Ганджарана Путарана',
+      Local.check:"Семак",
+      Local.checkYourAccount:"Семак акаун анда",
+      Local.completeTasks:"Селесайканские туги для мендапаткан пендапатан",
     },
   };
 }

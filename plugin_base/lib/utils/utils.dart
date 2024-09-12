@@ -8,7 +8,6 @@ import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:plugin_base/event/event_code.dart';
 import 'package:plugin_base/event/event_utils.dart';
 import 'package:plugin_base/storage/storage_utils.dart';
@@ -89,27 +88,27 @@ extension String2Int on String{
 }
 
 
-Future<bool> requestPermission({required List<Permission> permissionList})async{
-  if(permissionList.isEmpty){
-    return false;
-  }
-  Map<Permission, PermissionStatus> statuses = await permissionList.request();
-  var hasPermission=true;
-  var alwaysRefusePermission=false;
-  statuses.forEach((key, value) {
-    if(value.isPermanentlyDenied){
-      alwaysRefusePermission=true;
-    }
-    if(!value.isGranted){
-      hasPermission=false;
-    }
-  });
-  if(alwaysRefusePermission||!hasPermission){
-    showToast("Request Permission Fail");
-    return false;
-  }
-  return hasPermission;
-}
+// Future<bool> requestPermission({required List<Permission> permissionList})async{
+//   if(permissionList.isEmpty){
+//     return false;
+//   }
+//   Map<Permission, PermissionStatus> statuses = await permissionList.request();
+//   var hasPermission=true;
+//   var alwaysRefusePermission=false;
+//   statuses.forEach((key, value) {
+//     if(value.isPermanentlyDenied){
+//       alwaysRefusePermission=true;
+//     }
+//     if(!value.isGranted){
+//       hasPermission=false;
+//     }
+//   });
+//   if(alwaysRefusePermission||!hasPermission){
+//     showToast("Request Permission Fail");
+//     return false;
+//   }
+//   return hasPermission;
+// }
 
 String getMoneyUnit()=>Platform.isAndroid?"":"\$";
 

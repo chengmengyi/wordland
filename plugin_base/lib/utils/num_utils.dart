@@ -1,19 +1,13 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
-import 'package:flutter_max_ad/ad/ad_type.dart';
-import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
-import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:plugin_base/event/event_code.dart';
 import 'package:plugin_base/root/congratulations/congratulations_dialog.dart';
 import 'package:plugin_base/root/good_comment/good_comment_dialog.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
 import 'package:plugin_base/storage/storage_name.dart';
 import 'package:plugin_base/storage/storage_utils.dart';
-import 'package:plugin_base/utils/ad/ad_pos_id.dart';
-import 'package:plugin_base/utils/ad/ad_utils.dart';
-import 'package:plugin_base/utils/notifi/notifi_id.dart';
-import 'package:plugin_base/utils/notifi/notifi_utils.dart';
+import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
 
@@ -64,6 +58,7 @@ class NumUtils{
     userMoneyNum=(Decimal.parse("$num")+Decimal.parse("$userMoneyNum")).toDouble();
     StorageUtils.write(StorageName.userMoneyNum, userMoneyNum);
     _uploadLaunchDaysCoinsNum();
+    ForegroundServiceUtils.instance.updateForegroundData();
     if(num>0){
       RoutersUtils.dialog(
           barrierColor: Colors.transparent,

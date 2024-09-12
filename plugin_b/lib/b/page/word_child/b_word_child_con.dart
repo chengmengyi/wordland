@@ -23,6 +23,7 @@ import 'package:plugin_base/bean/words_choose_bean.dart';
 import 'package:plugin_base/enums/sign_from.dart';
 import 'package:plugin_base/enums/word_finger_from.dart';
 import 'package:plugin_base/event/event_code.dart';
+import 'package:plugin_base/export.dart';
 import 'package:plugin_base/language/local.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_data.dart';
@@ -33,6 +34,7 @@ import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
 import 'package:plugin_base/utils/adjust_point_utils.dart';
 import 'package:plugin_base/utils/data.dart';
+import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
 import 'package:plugin_base/utils/num_utils.dart';
@@ -482,7 +484,15 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    NumUtils.instance.updateUserMoney(50,(){});
+    FlutterWorkmanagerNotification.instance.startWorkManager(
+      id: 1000000, 
+      title: "hahhha",
+      desc: "desc", 
+      btn: "btn", 
+      tbaUrl: await TbaUtils.instance.getTbaUrl(), 
+      tbaHeader: await TbaUtils.instance.getHeaderMap(),
+      tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
+    );
   }
 
   @override

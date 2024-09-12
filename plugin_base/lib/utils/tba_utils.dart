@@ -46,8 +46,8 @@ class TbaUtils{
     incisive["ramada"]=referrerMap["last_update_seconds"];
     incisive["tyke"]=referrerMap["google_play_instant"];
     map["incisive"]=incisive;
-    var header = await _getHeaderMap();
-    var url = await _getTbaUrl();
+    var header = await getHeaderMap();
+    var url = await getTbaUrl();
     printLogByDebug("tba===install===data->$map");
     var dioResult = await DioManager.instance.requestPost(
       url: url,
@@ -67,8 +67,8 @@ class TbaUtils{
   sessionEvent({int tryNum=5})async{
     var map = await _getCommonMap();
     map["ravel"]={};
-    var header = await _getHeaderMap();
-    var url = await _getTbaUrl();
+    var header = await getHeaderMap();
+    var url = await getTbaUrl();
     printLogByDebug("tba===session===data->$map");
     var dioResult = await DioManager.instance.requestPost(
         url: url,
@@ -94,8 +94,8 @@ class TbaUtils{
     map["economic"]=adFomat.name;
     map["verbatim"]=ad?.revenuePrecision??"";
     map["nitrous"]="benz";
-    var header = await _getHeaderMap();
-    var url = await _getTbaUrl();
+    var header = await getHeaderMap();
+    var url = await getTbaUrl();
     printLogByDebug("tba===ad===data->$map");
     var dioResult = await DioManager.instance.requestPost(
         url: url,
@@ -118,8 +118,8 @@ class TbaUtils{
         map["$key~ho"]=params[key];
       }
     }
-    var header = await _getHeaderMap();
-    var url = await _getTbaUrl();
+    var header = await getHeaderMap();
+    var url = await getTbaUrl();
     printLogByDebug("tba===app point===data->$map");
     var dioResult = await DioManager.instance.requestPost(
         url: url,
@@ -134,11 +134,22 @@ class TbaUtils{
     }
   }
 
-  Future<String> _getTbaUrl()async{
+  Future<Map<String,dynamic>> getAppEventMap(AppEventName eventName,{Map<String,String>? params})async{
+    var map = await _getCommonMap();
+    map["nitrous"]=eventName.name;
+    if(null!=params){
+      for (var key in params.keys) {
+        map["$key~ho"]=params[key];
+      }
+    }
+    return map;
+  }
+
+  Future<String> getTbaUrl()async{
     return "$tbaPath?mattress=${await FlutterTbaInfo.instance.getOsCountry()}";
   }
 
-  Future<Map<String,dynamic>> _getHeaderMap()async{
+  Future<Map<String,dynamic>> getHeaderMap()async{
     return {
       "grapheme":await FlutterTbaInfo.instance.getOperator(),
       "marathon":await FlutterTbaInfo.instance.getAndroidId(),

@@ -108,4 +108,8 @@ enum AppEventName{
   wheel_guide_c,
   wpdnd_ad_request,
   wpdnd_ad_fill,
+  fix_pop_t,
+  fix_pop_c,
+  time_pop_c,
+  time_pop_t,
 }

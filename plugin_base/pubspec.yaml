@@ -20,7 +20,7 @@ dependencies:
   fluttertoast: 8.0.9
   #  assets_audio_player: 3.1.1
   flutter_tba_info: 0.0.7
-  flutter_check_adjust_cloak: 0.2.3
+  flutter_check_adjust_cloak: 0.2.6
   flutter_max_ad: 0.3.2
 #  flutter_max_ad:
 #    path: /Users/jaydenniked/StudioProjects/flutter_max_ad-0.3.1
@@ -31,8 +31,13 @@ dependencies:
   #  connectivity_plus: 6.0.3
   flutter_app_lifecycle: 0.0.1
   decimal: 3.0.2
-  permission_handler: 11.3.1
+#  permission_handler: 11.3.1
   intl: 0.19.0
+#  flutter_foreground_task: 8.8.1+1
+  firebase_messaging: 15.0.4
+  flutter_workmanager_notification:
+    path: /Users/jaydenniked/StudioProjects/flutter_workmanager_notification
+
 
 dev_dependencies:
   flutter_test:

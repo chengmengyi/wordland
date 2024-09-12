@@ -1,8 +1,4 @@
-import 'dart:async';
-// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_max_ad/ad/ad_type.dart';
-import 'package:flutter_max_ad/flutter_max_ad.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/notifi/notifi_id.dart';
 import 'package:plugin_base/utils/tba_utils.dart';

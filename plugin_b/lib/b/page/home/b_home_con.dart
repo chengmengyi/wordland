@@ -13,6 +13,7 @@ import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
+import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
@@ -34,6 +35,12 @@ class BHomeCon extends RootController{
     NotifiUtils.instance.hasBuyHome=true;
     NotifiUtils.instance.initNotifi();
     TbaUtils.instance.appEvent(AppEventName.wl_word_page);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    ForegroundServiceUtils.instance.checkPermission();
   }
 
   clickBottom(index){

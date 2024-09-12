@@ -8,6 +8,7 @@ import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/num_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 
 class NewUserCon extends RootController{
   var addNum=NewValueUtils.instance.getNewReward();
@@ -17,7 +18,7 @@ class NewUserCon extends RootController{
   void onInit() {
     super.onInit();
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
-    TbaUtils.instance.appEvent(AppEventName.wl_newuser_pop,params: {"user_type":"A"});
+    _uploadNewUserTba(AppEventName.wl_newuser_pop);
   }
 
  //  clickClose(){
@@ -38,22 +39,10 @@ class NewUserCon extends RootController{
     NumUtils.instance.updateUserMoney(addNum,(){
       NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.newUserWordsGuide);
     });
+  }
 
-    // AdUtils.instance.showAd(
-    //   adType: AdType.reward,
-    //   adPosId: AdPosId.wpdnd_rv_confirm,
-    //   adShowListener: AdShowListener(
-    //     onAdHidden: (MaxAd? ad) {
-    //       RoutersUtils.back();
-    //       NumUtils.instance.updateCoinNum(addNum*2);
-    //       GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-    //     },
-    //     showAdFail: (ad,error){
-    //       RoutersUtils.back();
-    //       NumUtils.instance.updateCoinNum(addNum);
-    //       GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showIncentDialog);
-    //     }
-    //   ),
-    // );
+  _uploadNewUserTba(AppEventName name,)async{
+    var has = await FlutterCheckAdjustCloak.instance.checkHasSim();
+    TbaUtils.instance.appEvent(name,params: {"user_type":"A","sim_user":has?"yes":"no"});
   }
 }

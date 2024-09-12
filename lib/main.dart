@@ -5,22 +5,22 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plugin_a/routers/routers_list.dart';
 import 'package:plugin_b/routers/routers_list.dart';
+import 'package:plugin_base/export.dart';
 import 'package:plugin_base/utils/check_app_state_utils.dart';
 import 'package:plugin_base/language/messages.dart';
 import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
 import 'package:plugin_base/utils/adjust_point_utils.dart';
-import 'package:plugin_base/utils/num_utils.dart';
+import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/user_type/user_type_utils.dart';
 import 'package:wordland/routers_list.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  // var details = await NotifiUtils.instance.getNotiDetails();
-  // if(null!=details&&details.didNotificationLaunchApp){
-  //   NotifiUtils.instance.fromBackgroundId=details.notificationResponse?.id??-1;
-  // }
+
+  var id = await FlutterWorkmanagerNotification.instance.getAppLaunchNotificationId();
+  ForegroundServiceUtils.instance.notificationTba(id??0);
 
   initInfo();
   await SystemChrome.setPreferredOrientations([

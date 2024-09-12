@@ -60,5 +60,9 @@ class Local {
   static const String levelLocked = 'Level Locked';
   static const String daily3FreeSpins = 'Daily 3 Free Spins';
   static const String reachLevelToEarn = 'Reach Level 10 to Earn a Spin Reward';
-}
 
+
+  static const String check = 'Check';
+  static const String checkYourAccount = 'Check your account';
+  static const String completeTasks = 'Complete tasks to earning';
+}
