@@ -86,6 +86,8 @@ enum AppEventName{
   float_guide,
   float_guide_c,
   wr_ltv0,
+  wr_ltv0_other,
+  wr_pv_other,
   wr_pv,
   wr_ecpm,
   wr_level,

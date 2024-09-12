@@ -45,12 +45,22 @@ class AdjustPointUtils{
     StorageUtils.write(StorageName.adShowNumTotal, _adShowNumTotal);
     _adRevenueTotal+=(ad?.revenue??0.0);
     StorageUtils.write(StorageName.adRevenueTotal, _adRevenueTotal);
-    if(_firstLaunchAppTimer==getTodayTime()&&_adRevenueTotal>=(_adjustPointBean?.wrLtv0??1.5)){
-      AdjustEvent adjustEvent = AdjustEvent("tt0z0s");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_type", "4");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0??1.5}");
-      Adjust.trackEvent(adjustEvent);
-      TbaUtils.instance.appEvent(AppEventName.wr_ltv0,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0??1.5}"});
+    if(_firstLaunchAppTimer==getTodayTime()){
+      if(_adRevenueTotal>=(_adjustPointBean?.wrLtv0??1.5)){
+        AdjustEvent adjustEvent = AdjustEvent("tt0z0s");
+        adjustEvent.addPartnerParameter("kwai_key_event_action_type", "4");
+        adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0??1.5}");
+        Adjust.trackEvent(adjustEvent);
+        TbaUtils.instance.appEvent(AppEventName.wr_ltv0,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0??1.5}"});
+      }
+
+      if(_adRevenueTotal>=(_adjustPointBean?.wrLtv0Other??0.15)){
+        AdjustEvent adjustEvent = AdjustEvent("oxglzt");
+        adjustEvent.addPartnerParameter("kwai_key_event_action_type", "4");
+        adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0Other??0.15}");
+        Adjust.trackEvent(adjustEvent);
+        TbaUtils.instance.appEvent(AppEventName.wr_ltv0_other,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0Other??0.15}"});
+      }
     }
     if(_adShowNumTotal>=(_adjustPointBean?.wrPv??10)){
       AdjustEvent adjustEvent = AdjustEvent("viyaaw");
@@ -59,25 +69,23 @@ class AdjustPointUtils{
       Adjust.trackEvent(adjustEvent);
       TbaUtils.instance.appEvent(AppEventName.wr_pv,params: {"kwai_key_event_action_type":"1","kwai_key_event_action_value":"${_adjustPointBean?.wrPv??10}"});
     }
-    var ecpm = _adRevenueTotal/_adShowNumTotal*1000;
-    if(ecpm>=(_adjustPointBean?.wrEcpm??3)){
-      AdjustEvent adjustEvent = AdjustEvent("59vbtr");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_type", "2");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrEcpm??3}");
+    if(_adShowNumTotal>=(_adjustPointBean?.wrPvOther??5)){
+      AdjustEvent adjustEvent = AdjustEvent("5nlem8");
+      adjustEvent.addPartnerParameter("kwai_key_event_action_type", "1");
+      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrPvOther??5}");
       Adjust.trackEvent(adjustEvent);
-      TbaUtils.instance.appEvent(AppEventName.wr_ecpm,params: {"kwai_key_event_action_type":"2","kwai_key_event_action_value":"${_adjustPointBean?.wrEcpm??3}"});
-
+      TbaUtils.instance.appEvent(AppEventName.wr_pv_other,params: {"kwai_key_event_action_type":"1","kwai_key_event_action_value":"${_adjustPointBean?.wrPvOther??5}"});
     }
   }
 
   answerRight(){
-    if(QuestionUtils.instance.bAnswerRightNum>=(_adjustPointBean?.wrLevel??6)){
-      AdjustEvent adjustEvent = AdjustEvent("frmf9j");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_type", "5");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLevel??6}");
-      Adjust.trackEvent(adjustEvent);
-      TbaUtils.instance.appEvent(AppEventName.wr_level,params: {"kwai_key_event_action_type":"5","kwai_key_event_action_value":"${_adjustPointBean?.wrLevel??6}"});
-    }
+    // if(QuestionUtils.instance.bAnswerRightNum>=(_adjustPointBean?.wrLevel??6)){
+    //   AdjustEvent adjustEvent = AdjustEvent("frmf9j");
+    //   adjustEvent.addPartnerParameter("kwai_key_event_action_type", "5");
+    //   adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLevel??6}");
+    //   Adjust.trackEvent(adjustEvent);
+    //   TbaUtils.instance.appEvent(AppEventName.wr_level,params: {"kwai_key_event_action_type":"5","kwai_key_event_action_value":"${_adjustPointBean?.wrLevel??6}"});
+    // }
   }
   
   _getFirstLaunchAppTimer(){
@@ -92,8 +100,10 @@ class AdjustPointUtils{
   
   getFirebaseData()async{
     try{
-      var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event");
-      _adjustPointBean=AdjustPointBean.fromJson(jsonDecode(s));
+      var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event_other");
+      if(s.isNotEmpty){
+        _adjustPointBean=AdjustPointBean.fromJson(jsonDecode(s));
+      }
     }catch(e){
       
     }
