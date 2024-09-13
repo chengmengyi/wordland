@@ -31,7 +31,11 @@ class NewValueUtils{
   NewValueUtils._internal();
 
   initValue(){
-    _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
+    try{
+      _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
+    }catch(e){
+
+    }
   }
 
   double getNewReward()=>_valueBean?.newReward?.toDouble()??134.0;
@@ -161,7 +165,7 @@ class NewValueUtils{
       return newValueStr.base64();
     }else{
       var userType = FlutterCheckAdjustCloak.instance.getUserType();
-      var s = StorageUtils.read<String>(userType?StorageName.androidLargeValueConf:StorageName.androidSmallValueConf)??"";
+      var s = StorageUtils.read<String>(userType?StorageName.androidLargeValueConf:StorageName.androidSmallValueConf,distType: false)??"";
       if(s.isNotEmpty){
         return s;
       }
@@ -170,22 +174,20 @@ class NewValueUtils{
   }
 
   getFirebaseInfo()async{
-    var localSmall = StorageUtils.read<String>(StorageName.androidSmallValueConf)??"";
+    var localSmall = StorageUtils.read<String>(StorageName.androidSmallValueConf,distType: false)??"";
     if(localSmall.isEmpty){
       var small = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_a_number");
       if(small.isNotEmpty){
-        StorageUtils.write(StorageName.androidSmallValueConf, small);
+        StorageUtils.write(StorageName.androidSmallValueConf, small,distType: false);
       }
-      initValue();
     }
 
-    var localLarge = StorageUtils.read<String>(StorageName.androidLargeValueConf)??"";
+    var localLarge = StorageUtils.read<String>(StorageName.androidLargeValueConf,distType: false)??"";
     if(localLarge.isEmpty){
       var large = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_b_number");
       if(large.isNotEmpty){
-        StorageUtils.write(StorageName.androidLargeValueConf, large);
+        StorageUtils.write(StorageName.androidLargeValueConf, large, distType: false);
       }
-      initValue();
     }
   }
 }

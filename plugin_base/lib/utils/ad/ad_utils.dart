@@ -174,7 +174,7 @@ class AdUtils{
   }
 
   String _getLocalStr(){
-    var s = StorageUtils.read<String>(StorageName.localADConf)??"";
+    var s = StorageUtils.read<String>(StorageName.localADConf,distType: false)??"";
     if(s.isNotEmpty){
       return s;
     }
@@ -184,7 +184,7 @@ class AdUtils{
   getFirebaseInfo()async{
     var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wpdnd_ad_config");
     if(s.isNotEmpty){
-      StorageUtils.write(StorageName.localADConf, s);
+      StorageUtils.write(StorageName.localADConf, s,distType: false);
     }
   }
 }

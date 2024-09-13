@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_tba_info/flutter_tba_info.dart';
 import 'package:plugin_base/utils/data.dart';
@@ -27,6 +28,7 @@ class UserTypeUtils{
       normalModeStr: "binaural",
       blackModeStr: "middle",
       adjustToken: adjustToken,
+      adjustSandbox: false,
       distinctId: distinctId,
       unknownFirebaseKey: "word_unknown",
       referrerConfKey: "referr",

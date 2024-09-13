@@ -42,6 +42,8 @@ import 'package:plugin_base/utils/question_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
 import 'package:plugin_base/utils/withdraw_task_util.dart';
+import 'package:adjust_sdk/adjust.dart';
+import 'package:adjust_sdk/adjust_event.dart';
 
 class BWordChildCon extends RootController{
   var canClick=true,downCountTime=30,_totalCountTime=30,signDownCountTimer="",achNum=0;
@@ -484,15 +486,6 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    FlutterWorkmanagerNotification.instance.startWorkManager(
-      id: 1000000, 
-      title: "hahhha",
-      desc: "desc", 
-      btn: "btn", 
-      tbaUrl: await TbaUtils.instance.getTbaUrl(), 
-      tbaHeader: await TbaUtils.instance.getHeaderMap(),
-      tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
-    );
   }
 
   @override

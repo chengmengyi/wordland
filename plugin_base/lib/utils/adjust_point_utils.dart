@@ -35,23 +35,23 @@ class AdjustPointUtils{
 
   initInfo(){
     _getFirstLaunchAppTimer();
-    _adRevenueTotal=StorageUtils.read<double>(StorageName.adRevenueTotal)??0.0;
-    _adShowNumTotal=StorageUtils.read<int>(StorageName.adShowNumTotal)??0;
+    _adRevenueTotal=StorageUtils.read<double>(StorageName.adRevenueTotal,distType: false)??0.0;
+    _adShowNumTotal=StorageUtils.read<int>(StorageName.adShowNumTotal,distType: false)??0;
     _adjustPointBean=AdjustPointBean.fromJson(jsonDecode(adjustLocalValue.base64()));
   }
 
   showAdSuccess(MaxAd? ad, MaxAdInfoBean? info){
     _adShowNumTotal++;
-    StorageUtils.write(StorageName.adShowNumTotal, _adShowNumTotal);
+    StorageUtils.write(StorageName.adShowNumTotal, _adShowNumTotal,distType: false);
     _adRevenueTotal+=(ad?.revenue??0.0);
-    StorageUtils.write(StorageName.adRevenueTotal, _adRevenueTotal);
+    StorageUtils.write(StorageName.adRevenueTotal, _adRevenueTotal,distType: false);
     if(_firstLaunchAppTimer==getTodayTime()){
-      if(_adRevenueTotal>=(_adjustPointBean?.wrLtv0??1.5)){
+      if(_adRevenueTotal>=(_adjustPointBean?.wrLtv0??0.2)){
         AdjustEvent adjustEvent = AdjustEvent("tt0z0s");
         adjustEvent.addPartnerParameter("kwai_key_event_action_type", "4");
-        adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0??1.5}");
+        adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrLtv0??0.2}");
         Adjust.trackEvent(adjustEvent);
-        TbaUtils.instance.appEvent(AppEventName.wr_ltv0,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0??1.5}"});
+        TbaUtils.instance.appEvent(AppEventName.wr_ltv0,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0??0.2}"});
       }
 
       if(_adRevenueTotal>=(_adjustPointBean?.wrLtv0Other??0.15)){
@@ -62,12 +62,12 @@ class AdjustPointUtils{
         TbaUtils.instance.appEvent(AppEventName.wr_ltv0_other,params: {"kwai_key_event_action_type":"4","kwai_key_event_action_value":"${_adjustPointBean?.wrLtv0Other??0.15}"});
       }
     }
-    if(_adShowNumTotal>=(_adjustPointBean?.wrPv??10)){
+    if(_adShowNumTotal>=(_adjustPointBean?.wrPv??8)){
       AdjustEvent adjustEvent = AdjustEvent("viyaaw");
       adjustEvent.addPartnerParameter("kwai_key_event_action_type", "1");
-      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrPv??10}");
+      adjustEvent.addPartnerParameter("kwai_key_event_action_value", "${_adjustPointBean?.wrPv??8}");
       Adjust.trackEvent(adjustEvent);
-      TbaUtils.instance.appEvent(AppEventName.wr_pv,params: {"kwai_key_event_action_type":"1","kwai_key_event_action_value":"${_adjustPointBean?.wrPv??10}"});
+      TbaUtils.instance.appEvent(AppEventName.wr_pv,params: {"kwai_key_event_action_type":"1","kwai_key_event_action_value":"${_adjustPointBean?.wrPv??8}"});
     }
     if(_adShowNumTotal>=(_adjustPointBean?.wrPvOther??5)){
       AdjustEvent adjustEvent = AdjustEvent("5nlem8");
@@ -89,10 +89,10 @@ class AdjustPointUtils{
   }
   
   _getFirstLaunchAppTimer(){
-    var s = StorageUtils.read<String>(StorageName.firstLaunchAppTimer)??"";
+    var s = StorageUtils.read<String>(StorageName.firstLaunchAppTimer,distType: false)??"";
     if(s.isEmpty){
       _firstLaunchAppTimer=getTodayTime();
-      StorageUtils.write(StorageName.firstLaunchAppTimer, _firstLaunchAppTimer);
+      StorageUtils.write(StorageName.firstLaunchAppTimer, _firstLaunchAppTimer,distType: false);
     }else{
       _firstLaunchAppTimer=s;
     }
@@ -100,9 +100,11 @@ class AdjustPointUtils{
   
   getFirebaseData()async{
     try{
-      var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event_other");
-      if(s.isNotEmpty){
-        _adjustPointBean=AdjustPointBean.fromJson(jsonDecode(s));
+      if(!kDebugMode){
+        var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("kwai_event_other");
+        if(s.isNotEmpty){
+          _adjustPointBean=AdjustPointBean.fromJson(jsonDecode(s));
+        }
       }
     }catch(e){
       

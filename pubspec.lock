@@ -282,10 +282,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_check_adjust_cloak
-      sha256: ce4bd81eb3d4be858a7767537c4d20abefb1509fbbeb6012dad9ef63143976de
+      sha256: dc4be9a3c4c2dbd2a0042b0f5d4db5c6e490d19f97c47a08f24b1888a4d8c920
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.6"
+    version: "0.2.8"
   flutter_lints:
     dependency: "direct dev"
     description:

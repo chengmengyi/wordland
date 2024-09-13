@@ -26,7 +26,7 @@ class TbaUtils{
 
   installEvent({int tryNum=5})async{
     sessionEvent();
-    var hasUpload = StorageUtils.read<bool>(StorageName.installEvent)??false;
+    var hasUpload = StorageUtils.read<bool>(StorageName.installEvent,distType: false)??false;
     if(hasUpload){
       return;
     }
@@ -56,7 +56,7 @@ class TbaUtils{
     );
     printLogByDebug("tba===install===result->success:${dioResult.success}-->result:$map");
     if(dioResult.success){
-      StorageUtils.write(StorageName.installEvent, true);
+      StorageUtils.write(StorageName.installEvent, true,distType: false);
     }else if(tryNum>0){
       Future.delayed(const Duration(milliseconds: 1000),(){
         installEvent(tryNum: tryNum-1);
