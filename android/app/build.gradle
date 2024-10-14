@@ -150,7 +150,7 @@ dependencies {
 
     //AppLovin
     api "com.anythink.sdk:adapter-applovin:6.3.75"
-    api "com.applovin:applovin-sdk:12.4.2"
+//    api "com.applovin:applovin-sdk:12.4.2"
 
 
     //Mintegral

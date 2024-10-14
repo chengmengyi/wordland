@@ -45,10 +45,10 @@ packages:
     dependency: transitive
     description:
       name: applovin_max
-      sha256: d2c6c9435b3b6d6319e215a363b1837b7cef1ea10647c8fb0a169f63c61d951e
+      sha256: "1130bd1dcba563033595b86dbaf4e53a2711bb6c936996819ce4fabcdb2ac9c6"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.2"
+    version: "4.0.0"
   archive:
     dependency: transitive
     description:
@@ -298,10 +298,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_max_ad
-      sha256: "6e301cd529553f037309f66b3905c1c7925e297557259781094f5a4e9f1878de"
+      sha256: e1831e1f1fb5761a7b5ca95eeb247f635cadae872b0e2ed4480628dc38873b67
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.2"
+    version: "0.3.3"
   flutter_screenutil:
     dependency: transitive
     description:
