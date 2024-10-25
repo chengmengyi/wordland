@@ -36,17 +36,8 @@ class QuestionUtils{
     try{
       var json = jsonDecode(_getQuestionStrByCountryCode().base64());
       for (var element in (json as List)) {
-        var answer = element["answer"];
-        if(answer is String && answer.length<=5){
-          var question = element["question"];
-          var bean = QuestionBean(question: question, answer: answer);
-          var indexWhere = _questionList.indexWhere((element) => element.answer==bean.answer);
-          if(indexWhere<0){
-            _questionList.add(bean);
-          }
-        }
+        _questionList.add(QuestionBean(question: element["question"], answer: element["answer"], a: element["a"], b: element["b"]));
       }
-      _questionList.sort((a, b) => (a.answer.length).compareTo(b.answer.length));
     }catch(e){
 
     }
@@ -120,10 +111,10 @@ class QuestionUtils{
     var code = Get.deviceLocale?.countryCode??"US";
     switch(code){
       case "BR": return questionStrBaxi;
-      case "VN": return questionStrYuenan;
-      case "ID": return questionStrYinni;
-      case "TH": return qeustionStrTaiguo;
-      case "RU": return questionStrEluosi;
+      // case "VN": return questionStrYuenan;
+      // case "ID": return questionStrYinni;
+      // case "TH": return qeustionStrTaiguo;
+      // case "RU": return questionStrEluosi;
       default: return questionStr;
     }
   }

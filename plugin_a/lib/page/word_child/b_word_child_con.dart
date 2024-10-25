@@ -25,6 +25,7 @@ import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
+import 'package:plugin_base/utils/color_utils.dart';
 import 'package:plugin_base/utils/data.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
@@ -34,13 +35,15 @@ import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
 
 class BWordChildCon extends RootController{
-  var canClick=true,downCountTime=30,_totalCountTime=30;
+  var downCountTime=30,_totalCountTime=30,_chooseAnswerIndex=-1;
   QuestionBean? currentQuestion;
-  List<WordsChooseBean> chooseList=[];
-  List<AnswerBean> answerList=[];
-  Timer? _timer,_wordsTipsTimer;
+  // List<WordsChooseBean> chooseList=[];
+  // List<AnswerBean> answerList=[];
+  Timer? _wordsTipsTimer;
   Offset? guideOffset;
   WordFingerFrom? _wordFingerFrom;
+  GlobalKey answerAGlobalKey=GlobalKey();
+  GlobalKey answerBGlobalKey=GlobalKey();
 
   @override
   void onInit() {
@@ -61,102 +64,97 @@ class BWordChildCon extends RootController{
       NewGuideUtils.instance.checkNewUserGuide();
     }
     currentQuestion=QuestionUtils.instance.getBQuestion();
-    chooseList.clear();
-    answerList.clear();
-    List<String> currentAnswerList=[];
-    for (var value in currentQuestion?.answer.split("")??[]) {
-      if(value.isNotEmpty){
-        var words = value.toUpperCase();
-        currentAnswerList.add(words);
-        chooseList.add(WordsChooseBean(words: words, globalKey: GlobalKey()));
-        answerList.add(AnswerBean(result: "", isRight: false));
-      }
-    }
-    currentQuestion?.answerList=currentAnswerList;
-    var cha = 10-chooseList.length;
-    for(int index=0;index<cha;index++){
-      chooseList.add(WordsChooseBean(words: charList.random(), globalKey: GlobalKey()));
-    }
-    chooseList.shuffle();
-    if(answerList.isNotEmpty){
-      answerList.first=AnswerBean(result: currentQuestion?.answerList?.first??"", isRight: true);
-      if(answerList.length>3){
-        answerList[1]=AnswerBean(result: currentQuestion?.answerList?[1]??"", isRight: true);
-      }
-    }
-    update(["question","choose","answer","level","bottom","wheel_pro"]);
+    // chooseList.clear();
+    // answerList.clear();
+    // List<String> currentAnswerList=[];
+    // for (var value in currentQuestion?.answer.split("")??[]) {
+    //   if(value.isNotEmpty){
+    //     var words = value.toUpperCase();
+    //     currentAnswerList.add(words);
+    //     chooseList.add(WordsChooseBean(words: words, globalKey: GlobalKey()));
+    //     answerList.add(AnswerBean(result: "", isRight: false));
+    //   }
+    // }
+    // currentQuestion?.answerList=currentAnswerList;
+    // var cha = 10-chooseList.length;
+    // for(int index=0;index<cha;index++){
+    //   chooseList.add(WordsChooseBean(words: charList.random(), globalKey: GlobalKey()));
+    // }
+    // chooseList.shuffle();
+    // if(answerList.isNotEmpty){
+    //   answerList.first=AnswerBean(result: currentQuestion?.answerList?.first??"", isRight: true);
+    //   if(answerList.length>3){
+    //     answerList[1]=AnswerBean(result: currentQuestion?.answerList?[1]??"", isRight: true);
+    //   }
+    // }
+    update(["question","answer","level","bottom","wheel_pro"]);
     _startWordsTipsTimer();
   }
 
-  clickAnswer(String char){
-    if(!canClick||char.isEmpty){
+  clickAnswer(int index){
+    if(_chooseAnswerIndex!=-1){
       return;
     }
+    _stopWordsTipsTimer();
     _hideWordsGuide();
-    canClick=false;
-    var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
-    if(indexWhere>=0){
-      var isRight = char==currentQuestion?.answerList?[indexWhere];
-      answerList[indexWhere]=AnswerBean(result: char, isRight: isRight);
-      update(["answer"]);
-      Future.delayed(const Duration(milliseconds: 500),(){
-        canClick=true;
-        if(answerList.last.result.isEmpty){
-          _startWordsTipsTimer();
-        }else{
-          if(isRight){
-            TbaUtils.instance.appEvent(AppEventName.word_true_c);
-            _timer?.cancel();
-            EventCode.answerRight.sendMsg();
-            QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
-            update(["wheel_pro"]);
-            NumUtils.instance.updateTodayAnswerRightNum();
-            if(QuestionUtils.instance.bAnswerRightNum%9==0){
-              update(["level"]);
-              NumUtils.instance.updateWheelNum(1);
-              RoutersUtils.toNamed(
-                  routerName: RoutersData.aWheel,
-                  params: {"auto":true},
-                  backResult: (map){
-                    if(null!=map&&map["back"]==true){
-                      _updateQuestionData();
-                    }
-                  }
-              );
-            }else{
-              RoutersUtils.dialog(
-                  child: AnswerRightDialog(
-                    call: (money){
-                      NumUtils.instance.updateUserMoney(money, (){
-                        update(["level"]);
-                        _updateQuestionData();
-                      });
-                    },
-                  )
-              );
-            }
-          }else{
-            TbaUtils.instance.appEvent(AppEventName.word_flase_c);
-            RoutersUtils.dialog(
-                child: AnswerFailDialog(
-                  nextWordsCall: (next){
-                    if(next){
-                      QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
-                      _updateQuestionData();
-                    }else{
-                      for (var element in answerList) {
-                        element.result="";
-                        element.isRight=false;
-                      }
-                      update(["answer"]);
-                    }
-                  },
-                )
-            );
-          }
-        }
-      });
+    _chooseAnswerIndex=index;
+    update(["answer"]);
+    var result = _checkAnswerResult();
+    if(result){
+      TbaUtils.instance.appEvent(AppEventName.word_true_c);
+    }else{
+      TbaUtils.instance.appEvent(AppEventName.word_flase_c);
     }
+    Future.delayed(const Duration(milliseconds: 500),(){
+      if(result) {
+        EventCode.answerRight.sendMsg();
+        QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
+        update(["wheel_pro"]);
+        NumUtils.instance.updateTodayAnswerRightNum();
+        if (QuestionUtils.instance.bAnswerRightNum % 9 == 0) {
+          update(["level"]);
+          NumUtils.instance.updateWheelNum(1);
+          RoutersUtils.toNamed(
+              routerName: RoutersData.aWheel,
+              params: {"auto": true},
+              backResult: (map) {
+                if (null != map && map["back"] == true) {
+                  _updateQuestionData();
+                }
+              }
+          );
+        }else{
+          RoutersUtils.dialog(
+              child: AnswerRightDialog(
+                call: (money){
+                  NumUtils.instance.updateUserMoney(money, (){
+                    update(["level"]);
+                    _updateQuestionData();
+                  });
+                },
+              )
+          );
+        }
+      }else{
+        RoutersUtils.dialog(
+            child: AnswerFailDialog(
+              nextWordsCall: (next){
+                if(next){
+                  QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
+                  _updateQuestionData();
+                }else{
+                  // for (var element in answerList) {
+                  //   element.result="";
+                  //   element.isRight=false;
+                  // }
+                  update(["answer"]);
+                }
+              },
+            )
+        );
+      }
+      _chooseAnswerIndex=-1;
+    });
   }
 
   _showBubbleGuideOverlay(){
@@ -204,7 +202,6 @@ class BWordChildCon extends RootController{
     downCountTime+=20;
     _totalCountTime+=20;
     NumUtils.instance.updateTimeNum(-1);
-    _timer?.cancel();
   }
 
   _clickHint(){
@@ -214,23 +211,24 @@ class BWordChildCon extends RootController{
       );
       return;
     }
-    var hasHint=false;
-    for (var value in answerList) {
-      if(null!=value.hint){
-        hasHint=true;
-        break;
-      }
-    }
-    if(hasHint){
-      return;
-    }
-    for(int index=0;index<answerList.length;index++){
-      var bean = answerList[index];
-      if(bean.result.isEmpty){
-        bean.hint=currentQuestion?.answerList?[index]??"";
-      }
-    }
+    // var hasHint=false;
+    // for (var value in answerList) {
+    //   if(null!=value.hint){
+    //     hasHint=true;
+    //     break;
+    //   }
+    // }
+    // if(hasHint){
+    //   return;
+    // }
+    // for(int index=0;index<answerList.length;index++){
+    //   var bean = answerList[index];
+    //   if(bean.result.isEmpty){
+    //     bean.hint=currentQuestion?.answerList?[index]??"";
+    //   }
+    // }
     NumUtils.instance.updateTipsNum(-1);
+    _showWordsGuide(WordFingerFrom.other);
     update(["answer"]);
   }
 
@@ -324,37 +322,24 @@ class BWordChildCon extends RootController{
     if(null!=guideOffset){
       return;
     }
-    var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
-    if(indexWhere>=0&&indexWhere<(currentQuestion?.answerList?.length??0)){
-      var index = chooseList.indexWhere((element) => element.words==currentQuestion?.answerList?[indexWhere]);
-      if(index>=0){
-        var renderBox = chooseList[index].globalKey.currentContext!.findRenderObject() as RenderBox;
-        guideOffset = renderBox.localToGlobal(Offset.zero);
-        _wordFingerFrom=wordFingerFrom;
-        update(["guide"]);
-      }
-    }
+    var key = currentQuestion?.answer=="a"?answerAGlobalKey:answerBGlobalKey;
+    var renderBox = key.currentContext!.findRenderObject() as RenderBox;
+    guideOffset = renderBox.localToGlobal(Offset.zero);
+    _wordFingerFrom=wordFingerFrom;
+    update(["guide"]);
   }
 
   clickGuide(){
     if(null==guideOffset){
       return;
     }
-    var indexWhere = answerList.indexWhere((element) => element.result.isEmpty);
-    if(indexWhere>=0&&indexWhere<(currentQuestion?.answerList?.length??0)){
-      var index = chooseList.indexWhere((element) => element.words==currentQuestion?.answerList?[indexWhere]);
-      if(index>=0){
-        if(null!=_wordFingerFrom){
-          TbaUtils.instance.appEvent(
-              AppEventName.wl_word_c,
-              params: {
-                "word_from": _wordFingerFrom?.name??""
-              },
-          );
-        }
-        clickAnswer(chooseList[index].words);
-      }
-    }
+    TbaUtils.instance.appEvent(
+      AppEventName.wl_word_c,
+      params: {
+        "word_from": _wordFingerFrom?.name??""
+      },
+    );
+    clickAnswer(currentQuestion?.answer=="a"?0:1);
   }
 
   _hideWordsGuide(){
@@ -395,6 +380,36 @@ class BWordChildCon extends RootController{
 
   }
 
+  bool _checkAnswerResult(){
+    if(_chooseAnswerIndex==0){
+      return currentQuestion?.answer=="a";
+    }
+    if(_chooseAnswerIndex==1){
+      return currentQuestion?.answer=="b";
+    }
+    return false;
+  }
+
+  String getAnswerBg(int index){
+    if(_chooseAnswerIndex==-1){
+      return "answer_normal_bg";
+    }
+    if(_chooseAnswerIndex==index){
+      return _checkAnswerResult()?"answer_right_bg":"answer_error_bg";
+    }
+    return "answer_normal_bg";
+  }
+
+  Color getAnswerTextColor(int index){
+    if(_chooseAnswerIndex==-1){
+      return colorA44400;
+    }
+    if(_chooseAnswerIndex==index){
+      return colorFFFFFF;
+    }
+    return colorA44400;
+  }
+
   test()async{
     if(!kDebugMode){
       return;
@@ -403,7 +418,6 @@ class BWordChildCon extends RootController{
 
   @override
   void onClose() {
-    _timer?.cancel();
     _stopWordsTipsTimer();
     super.onClose();
   }

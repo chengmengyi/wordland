@@ -80,16 +80,16 @@ class BWordChildPage extends RootChild<BWordChildCon>{
 
   _questionWidget()=>SizedBox(
     width: double.infinity,
-    height: 308.h,
+    height: 280.h,
     child: Stack(
       children: [
-        ImageWidget(image: "answer2",width: double.infinity,height: 308.h,fit: BoxFit.fill,),
+        ImageWidget(image: "answer2",width: double.infinity,height: double.infinity,fit: BoxFit.fill,),
         Container(
           margin: EdgeInsets.only(left: 36.w,right: 36.w,top: 32.h),
           child: Stack(
             alignment: Alignment.center,
             children: [
-              ImageWidget(image: "answer3",width: double.infinity,height: 120.h,fit: BoxFit.fill,),
+              ImageWidget(image: "answer3",width: double.infinity,height: 155.h,fit: BoxFit.fill,),
               Container(
                 margin: EdgeInsets.only(left: 12.w,right: 12.w),
                 child: GetBuilder<BWordChildCon>(
@@ -111,44 +111,6 @@ class BWordChildPage extends RootChild<BWordChildCon>{
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: double.infinity,
-                height: 48,
-                margin: EdgeInsets.only(left: 36.w,right: 36.w),
-                child: GetBuilder<BWordChildCon>(
-                  id: "answer",
-                  builder: (_)=>StaggeredGridView.countBuilder(
-                    itemCount: rootController.answerList.length,
-                    crossAxisCount: 5,
-                    shrinkWrap: true,
-                    mainAxisSpacing: 0,
-                    crossAxisSpacing: 0,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(0),
-                    itemBuilder: (context, index){
-                      var answer = rootController.answerList[index];
-                      return Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ImageWidget(
-                            image: answer.result.isEmpty?"answer4":answer.isRight?"answer5":"answer6",
-                            width: 48.w,
-                            height: 48.h,
-                          ),
-                          TextWidget(
-                            text: null!=answer.hint?(answer.hint??""):answer.result,
-                            color: null!=answer.hint?colorBB7000.withOpacity(0.4):colorFFFFFF,
-                            size: 32.sp,
-                            fontWeight: FontWeight.w600,
-                          )
-                        ],
-                      );
-                    },
-                    staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
-                  ),
-                ),
-              ),
-              SizedBox(height: 4.h,),
               SizedBox(
                 width: 288.w,
                 height: 36.h,
@@ -203,33 +165,35 @@ class BWordChildPage extends RootChild<BWordChildCon>{
   _chooseListWidget()=>Container(
     margin: EdgeInsets.only(left: 36.w,right: 36.w),
     child: GetBuilder<BWordChildCon>(
-      id: "choose",
-      builder: (_)=>StaggeredGridView.countBuilder(
-        itemCount: rootController.chooseList.length,
-        crossAxisCount: 5,
-        shrinkWrap: true,
-        mainAxisSpacing: 12.w,
-        crossAxisSpacing: 12.w,
-        physics: const NeverScrollableScrollPhysics(),
-        padding: const EdgeInsets.all(0),
-        itemBuilder: (context, index){
-          var char = rootController.chooseList[index];
-          return InkWell(
-            onTap: (){
-              rootController.clickAnswer(char.words);
-            },
-            child: Stack(
-              alignment: Alignment.center,
-              key: char.globalKey,
-              children: [
-                ImageWidget(image: "answer7",),
-                TextWidget(text: char.words, color: colorBB7000, size: 32.sp),
-              ],
-            ),
-          );
-        },
-        staggeredTileBuilder: (index) => const StaggeredTile.fit(1),
-      ),
+        id: "answer",
+        builder: (_)=> ListView.builder(
+          itemCount: 2,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context,index){
+            return InkWell(
+              onTap: (){
+                rootController.clickAnswer(index);
+              },
+              child: Container(
+                margin: EdgeInsets.only(bottom: 10.h),
+                child: Stack(
+                  key: index==0?rootController.answerAGlobalKey:rootController.answerBGlobalKey,
+                  alignment: Alignment.center,
+                  children: [
+                    ImageWidget(image: rootController.getAnswerBg(index),width: double.infinity,height: 58.h,fit: BoxFit.fill,),
+                    TextWidget(
+                      text: index==0?rootController.currentQuestion?.a??"":rootController.currentQuestion?.b??"",
+                      color: rootController.getAnswerTextColor(index),
+                      size: 28.sp,
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        )
     ),
   );
 
@@ -352,7 +316,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
     id: "guide",
     builder: (_)=>Positioned(
       top: (rootController.guideOffset?.dy??0)+20.w,
-      left: (rootController.guideOffset?.dx??0)+20.w,
+      left: (rootController.guideOffset?.dx??0)+230.w,
       child: Offstage(
         offstage: null==rootController.guideOffset,
         child: InkWell(
