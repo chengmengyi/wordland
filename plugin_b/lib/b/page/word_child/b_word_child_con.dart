@@ -127,11 +127,11 @@ class BWordChildCon extends RootController{
         QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
         update(["wheel_pro"]);
         NumUtils.instance.updateTodayAnswerRightNum();
-        if (QuestionUtils.instance.bAnswerRightNum % 9 == 0) {
+        if (QuestionUtils.instance.bAnswerRightNum % 4 == 0) {
           update(["level"]);
           NumUtils.instance.updateWheelNum(1);
           RoutersUtils.toNamed(
-              routerName: RoutersData.aWheel,
+              routerName: RoutersData.bWheel,
               params: {"auto": true},
               backResult: (map) {
                 if (null != map && map["back"] == true) {
@@ -441,8 +441,8 @@ class BWordChildCon extends RootController{
   }
 
   int getNextWheelNum(){
-    var i = QuestionUtils.instance.bAnswerIndex~/10;
-    return (i+1)*10;
+    var i = QuestionUtils.instance.bAnswerIndex~/5;
+    return (i+1)*5;
   }
 
   bool _checkAnswerResult(){

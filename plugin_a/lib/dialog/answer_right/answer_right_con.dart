@@ -39,6 +39,10 @@ class AnswerRightCon extends RootController{
           RoutersUtils.back();
           call.call(addNum);
         },
+        showAdFail: (ad,error){
+          RoutersUtils.back();
+          call.call(addNum);
+        }
       ),
     );
   }

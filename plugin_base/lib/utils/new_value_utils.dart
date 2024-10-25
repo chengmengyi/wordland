@@ -116,7 +116,7 @@ class NewValueUtils{
 
   bool checkShowAd(AdType adType){
     // if(kDebugMode){
-    //   return true;
+    //   return false;
     // }
     List<IntAd> list=[];
     switch(adType){
