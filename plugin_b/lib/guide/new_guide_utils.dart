@@ -32,30 +32,51 @@ class NewGuideUtils{
   checkNewUserGuide(){
     var userStep = _getCurrentNewUserStep();
     if(guidePlanB()){
+      var indexWhere = BPackageNewUserGuideStep.values.indexWhere((element) => element.name==userStep);
+      //老版本的新手步骤不在此版本的步骤中，视为已完成
+      if(indexWhere<0){
+        updatePlanBNewUserStep(BPackageNewUserGuideStep.completed);
+        return;
+      }
       if(userStep==BPackageNewUserGuideStep.newUserDialog.name){
         RoutersUtils.dialog(child: NewUserDialog());
-      }else if(userStep==BPackageNewUserGuideStep.withdrawSignBtnGuide.name){
-        EventCode.showWithdrawChild.sendMsg();
-        EventCode.bPackageShowCashSignOverlay.sendMsg();
-      }else if(userStep==BPackageNewUserGuideStep.showSignDialog.name){
-        Utils.showSignDialog(signFrom: SignFrom.newUserGuide);
-      }else if(userStep==BPackageNewUserGuideStep.level20Guide.name){
-        EventCode.showWithdrawChild.sendMsg();
-        EventCode.bPackageShowCashLevel20Overlay.sendMsg();
-      }else if(userStep==BPackageNewUserGuideStep.showRightWordsGuide.name){
-        EventCode.showWordChild.sendMsg();
-        EventCode.bPackageShowWordsFinger.sendMsg();
-      }else if(userStep==BPackageNewUserGuideStep.showHomeBubbleGuide.name){
-        if(QuestionUtils.instance.bAnswerIndex>=1){
-          EventCode.showHomeBubbleGuide.sendMsg();
-        }
+      }else if(userStep==BPackageNewUserGuideStep.homeTopCashGuide.name){
+        EventCode.showHomeTopCashGuide.sendMsg();
+      }else if(userStep==BPackageNewUserGuideStep.rightAnswerGuide.name){
+        EventCode.newUserGuideShowRightAnswerGuide.sendMsg();
       }else{
         showBubble=true;
-        var completeNewUserGuideTimer = StorageUtils.read<String>(StorageName.completeNewUserGuideTimer2)??"";
-        if(completeNewUserGuideTimer!=getTodayTime()){
-          _checkPlanBUserGuide();
-        }
+        EventCode.showHomeBubbleGuide.sendMsg();
+        // var completeNewUserGuideTimer = StorageUtils.read<String>(StorageName.completeNewUserGuideTimer2)??"";
+        // if(completeNewUserGuideTimer!=getTodayTime()){
+        //   _checkPlanBUserGuide();
+        // }
       }
+
+      // if(userStep==BPackageNewUserGuideStep.newUserDialog.name){
+      //   RoutersUtils.dialog(child: NewUserDialog());
+      // }else if(userStep==BPackageNewUserGuideStep.withdrawSignBtnGuide.name){
+      //   EventCode.showWithdrawChild.sendMsg();
+      //   EventCode.bPackageShowCashSignOverlay.sendMsg();
+      // }else if(userStep==BPackageNewUserGuideStep.showSignDialog.name){
+      //   Utils.showSignDialog(signFrom: SignFrom.newUserGuide);
+      // }else if(userStep==BPackageNewUserGuideStep.level20Guide.name){
+      //   EventCode.showWithdrawChild.sendMsg();
+      //   EventCode.bPackageShowCashLevel20Overlay.sendMsg();
+      // }else if(userStep==BPackageNewUserGuideStep.showRightWordsGuide.name){
+      //   EventCode.showWordChild.sendMsg();
+      //   EventCode.bPackageShowWordsFinger.sendMsg();
+      // }else if(userStep==BPackageNewUserGuideStep.showHomeBubbleGuide.name){
+      //   if(QuestionUtils.instance.bAnswerIndex>=1){
+      //     EventCode.showHomeBubbleGuide.sendMsg();
+      //   }
+      // }else{
+      //   showBubble=true;
+      //   var completeNewUserGuideTimer = StorageUtils.read<String>(StorageName.completeNewUserGuideTimer2)??"";
+      //   if(completeNewUserGuideTimer!=getTodayTime()){
+      //     _checkPlanBUserGuide();
+      //   }
+      // }
     }else{
       if(userStep==NewNewUserGuideStep.newUserDialog.name){
         RoutersUtils.dialog(child: NewUserDialog());
@@ -109,13 +130,7 @@ class NewGuideUtils{
     }
   }
 
-  bool checkCompletedWordsGuide(){
-    var guideCompleted = _getCurrentNewUserStep();
-    return guideCompleted==NewNewUserGuideStep.showHomeBubble.name||
-        guideCompleted==NewNewUserGuideStep.complete.name||
-    guideCompleted==BPackageNewUserGuideStep.showHomeBubbleGuide.name||
-    guideCompleted==BPackageNewUserGuideStep.completed.name;
-  }
+  bool checkCompletedWordsGuide()=>_getCurrentNewUserStep()==BPackageNewUserGuideStep.completed.name;
 
   bool checkNewUserGuideCompleted(){
     var currentNewUserStep = _getCurrentNewUserStep();

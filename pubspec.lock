@@ -21,10 +21,10 @@ packages:
     dependency: transitive
     description:
       name: android_play_install_referrer
-      sha256: "499b038aa614d565354beeed606a1a29bbb284725f7df2e0d0eb969d4ddba5e0"
+      sha256: cba8387c1aaa35d2441159beebe5e9160901c44632d02d0579c6875756ecb798
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.0"
   anythink_sdk:
     dependency: transitive
     description:
@@ -282,10 +282,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_check_adjust_cloak
-      sha256: dc4be9a3c4c2dbd2a0042b0f5d4db5c6e490d19f97c47a08f24b1888a4d8c920
+      sha256: "65df40b3b14c8870a75e9595955e708d11e2804fcabfdaae9eedb3cb0c028bb9"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.8"
+    version: "0.3.2"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -322,10 +322,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_tba_info
-      sha256: "3aaa5ce892875888b5e96f5533abcc69ba04857a734de9151ac74b8d9857f677"
+      sha256: "084ccdb48739671ed6bd7d00b13e035a8c7b62d6b5df3a2a949131b3e153395d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.7"
+    version: "0.0.8"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -339,8 +339,8 @@ packages:
   flutter_workmanager_notification:
     dependency: transitive
     description:
-      path: "/Users/jaydenniked/StudioProjects/flutter_workmanager_notification"
-      relative: false
+      path: "plugin_base/plugins/flutter_workmanager_notification"
+      relative: true
     source: path
     version: "0.0.1"
   fluttertoast:
@@ -511,6 +511,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.0"
+  permission_handler:
+    dependency: transitive
+    description:
+      name: permission_handler
+      sha256: "18bf33f7fefbd812f37e72091a15575e72d5318854877e0e4035a24ac1113ecb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.3.1"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      sha256: "71bbecfee799e65aff7c744761a57e817e73b738fedf62ab7afd5593da21f9f1"
+      url: "https://pub.dev"
+    source: hosted
+    version: "12.0.13"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      sha256: e6f6d73b12438ef13e648c4ae56bd106ec60d17e90a59c4545db6781229082a0
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.4.5"
+  permission_handler_html:
+    dependency: transitive
+    description:
+      name: permission_handler_html
+      sha256: af26edbbb1f2674af65a8f4b56e1a6f526156bc273d0e65dd8075fab51c78851
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3+2"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      sha256: e9c8eadee926c4532d0305dff94b85bf961f16759c3af791486613152af4b4f9
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.3"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      sha256: "1a790728016f79a41216d88672dbc5df30e686e811ad4e698bfc51f76ad91f1e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   platform:
     dependency: transitive
     description:

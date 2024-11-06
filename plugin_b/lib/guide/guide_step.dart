@@ -23,5 +23,6 @@ enum NewNewUserGuideStep{
 }
 
 enum BPackageNewUserGuideStep{
-  newUserDialog,withdrawSignBtnGuide,showSignDialog,level20Guide,showRightWordsGuide,showHomeBubbleGuide,completed
+  // newUserDialog,withdrawSignBtnGuide,showSignDialog,level20Guide,showRightWordsGuide,showHomeBubbleGuide,completed
+  newUserDialog,homeTopCashGuide,rightAnswerGuide,completed
 }

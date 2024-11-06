@@ -21,10 +21,10 @@ import 'package:plugin_base/utils/utils.dart';
 
 class BHomeCon extends RootController{
   var homeIndex=0,showFinger=false;
-  List<Widget> pageList=[BWordChildPage(),BTaskChildPage(),BWithdrawChildPage()];
+  List<Widget> pageList=[BWordChildPage(),BWithdrawChildPage()];
   List<HomeBottomBean> bottomList=[
     HomeBottomBean(selIcon: "icon_home_sel", unsIcon: "icon_home_uns"),
-    HomeBottomBean(selIcon: "icon_task_sel", unsIcon: "icon_task_uns"),
+    // HomeBottomBean(selIcon: "icon_task_sel", unsIcon: "icon_task_uns"),
     HomeBottomBean(selIcon: "icon_withdraw_sel", unsIcon: "icon_withdraw_uns"),
   ];
 
@@ -44,9 +44,9 @@ class BHomeCon extends RootController{
   }
 
   clickBottom(index){
-    if(index==0){
-      EventCode.refreshAchNum.sendMsg();
-    }
+    // if(index==0){
+    //   EventCode.refreshAchNum.sendMsg();
+    // }
     if(homeIndex==index){
       return;
     }
@@ -67,12 +67,13 @@ class BHomeCon extends RootController{
       case EventCode.showWordChild:
         clickBottom(0);
         break;
-      case EventCode.oldUserShowBubbleGuide:
-      case EventCode.showTaskChild:
-        clickBottom(1);
-        break;
+      // case EventCode.oldUserShowBubbleGuide:
+      // case EventCode.showTaskChild:
+      //   clickBottom(1);
+      //   break;
       case EventCode.showWithdrawChild:
-        clickBottom(2);
+      case EventCode.newUserGuideShowRightAnswerGuide:
+        clickBottom(1);
         break;
       case EventCode.taskHasBubble:
         if(homeIndex!=1){

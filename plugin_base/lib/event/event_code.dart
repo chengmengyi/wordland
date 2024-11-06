@@ -29,4 +29,6 @@ enum EventCode{
   bPackageShowWordsFinger,
   showWheelOverlayGuide,
   refreshAchNum,
+  showHomeTopCashGuide,
+  newUserGuideShowRightAnswerGuide,
 }

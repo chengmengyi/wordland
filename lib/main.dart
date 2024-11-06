@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:plugin_a/routers/routers_list.dart';
 import 'package:plugin_b/routers/routers_list.dart';
+import 'package:plugin_b/utils/progress/progress_utils.dart';
 import 'package:plugin_base/export.dart';
 import 'package:plugin_base/utils/check_app_state_utils.dart';
 import 'package:plugin_base/language/messages.dart';

@@ -53,4 +53,7 @@ class StorageName {
   static const String alreadyUploadCoinsNum="alreadyUploadCoinsNum";
   static const String alreadyUploadAdNum="alreadyUploadAdNum";
   static const String adShowNum="adShowNum";
+  static const String currentProIndex="currentProIndex";
+  static const String proReceivedIndex="proReceivedIndex";
+  static const String localBoxRewardsStr="localBoxRewardsStr";
 }

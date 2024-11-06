@@ -12,9 +12,14 @@ import 'package:plugin_base/widget/stroked_text_widget.dart';
 import 'package:plugin_base/widget/text_widget.dart';
 
 class AnswerRightDialog extends RootDialog<AnswerRightCon>{
-  var addNum=NewValueUtils.instance.getRewardAddNum();
+  double addNum;
+  bool isBox;
   Function(double) call;
-  AnswerRightDialog({required this.call});
+  AnswerRightDialog({
+    required this.addNum,
+    required this.isBox,
+    required this.call,
+  });
 
   @override
   AnswerRightCon setController() => AnswerRightCon();
@@ -29,6 +34,8 @@ class AnswerRightDialog extends RootDialog<AnswerRightCon>{
         alignment: Alignment.center,
         children: [
           Lottie.asset("assets/money_bg.json",width: 200.w,height: 200.w,),
+          isBox?
+          Lottie.asset("assets/open_box.json",width: 172.w,height: 172.w,repeat: false):
           ImageWidget(image: getMoneyIcon(),width: 172.w,height: 172.w,),
         ],
       ),

@@ -153,6 +153,7 @@ class NumUtils{
   updateCollectBubbleNum(){
     collectBubbleNum++;
     StorageUtils.write(StorageName.collectBubbleNum, collectBubbleNum);
+    EventCode.updateWithdrawTask.sendMsg();
   }
 
   updateAppLaunchNum(){

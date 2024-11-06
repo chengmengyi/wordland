@@ -16,11 +16,14 @@ import 'package:plugin_b/guide/guide_step.dart';
 import 'package:plugin_b/guide/home_bubble_guide_widget.dart';
 import 'package:plugin_b/guide/new_guide_utils.dart';
 import 'package:plugin_b/guide/wheel_guide_widget.dart';
+import 'package:plugin_b/utils/progress/progress_bean.dart';
+import 'package:plugin_b/utils/progress/progress_utils.dart';
 import 'package:plugin_b/utils/task_utils.dart';
 import 'package:plugin_b/utils/utils.dart';
 import 'package:plugin_base/bean/answer_bean.dart';
 import 'package:plugin_base/bean/question_bean.dart';
 import 'package:plugin_base/bean/words_choose_bean.dart';
+import 'package:plugin_base/enums/incent_from.dart';
 import 'package:plugin_base/enums/sign_from.dart';
 import 'package:plugin_base/enums/word_finger_from.dart';
 import 'package:plugin_base/event/event_code.dart';
@@ -58,6 +61,8 @@ class BWordChildCon extends RootController{
   GlobalKey wheelGlobalKey=GlobalKey();
   GlobalKey answerAGlobalKey=GlobalKey();
   GlobalKey answerBGlobalKey=GlobalKey();
+  GlobalKey progressListGlobalKey=GlobalKey();
+  ScrollController progressListController=ScrollController();
 
   @override
   void onInit() {
@@ -73,12 +78,13 @@ class BWordChildCon extends RootController{
     NumUtils.instance.updateAppLaunchNum();
     update(["bubble"]);
     _refreshAchNum();
+    _checkProgressPosition();
   }
 
   _updateQuestionData({bool fromNext=true}){
-    if(QuestionUtils.instance.bAnswerIndex==1&&fromNext){
-      NewGuideUtils.instance.checkNewUserGuide();
-    }
+    // if(QuestionUtils.instance.bAnswerIndex==1&&fromNext){
+    //   NewGuideUtils.instance.checkNewUserGuide();
+    // }
     currentQuestion=QuestionUtils.instance.getBQuestion();
     // chooseList.clear();
     // answerList.clear();
@@ -121,13 +127,48 @@ class BWordChildCon extends RootController{
     }else{
       TbaUtils.instance.appEvent(AppEventName.word_flase_c);
     }
+    if(_wordFingerFrom==WordFingerFrom.bPackageNewUserGuide){
+      NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.completed);
+    }
     Future.delayed(const Duration(milliseconds: 500),(){
       if(result) {
         EventCode.answerRight.sendMsg();
         QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: true);
         update(["wheel_pro"]);
         NumUtils.instance.updateTodayAnswerRightNum();
-        if (QuestionUtils.instance.bAnswerRightNum % 4 == 0) {
+
+        //-1没有 0box  1wheel
+        var showBoxOrWheel = ProgressUtils.instance.checkShowBoxOrWheel();
+        ProgressUtils.instance.updateProIndex();
+        update(["pro"]);
+        _checkProgressPosition();
+        if(showBoxOrWheel==-1){
+          RoutersUtils.dialog(
+              child: AnswerRightDialog(
+                isBox: false,
+                addNum: NewValueUtils.instance.getRewardAddNum(),
+                call: (money){
+                  NumUtils.instance.updateUserMoney(money, (){
+                    update(["level"]);
+                    _updateQuestionData();
+                  });
+                },
+              )
+          );
+        }else if(showBoxOrWheel==0){
+          RoutersUtils.dialog(
+              child: AnswerRightDialog(
+                addNum: NewValueUtils.instance.getBoxAddNum(),
+                isBox: true,
+                call: (money){
+                  NumUtils.instance.updateUserMoney(money, (){
+                    update(["level"]);
+                    _updateQuestionData();
+                  });
+                },
+              )
+          );
+        }else{
           update(["level"]);
           NumUtils.instance.updateWheelNum(1);
           RoutersUtils.toNamed(
@@ -139,31 +180,47 @@ class BWordChildCon extends RootController{
                 }
               }
           );
-        }else{
-          RoutersUtils.dialog(
-              child: AnswerRightDialog(
-                call: (money){
-                  NumUtils.instance.updateUserMoney(money, (){
-                    update(["level"]);
-                    _updateQuestionData();
-                  });
-                },
-              )
-          );
         }
+
+        // if (QuestionUtils.instance.bAnswerRightNum % 4 == 0) {
+        //   update(["level"]);
+        //   NumUtils.instance.updateWheelNum(1);
+        //   RoutersUtils.toNamed(
+        //       routerName: RoutersData.bWheel,
+        //       params: {"auto": true},
+        //       backResult: (map) {
+        //         if (null != map && map["back"] == true) {
+        //           _updateQuestionData();
+        //         }
+        //       }
+        //   );
+        // }else{
+        //   RoutersUtils.dialog(
+        //       child: AnswerRightDialog(
+        //         call: (money){
+        //           NumUtils.instance.updateUserMoney(money, (){
+        //             update(["level"]);
+        //             _updateQuestionData();
+        //           });
+        //         },
+        //       )
+        //   );
+        // }
       }else{
-        RoutersUtils.dialog(
-            child: AnswerFailDialog(
-              nextWordsCall: (next){
-                if(next){
-                  QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
-                  _updateQuestionData();
-                }else{
-                  update(["answer"]);
-                }
-              },
-            )
-        );
+        QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
+        _updateQuestionData();
+        // RoutersUtils.dialog(
+        //     child: AnswerFailDialog(
+        //       nextWordsCall: (next){
+        //         if(next){
+        //           QuestionUtils.instance.updateBAnswerIndex(updateAnswerRight: false);
+        //           _updateQuestionData();
+        //         }else{
+        //           update(["answer"]);
+        //         }
+        //       },
+        //     )
+        // );
       }
       _chooseAnswerIndex=-1;
     });
@@ -289,9 +346,10 @@ class BWordChildCon extends RootController{
         _showWordsGuide(WordFingerFrom.cash_task);
         break;
       case EventCode.bPackageShowWordsFinger:
+      case EventCode.newUserGuideShowRightAnswerGuide:
         TbaUtils.instance.appEvent(AppEventName.userb_abc);
         _showWordsGuide(WordFingerFrom.bPackageNewUserGuide);
-        NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showHomeBubbleGuide);
+        // NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showHomeBubbleGuide);
         break;
       case EventCode.oldUserShowWordsGuide:
         _showWordsGuide(WordFingerFrom.old);
@@ -475,6 +533,42 @@ class BWordChildCon extends RootController{
     return colorA44400;
   }
 
+  String getProBg(ProgressBean progressBean){
+    if(progressBean.proStatus==ProStatus.received){
+      return "pro_bg1";
+    }
+    return "pro_bg2";
+  }
+
+  String getProIcon(ProgressBean progressBean){
+    if(progressBean.proType==ProType.box){
+      switch(progressBean.proStatus){
+        case ProStatus.received: return "box1";
+        case ProStatus.current: return "box2";
+        default: return "box3";
+      }
+    }else{
+      switch(progressBean.proStatus){
+        case ProStatus.received: return "pro_wheel1";
+        case ProStatus.current: return "pro_wheel2";
+        default: return "pro_wheel3";
+      }
+    }
+  }
+
+  _checkProgressPosition(){
+    var renderBox = progressListGlobalKey.currentContext!.findRenderObject() as RenderBox;
+    var width = renderBox.size.width;
+    var d = width~/(52.w);
+    var indexWhere = ProgressUtils.instance.proList.indexWhere((element) => element.proStatus==ProStatus.current);
+    if(indexWhere==-1){
+      indexWhere=ProgressUtils.instance.proList.lastIndexWhere((element) => element.proStatus==ProStatus.received);
+    }
+    if(indexWhere>=d-1){
+      progressListController.jumpTo((indexWhere-3)*(52.w));
+    }
+  }
+
   test()async{
     if(!kDebugMode){
       return;
@@ -484,6 +578,7 @@ class BWordChildCon extends RootController{
   @override
   void onClose() {
     _stopWordsTipsTimer();
+    progressListController.dispose();
     super.onClose();
   }
 }

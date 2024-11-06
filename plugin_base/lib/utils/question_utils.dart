@@ -26,6 +26,9 @@ class QuestionUtils{
 
   QuestionUtils._internal(){
     _initQuestionList();
+  }
+
+  initIndex(){
     currentLevel=StorageUtils.read<int>(StorageName.currentLevel)??1;
     currentAnswerIndex=StorageUtils.read<int>(StorageName.currentAnswerIndex)??0;
     bAnswerIndex=StorageUtils.read<int>(StorageName.bAnswerIndex)??0;

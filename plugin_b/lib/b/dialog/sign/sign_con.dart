@@ -101,9 +101,9 @@ class SignCon extends RootController{
     //   GuideUtils.instance.updateNewUserGuideStep(NewUserGuideStep.showWordsGuide);
     // }else
 
-    if(_signFrom==SignFrom.newUserGuide&&NewGuideUtils.instance.guidePlanB()){
-      NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.level20Guide);
-    }
+    // if(_signFrom==SignFrom.newUserGuide&&NewGuideUtils.instance.guidePlanB()){
+    //   NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.level20Guide);
+    // }
 
     if(_signFrom==SignFrom.oldUserGuide){
       if(NewGuideUtils.instance.guidePlanB()){

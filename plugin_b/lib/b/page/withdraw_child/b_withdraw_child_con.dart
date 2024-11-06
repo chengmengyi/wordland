@@ -103,20 +103,20 @@ class BWithdrawChildCon extends RootController{
       RoutersUtils.dialog(child: NoMoneyDialog());
       return;
     }
-    if(taskList.isNotEmpty){
-      TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop);
-      RoutersUtils.dialog(
-        child: IncompleteDialog(
-          chooseNum: chooseMoneyNum,
-          bean: taskList.first,
-          clickGo: (){
-            TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop_go);
-            clickTask(taskList.first);
-          },
-        ),
-      );
-      return;
-    }
+    // if(taskList.isNotEmpty){
+    //   TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop);
+    //   RoutersUtils.dialog(
+    //     child: IncompleteDialog(
+    //       chooseNum: chooseMoneyNum,
+    //       bean: taskList.first,
+    //       clickGo: (){
+    //         TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop_go);
+    //         clickTask(taskList.first);
+    //       },
+    //     ),
+    //   );
+    //   return;
+    // }
     RoutersUtils.dialog(child: AccountDialog(chooseNum: chooseMoneyNum,));
   }
 
@@ -155,7 +155,7 @@ class BWithdrawChildCon extends RootController{
       widget: WithdrawLevel20GuideWidget(
         offset: offset,
         hideCall: (){
-          NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showRightWordsGuide);
+          // NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showRightWordsGuide);
         },
       ),
     );
@@ -175,7 +175,7 @@ class BWithdrawChildCon extends RootController{
         offset: offset,
         hideCall: (){
           TbaUtils.instance.appEvent(AppEventName.userb_withdraw_sign);
-          NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showSignDialog);
+          // NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.showSignDialog);
         },
       ),
     );

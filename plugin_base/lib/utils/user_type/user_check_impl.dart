@@ -1,4 +1,5 @@
 import 'package:adjust_sdk/adjust_event_success.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_check_adjust_cloak/util/check_listener.dart';
 import 'package:plugin_base/routers/routers_data.dart';

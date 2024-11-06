@@ -32,7 +32,7 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
         _payTypeList(),
         _lineWidget(),
         _payNumList(),
-        _taskWidget(),
+        // _taskWidget(),
         _cashBtnWidget(),
       ],
     ),

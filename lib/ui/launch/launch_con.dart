@@ -6,6 +6,7 @@ import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
+import 'package:plugin_b/utils/progress/progress_utils.dart';
 import 'package:plugin_base/event/event_code.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_data.dart';
@@ -16,6 +17,7 @@ import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_id.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
 import 'package:plugin_base/utils/num_utils.dart';
+import 'package:plugin_base/utils/question_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
 
@@ -70,6 +72,8 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
     var checkType = FlutterCheckAdjustCloak.instance.checkType();
     NewValueUtils.instance.initValue();
     NumUtils.instance.initInfo();
+    QuestionUtils.instance.initIndex();
+    ProgressUtils.instance.initProList();
     RoutersUtils.offNamed(router: checkType?RoutersData.bHome:RoutersData.aHome);
   }
 

@@ -27,12 +27,16 @@ class NewValueUtils{
   }
 
   NewValueBean? _valueBean;
+  final List<FloatReward> _boxRewardList=[];
 
   NewValueUtils._internal();
 
   initValue(){
     try{
       _valueBean=NewValueBean.fromJson(jsonDecode(_getLocalValueConf()));
+      jsonDecode(_getBoxRewardConf()).forEach((v) {
+        _boxRewardList.add(FloatReward.fromJson(v));
+      });
     }catch(e){
 
     }
@@ -47,6 +51,8 @@ class NewValueUtils{
   double getFloatAddNum() => _getRandomReward(_valueBean?.floatReward??[]);
 
   double getWheelAddNum() => _getRandomReward(_valueBean?.wheelReward??[]);
+
+  double getBoxAddNum() => _getRandomReward(_boxRewardList);
 
   List<int> getCashList() => _valueBean?.wordRange??[800,1000,1500,2000];
 
@@ -153,7 +159,11 @@ class NewValueUtils{
   }
 
   test(){
-    print("kk==${_valueBean?.conversion}===${FlutterCheckAdjustCloak.instance.getUserType()}");
+    _boxRewardList.clear();
+    jsonDecode(_getBoxRewardConf()).forEach((v) {
+      _boxRewardList.add(FloatReward.fromJson(v));
+    });
+    print("kk====${_boxRewardList.length}");
   }
 
   String _getLocalValueConf(){
@@ -172,6 +182,14 @@ class NewValueUtils{
       return (userType?androidLargeValueStr:androidSmallValueStr).base64();
     }
   }
+  
+  String _getBoxRewardConf(){
+    var localBoxRewardsStr = StorageUtils.read<String>(StorageName.localBoxRewardsStr,distType: false)??"";
+    if(localBoxRewardsStr.isEmpty){
+      return androidBoxRewardLocalStr.base64();
+    }
+    return localBoxRewardsStr;
+  }
 
   getFirebaseInfo()async{
     var localSmall = StorageUtils.read<String>(StorageName.androidSmallValueConf,distType: false)??"";
@@ -187,6 +205,14 @@ class NewValueUtils{
       var large = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_b_number");
       if(large.isNotEmpty){
         StorageUtils.write(StorageName.androidLargeValueConf, large, distType: false);
+      }
+    }
+
+    var localBoxRewardsStr = StorageUtils.read<String>(StorageName.localBoxRewardsStr,distType: false)??"";
+    if(localBoxRewardsStr.isNotEmpty){
+      var box_reward = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("box_reward");
+      if(box_reward.isNotEmpty){
+        StorageUtils.write(StorageName.localBoxRewardsStr, box_reward, distType: false);
       }
     }
   }

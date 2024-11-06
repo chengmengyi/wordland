@@ -41,7 +41,7 @@ class NewUserCon extends RootController{
     RoutersUtils.back();
     NumUtils.instance.updateUserMoney(addNum,(){
       if(NewGuideUtils.instance.guidePlanB()){
-        NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.withdrawSignBtnGuide);
+        NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.homeTopCashGuide);
       }else{
         NewGuideUtils.instance.updateNewUserStep(NewNewUserGuideStep.newUserWordsGuide);
       }

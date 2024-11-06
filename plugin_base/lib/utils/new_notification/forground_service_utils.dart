@@ -1,5 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_workmanager_notification/notification_observer.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:plugin_base/export.dart';
 import 'package:plugin_base/language/local.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
@@ -28,8 +29,8 @@ class ForegroundServiceUtils {
   ForegroundServiceUtils._internal();
 
   checkPermission() async {
-    var result = await FlutterWorkmanagerNotification.instance.requestNotificationPermission();
-    if (result) {
+    var result = await Permission.notification.request();
+    if (result.isGranted) {
       _startForegroundService();
       FlutterWorkmanagerNotification.instance.startWorkManager(
         id: NotificationId.timerNotificationId,
@@ -58,8 +59,8 @@ class ForegroundServiceUtils {
   }
 
   updateForegroundData() async {
-    var result = await FlutterWorkmanagerNotification.instance.checkNotificationPermission();
-    if (result) {
+    var status = await Permission.notification.status;
+    if(status.isGranted){
       _startForegroundService();
     }
   }

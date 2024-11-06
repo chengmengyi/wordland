@@ -43,7 +43,7 @@ class BHomePage extends RootPageNew<BHomeCon>{
 
   _bottomList()=>StaggeredGridView.countBuilder(
     itemCount: rootController.bottomList.length,
-    crossAxisCount: 3,
+    crossAxisCount: 2 ,
     shrinkWrap: true,
     mainAxisSpacing: 6.w,
     crossAxisSpacing: 6.w,

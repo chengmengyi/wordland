@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:plugin_b/b/page/word_child/b_word_child_con.dart';
 import 'package:plugin_b/guide/new_guide_utils.dart';
+import 'package:plugin_b/utils/progress/progress_bean.dart';
+import 'package:plugin_b/utils/progress/progress_utils.dart';
 import 'package:plugin_b/widget/bubble_widget.dart';
 import 'package:plugin_b/widget/money_animator/money_animator_widget.dart';
 import 'package:plugin_b/widget/top_money/top_money_widget.dart';
@@ -35,13 +38,14 @@ class BWordChildPage extends RootChild<BWordChildCon>{
             SizedBox(height: 6.h,),
             _topWidget(),
             SizedBox(height: 6.h,),
-            _signDownCountWidget(),
+            _progressWidget(),
             SizedBox(height: 6.h,),
             _questionWidget(),
               SizedBox(height: 6.h,),
             _chooseListWidget(),
             SizedBox(height: 10.h,),
-            _bottomWidget(),
+            // _bottomWidget(),
+            _signDownCountWidget(),
           ],
         ),
       ),
@@ -58,24 +62,99 @@ class BWordChildPage extends RootChild<BWordChildCon>{
     children: [
       SizedBox(width: 12.w,),
       TopMoneyWidget(topCash: TopCash.word,),
-      const Spacer(),
-      GetBuilder<BWordChildCon>(
-        id: "level",
-        builder: (_)=>InkWell(
-          onTap: (){
-            rootController.test();
-          },
-          child: StrokedTextWidget(
-              text: "Level ${QuestionUtils.instance.bAnswerIndex}",
-              fontSize: 26.sp,
-              textColor: colorFFFFFF,
-              strokeColor: color177200,
-              strokeWidth: 2.w
-          ),
-        ),
-      ),
+      // const Spacer(),
+      // GetBuilder<BWordChildCon>(
+      //   id: "level",
+      //   builder: (_)=>InkWell(
+      //     onTap: (){
+      //       rootController.test();
+      //     },
+      //     child: StrokedTextWidget(
+      //         text: "Level ${QuestionUtils.instance.bAnswerIndex}",
+      //         fontSize: 26.sp,
+      //         textColor: colorFFFFFF,
+      //         strokeColor: color177200,
+      //         strokeWidth: 2.w
+      //     ),
+      //   ),
+      // ),
       SizedBox(width: 12.w,),
     ],
+  );
+
+  _progressWidget()=>Container(
+    width: double.infinity,
+    height: 65.h,
+    margin: EdgeInsets.only(left: 16.w,right: 16.w),
+    child: Stack(
+      children: [
+        ImageWidget(image: "progress_bg",width: double.infinity,height: double.infinity,fit: BoxFit.fill,),
+        Row(
+          children: [
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                height: 65.h,
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 14.w),
+                child: GetBuilder<BWordChildCon>(
+                  id: "pro",
+                  builder: (_)=>ListView.builder(
+                    itemCount: ProgressUtils.instance.proList.length,
+                    scrollDirection: Axis.horizontal,
+                    key: rootController.progressListGlobalKey,
+                    controller: rootController.progressListController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context,index){
+                      var bean = ProgressUtils.instance.proList[index];
+                      return Container(
+                        height: 65.h,
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    bean.proStatus==ProStatus.current?
+                                    Lottie.asset("assets/current_pro.json",width: 36.w,height: 36.w):
+                                    ImageWidget(image: rootController.getProBg(bean),width: 36.w,height: 36.h),
+                                    ImageWidget(
+                                      image: rootController.getProIcon(bean),
+                                      width: 32.w,
+                                      height: 32.h,
+                                    ),
+                                  ],
+                                ),
+                                TextWidget(text: "${bean.index}", color: color8E3B00, size: 14.sp,fontWeight: FontWeight.w600,)
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 17.h),
+                              child: ImageWidget(image: "line",width: 16.w,height: 2.h,),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: (){
+                rootController.test();
+              },
+              child: ImageWidget(image: "pro_icon",width: 52.w,height: 52.h,),
+            ),
+          ],
+        )
+      ],
+    ),
   );
 
   _questionWidget()=>SizedBox(
