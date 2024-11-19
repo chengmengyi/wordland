@@ -23,6 +23,7 @@ class StorageName {
   static const String newUserGuideStep="newUserGuideStep";
   static const String localValueConf="localValueConf";
   static const String localADConf="localADConf";
+  static const String notificationConf="notificationConf";
   static const String signInfo="signInfo";
   static const String lastOldUserGuideTimer="lastOldUserGuideTimer";
   static const String oldUserGuideStep="oldUserGuideStep";

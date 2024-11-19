@@ -41,6 +41,7 @@ class AdUtils{
       maxKey: maxAdKey.base64(),
       topOnAppId: androidTopOnAppId.base64(),
       topOnAppKey: androidTopOnAppKey.base64(),
+      logFacebookPurchase: true,
       maxAdBean: MaxAdBean(
         maxShowNum: json["xhfhennt"],
         maxClickNum: json["nxscvbbw"],

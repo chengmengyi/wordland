@@ -20,7 +20,7 @@ dependencies:
   fluttertoast: 8.0.9
   flutter_tba_info: 0.0.8
   flutter_check_adjust_cloak: 0.3.2
-  flutter_max_ad: 0.3.3
+  flutter_max_ad: 0.3.9
 #  flutter_max_ad:
 #    path: /Users/jaydenniked/StudioProjects/flutter_max_ad-0.3.1
   lottie: 2.6.0
@@ -32,8 +32,9 @@ dependencies:
   permission_handler: 11.3.1
   intl: 0.19.0
   firebase_messaging: 15.0.4
+  flutter_broadcasts: 0.4.0
   flutter_workmanager_notification:
-    path: plugins/flutter_workmanager_notification
+    path: /Users/jaydenniked/StudioProjects/flutter_workmanager_notification
 
 
 dev_dependencies:

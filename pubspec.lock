@@ -278,6 +278,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.1"
+  flutter_broadcasts:
+    dependency: transitive
+    description:
+      name: flutter_broadcasts
+      sha256: "9e76eeeda4a9faef63e3b08af5664c79219a2eabffc8ce95296858ea70423b1e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
   flutter_check_adjust_cloak:
     dependency: transitive
     description:
@@ -298,10 +306,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_max_ad
-      sha256: e1831e1f1fb5761a7b5ca95eeb247f635cadae872b0e2ed4480628dc38873b67
+      sha256: "4e690012e3600eb6f524196c65bd6e38c1ade77de84fc88c9474fe293f1555a0"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.9"
   flutter_screenutil:
     dependency: transitive
     description:
@@ -339,8 +347,8 @@ packages:
   flutter_workmanager_notification:
     dependency: transitive
     description:
-      path: "plugin_base/plugins/flutter_workmanager_notification"
-      relative: true
+      path: "/Users/jaydenniked/StudioProjects/flutter_workmanager_notification"
+      relative: false
     source: path
     version: "0.0.1"
   fluttertoast:

@@ -1,17 +1,23 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_broadcasts/flutter_broadcasts.dart';
+import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_workmanager_notification/notification_observer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:plugin_base/export.dart';
 import 'package:plugin_base/language/local.dart';
+import 'package:plugin_base/storage/storage_name.dart';
+import 'package:plugin_base/storage/storage_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
+import 'package:plugin_base/utils/data.dart';
 import 'package:plugin_base/utils/num_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class NotificationId{
-  static const int timerNotificationId=10000;
-  static const int foregroundNotificationId=10001;
+  static const int timerNotificationId=100;
+  static const int foregroundNotificationId=101;
 }
 
 class ForegroundServiceUtils {
@@ -28,7 +34,7 @@ class ForegroundServiceUtils {
 
   ForegroundServiceUtils._internal();
 
-  checkPermission() async {
+  checkPermissionA() async {
     var result = await Permission.notification.request();
     if (result.isGranted) {
       _startForegroundService();
@@ -44,6 +50,43 @@ class ForegroundServiceUtils {
       _addClickListener();
       FirebaseMessaging.instance.subscribeToTopic("BR~ALL");
     }
+  }
+
+  checkPermissionB() async {
+    // var result = await Permission.notification.request();
+    // if (result.isGranted) {
+    //   _startForegroundService();
+    //   FlutterWorkmanagerNotification.instance.startWorkManager(
+    //     id: NotificationId.timerNotificationId,
+    //     title: Local.checkYourAccount.tr,
+    //     desc: Local.completeTasks.tr,
+    //     btn: Local.check.tr,
+    //     tbaUrl: await TbaUtils.instance.getTbaUrl(),
+    //     tbaHeader: await TbaUtils.instance.getHeaderMap(),
+    //     tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
+    //   );
+    //   _addClickListener();
+    //   FirebaseMessaging.instance.subscribeToTopic("BR~ALL");
+    // }
+  }
+
+
+  test()async{
+    var result = await Permission.notification.request();
+    if (result.isGranted) {
+        FlutterWorkmanagerNotification.instance.startBPackageWorkManager(
+          id: NotificationId.timerNotificationId,
+          contentListStr: _getNotificationContentStr(),
+          notificationConfStr: _getNotificationConfStr(),
+          firstInstall: true,
+          btn: Local.check.tr,
+          tbaUrl: await TbaUtils.instance.getTbaUrl(),
+          tbaHeader: await TbaUtils.instance.getHeaderMap(),
+          tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
+        );
+    }
+    _registerBroadcast();
+
   }
 
   _startForegroundService() async{
@@ -81,5 +124,47 @@ class ForegroundServiceUtils {
         TbaUtils.instance.appEvent(AppEventName.time_pop_c);
         break;
     }
+  }
+
+  String _getNotificationConfStr(){
+    var s = StorageUtils.read<String>(StorageName.notificationConf,distType: false)??"";
+    if(s.isEmpty){
+      return notificationConfStr.base64();
+    }
+    return s;
+  }
+
+  String _getNotificationContentStr()=>jsonEncode([
+    {
+      "title":Local.checkYourAccount.tr,
+      "content":Local.completeTasks.tr
+    },
+    {
+      "title":Local.answerThisQuestion.tr,
+      "content":Local.cashOutNow.tr
+    },
+    {
+      "title":Local.tryYourLuck.tr,
+      "content":Local.tryItNow.tr
+    },
+    {
+      "title":"2+2=?",
+      "content":Local.answerCorrectly.tr
+    },
+  ]);
+
+  getFirebaseConf()async{
+    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wordland_push");
+    if(s.isNotEmpty){
+      StorageUtils.write(StorageName.notificationConf, s,distType: false);
+    }
+  }
+
+  _registerBroadcast(){
+    var receiver = BroadcastReceiver(names: ["android.intent.action.BOOT_COMPLETED","android.intent.action.USER_PRESENT"]);
+    receiver.messages.listen((event) {
+
+    });
+    receiver.start();
   }
 }

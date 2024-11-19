@@ -65,4 +65,10 @@ class Local {
   static const String check = 'Check';
   static const String checkYourAccount = 'Check your account';
   static const String completeTasks = 'Complete tasks to earning';
+  static const String answerThisQuestion = 'Answer this question correctly to cash out \$800!';
+  static const String cashOutNow = 'Cash out now';
+  static const String tryYourLuck = 'Try your luck with the lucky spin!';
+  static const String tryItNow = 'Try it now!';
+  static const String answerCorrectly = 'Answer correctly to claim \$50.';
+  static const String playGames = 'Play games to earn coins';
 }

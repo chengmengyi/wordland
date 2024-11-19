@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_check_adjust_cloak/util/check_listener.dart';
 import 'package:plugin_base/routers/routers_data.dart';
+import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
@@ -52,6 +53,7 @@ class UserCheckImpl implements CheckListener{
     AdUtils.instance.getFirebaseInfo();
     NewValueUtils.instance.getFirebaseInfo();
     AdjustPointUtils.instance.getFirebaseData();
+    ForegroundServiceUtils.instance.getFirebaseConf();
   }
 
   @override

@@ -40,7 +40,7 @@ class BHomeCon extends RootController{
   @override
   void onReady() {
     super.onReady();
-    ForegroundServiceUtils.instance.checkPermission();
+    ForegroundServiceUtils.instance.checkPermissionB();
   }
 
   clickBottom(index){

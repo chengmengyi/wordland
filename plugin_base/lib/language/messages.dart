@@ -68,6 +68,14 @@ class Messages extends Translations {
       Local.check:"Check",
       Local.checkYourAccount:"Check your account",
       Local.completeTasks:"Complete tasks to earning",
+
+
+      Local.answerThisQuestion:"Answer this question correctly to cash out \$800!",
+      Local.cashOutNow:"Cash out now",
+      Local.tryYourLuck:"Try your luck with the lucky spin!",
+      Local.tryItNow:"Try it now!",
+      Local.answerCorrectly:"Answer correctly to claim \$50.",
+      Local.playGames:"Play games to earn coins",
     },
     'pt_BR': {
       Local.newUser: 'Recompensas exclusivas para novos usuários',
@@ -132,6 +140,13 @@ class Messages extends Translations {
       Local.check:"Verificar",
       Local.checkYourAccount:"Verifique sua conta",
       Local.completeTasks:"Conclua tarefas para ganhar",
+
+      Local.answerThisQuestion:"Responda a esta pergunta corretamente para resgatar US\$ 800!",
+      Local.cashOutNow:"Resgate agora",
+      Local.tryYourLuck:"Tente sua sorte com a giratória da sorte!",
+      Local.tryItNow:"Tente agora!",
+      Local.answerCorrectly:"Responda corretamente para reclamar US\$ 50.",
+      Local.playGames:"Play games to earn coins ",
     },
     'vi_VN': {
       Local.newUser: 'Phần thưởng độc quyền cho người dùng mới',
@@ -195,6 +210,12 @@ class Messages extends Translations {
       Local.check:"Kiểm tra",
       Local.checkYourAccount:"Kiểm tra tài khoản của bạn",
       Local.completeTasks:"Hoàn thành nhiệm vụ để kiếm tiền",
+      Local.answerThisQuestion:"Trả lời câu hỏi này đúng để rút tiền \$800!",
+      Local.cashOutNow:"Rút tiền ngay",
+      Local.tryYourLuck:"Thử may mắn với cuộc quay may mắn!",
+      Local.tryItNow:"Thử ngay!",
+      Local.answerCorrectly:"Trả lời đúng để nhận \$50.",
+      Local.playGames:"Chơi game để kiếm tiền",
     },
     'id_ID': {
       Local.newUser: 'Hadiah eksklusif pengguna baru',
@@ -258,6 +279,12 @@ class Messages extends Translations {
       Local.check:"Memeriksa",
       Local.checkYourAccount:"Periksa akun Anda",
       Local.completeTasks:"Selesaikan tugas untuk mendapatkan penghasilan",
+      Local.answerThisQuestion:"Jawab pertanyaan ini dengan benar untuk menarik \$800!",
+      Local.cashOutNow:"Tarik sekarang",
+      Local.tryYourLuck:"Coba keberuntungan Anda dengan putaran mengundang keberuntungan!",
+      Local.tryItNow:"Cobalah sekarang!",
+      Local.answerCorrectly:"Jawab dengan benar untuk klaim \$50.",
+      Local.playGames:"Mainkan game untuk menghasilkan koin",
     },
     'th_TH': {
       Local.newUser: 'รางวัลพิเศษสำหรับผู้ใช้ใหม่',
@@ -321,6 +348,12 @@ class Messages extends Translations {
       Local.check:"ตรวจสอบ",
       Local.checkYourAccount:"ตรวจสอบบัญชีของคุณ",
       Local.completeTasks:"ทำภารกิจให้สำเร็จเพื่อรับรายได้",
+      Local.answerThisQuestion:"ตอบคำถามนี้อย่างถูกต้องเพื่อถอนเงิน 800ดอลลาร์!",
+      Local.cashOutNow:"ถอนเงินตอนนี้",
+      Local.tryYourLuck:"ลองโชคชัยของคุณกับการหมุนโชคดี!",
+      Local.tryItNow:"ลองทันที!",
+      Local.answerCorrectly:"ลองทันที!",
+      Local.playGames:"เล่นเกมเพื่อ kiếmเหรียญ",
     },
     'fil_PH': {
       Local.newUser: 'Mga eksklusibong reward ng bagong user',
@@ -384,6 +417,12 @@ class Messages extends Translations {
       Local.check:"Suriin",
       Local.checkYourAccount:"Suriin ang iyong account",
       Local.completeTasks:"Kumpletuhin ang mga gawain upang kumita",
+      Local.answerThisQuestion:"Sagotin ang tanong na ito nang tama upang ma-cash out ng \$800!",
+      Local.cashOutNow:"Mag-cash out ngayon",
+      Local.tryYourLuck:"Mag-cash out ngayon",
+      Local.tryItNow:"Subukan ito ngayon!",
+      Local.answerCorrectly:"Sagotin nang tama upang makuhanan ng \$50.",
+      Local.playGames:"Maglaro ng mga laro upang kumita ng mga coins",
     },
     'ru_RU': {
       Local.newUser: 'Ганджаранский эксклюзивный пенггуна бахару',
@@ -447,6 +486,12 @@ class Messages extends Translations {
       Local.check:"Семак",
       Local.checkYourAccount:"Семак акаун анда",
       Local.completeTasks:"Селесайканские туги для мендапаткан пендапатан",
+      Local.answerThisQuestion:"Ответьте на этот вопрос правильно, чтобы вывести 800 долларов!",
+      Local.cashOutNow:"Вывести сейчас",
+      Local.tryYourLuck:"Попробуйте свою удачу с лаунчиком удачи!",
+      Local.tryItNow:"Попробуйте сейчас!",
+      Local.answerCorrectly:"Ответьте правильно, чтобы получить 50 долларов.",
+      Local.playGames:"Играй в игры, чтобы заработать монеты",
     },
   };
 }

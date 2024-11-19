@@ -573,6 +573,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
+    ForegroundServiceUtils.instance.test();
   }
 
   @override
