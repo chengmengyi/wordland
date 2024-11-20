@@ -12,6 +12,8 @@ import 'package:plugin_b/widget/top_money/top_money_widget.dart';
 import 'package:plugin_base/enums/top_cash.dart';
 import 'package:plugin_base/language/local.dart';
 import 'package:plugin_base/root/root_child.dart';
+import 'package:plugin_base/routers/routers_data.dart';
+import 'package:plugin_base/routers/routers_utils.dart';
 import 'package:plugin_base/utils/question_utils.dart';
 import 'package:plugin_base/utils/utils.dart';
 import 'package:plugin_base/widget/text_widget.dart';
@@ -55,6 +57,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
         builder: (_)=>NewGuideUtils.instance.showBubble?BubbleWidget():Container(),
       ),
       MoneyAnimatorWidget(),
+      _h5Widget(),
     ],
   );
 
@@ -404,6 +407,20 @@ class BWordChildPage extends RootChild<BWordChildCon>{
           },
           child: Lottie.asset("assets/guide2.json",width: 56.w,height: 56.w),
         ),
+      ),
+    ),
+  );
+
+
+  _h5Widget()=>Positioned(
+    bottom: 10,
+    child: Offstage(
+      offstage: NumUtils.instance.h5_show=="0",
+      child: InkWell(
+        onTap: (){
+          RoutersUtils.toNamed(routerName: RoutersData.bH5);
+        },
+        child: Image.asset("images/h5.gif",width: 60,height: 60,),
       ),
     ),
   );

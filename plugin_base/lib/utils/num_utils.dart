@@ -27,7 +27,7 @@ class NumUtils{
       addTimeNum=2,coinNum=0,userRemoveFailNum=0,useTimeNum=0,
       payType=0,wheelNum=3,
   wordDis=5,collectBubbleNum=0,hasCommentApp=false,appLaunchNum=0,todayAnswerNum=0,
-  tipsNum=10,userMoneyNum=0.0,wl_newuser_guide="B",adShowNum=0;
+  tipsNum=10,userMoneyNum=0.0,wl_newuser_guide="B",adShowNum=0,h5_show="1";
   final List<String> _launchDaysList=[];
   final List<String> _alreadyUploadCoinsNumList=[];
   final List<String> _alreadyUploadAdNumList=[];
@@ -124,6 +124,7 @@ class NumUtils{
     // wlandIntCd=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wland_int_cd")).toInt(defaultNum: 3);
     wordDis=(await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("word_dis")).toInt(defaultNum: 5);
     wl_newuser_guide=await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wl_newuser_guide");
+    h5_show=await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("h5_show");
   }
 
   // updateHasWlandIntCd(AdPosId adPosId){

@@ -1,4 +1,5 @@
 import 'package:plugin_b/b/page/ach/ach_page.dart';
+import 'package:plugin_b/b/page/h5/h5_page.dart';
 import 'package:plugin_b/b/page/home/b_home_page.dart';
 import 'package:plugin_b/b/page/wheel/wheel_page.dart';
 import 'package:plugin_base/export.dart';
@@ -19,6 +20,11 @@ final bRoutersList=[
   GetPage(
       name: RoutersData.bWheel,
       page: () => WheelPage(),
+      transition: Transition.fadeIn
+  ),
+  GetPage(
+      name: RoutersData.bH5,
+      page: () => H5Page(),
       transition: Transition.fadeIn
   ),
 ];

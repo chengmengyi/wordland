@@ -36,29 +36,19 @@ class AdUtils{
   AdUtils._internal();
 
   initAd(){
-    var json = jsonDecode(_getLocalStr());
+
     FlutterMaxAd.instance.initMax(
       maxKey: maxAdKey.base64(),
       topOnAppId: androidTopOnAppId.base64(),
       topOnAppKey: androidTopOnAppKey.base64(),
       logFacebookPurchase: true,
-      maxAdBean: MaxAdBean(
-        maxShowNum: json["xhfhennt"],
-        maxClickNum: json["nxscvbbw"],
-        firstRewardedAdList: _getAdList(json["wpdnd_rv_one"],"wpdnd_rv_one"),
-        secondRewardedAdList: _getAdList(json["wpdnd_rv_two"],"wpdnd_rv_two"),
-        firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
-        secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
-      ),
-      // topOnTestDeviceId: "df0c1cf7-6405-463f-9105-10ca1ad1abe1",
-      // topOnTestDeviceId: "57535bec-dff7-437d-849a-d4a66292214d",
-      // maxTestDeviceIds: ["df0c1cf7-6405-463f-9105-10ca1ad1abe1","57535bec-dff7-437d-849a-d4a66292214d"]
+      maxAdBean: _getMaxAdBean(),
     );
     FlutterMaxAd.instance.setLoadAdListener(
         LoadAdListener(
           startLoad: (){
             TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_request);
-          }, 
+          },
           loadSuccess: (ad,info){
             TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_fill,params: {"platform":info?.plat??"","networkName":ad?.networkName??""});
           },
@@ -183,9 +173,25 @@ class AdUtils{
   }
 
   getFirebaseInfo()async{
+    var start = DateTime.now().millisecondsSinceEpoch;
     var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("wpdnd_ad_config");
+    var end = DateTime.now().millisecondsSinceEpoch;
+    TbaUtils.instance.appEvent(AppEventName.wpdnd_config_success,params: {"time":"${(end-start)/1000}"});
     if(s.isNotEmpty){
       StorageUtils.write(StorageName.localADConf, s,distType: false);
+      FlutterMaxAd.instance.setMaxAdInfo(_getMaxAdBean());
     }
+  }
+
+  MaxAdBean _getMaxAdBean(){
+    var json = jsonDecode(_getLocalStr());
+    return MaxAdBean(
+      maxShowNum: json["xhfhennt"],
+      maxClickNum: json["nxscvbbw"],
+      firstRewardedAdList: _getAdList(json["wpdnd_rv_one"],"wpdnd_rv_one"),
+      secondRewardedAdList: _getAdList(json["wpdnd_rv_two"],"wpdnd_rv_two"),
+      firstInterAdList: _getAdList(json["wpdnd_int_one"],"wpdnd_int_one"),
+      secondInterAdList: _getAdList(json["wpdnd_int_two"],"wpdnd_int_two"),
+    );
   }
 }

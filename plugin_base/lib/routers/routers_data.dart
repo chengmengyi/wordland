@@ -11,6 +11,7 @@ class RoutersData{
   static const String bHome="/bHome";
   static const String bWheel="/bWheel";
   static const String bAch="/bAch";
+  static const String bH5="/bH5";
 
   // static final routersList=[
   //   GetPage(

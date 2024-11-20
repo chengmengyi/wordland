@@ -114,4 +114,5 @@ enum AppEventName{
   fix_pop_c,
   time_pop_c,
   time_pop_t,
+  wpdnd_config_success,
 }
