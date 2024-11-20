@@ -57,4 +57,6 @@ class StorageName {
   static const String currentProIndex="currentProIndex";
   static const String proReceivedIndex="proReceivedIndex";
   static const String localBoxRewardsStr="localBoxRewardsStr";
+
+  static const String firstInstall="firstInstall";
 }

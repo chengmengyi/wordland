@@ -53,40 +53,37 @@ class ForegroundServiceUtils {
   }
 
   checkPermissionB() async {
-    // var result = await Permission.notification.request();
-    // if (result.isGranted) {
-    //   _startForegroundService();
-    //   FlutterWorkmanagerNotification.instance.startWorkManager(
-    //     id: NotificationId.timerNotificationId,
-    //     title: Local.checkYourAccount.tr,
-    //     desc: Local.completeTasks.tr,
-    //     btn: Local.check.tr,
-    //     tbaUrl: await TbaUtils.instance.getTbaUrl(),
-    //     tbaHeader: await TbaUtils.instance.getHeaderMap(),
-    //     tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
-    //   );
-    //   _addClickListener();
-    //   FirebaseMessaging.instance.subscribeToTopic("BR~ALL");
-    // }
-  }
-
-
-  test()async{
     var result = await Permission.notification.request();
     if (result.isGranted) {
-        FlutterWorkmanagerNotification.instance.startBPackageWorkManager(
+      _registerBroadcast();
+      _startForegroundService();
+      FlutterWorkmanagerNotification.instance.startBPackageWorkManager(
+        id: NotificationId.timerNotificationId,
+        contentListStr: _getNotificationContentStr(),
+        notificationConfStr: _getNotificationConfStr(),
+        btn: Local.check.tr,
+        tbaUrl: await TbaUtils.instance.getTbaUrl(),
+        tbaHeader: await TbaUtils.instance.getHeaderMap(),
+        tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
+      );
+
+      var firstInstall = StorageUtils.read<bool>(StorageName.firstInstall)??true;
+      if(firstInstall){
+        StorageUtils.write(StorageName.firstInstall, false);
+        FlutterWorkmanagerNotification.instance.firstInstallSendNotification(
           id: NotificationId.timerNotificationId,
-          contentListStr: _getNotificationContentStr(),
-          notificationConfStr: _getNotificationConfStr(),
-          firstInstall: true,
+          title: Local.checkYourAccount.tr,
+          desc: Local.completeTasks.tr,
+          firstTime: jsonDecode(_getNotificationConfStr())["first_time"],
           btn: Local.check.tr,
           tbaUrl: await TbaUtils.instance.getTbaUrl(),
           tbaHeader: await TbaUtils.instance.getHeaderMap(),
           tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
         );
+      }
+      _addClickListener();
+      FirebaseMessaging.instance.subscribeToTopic("BR~ALL");
     }
-    _registerBroadcast();
-
   }
 
   _startForegroundService() async{
@@ -162,8 +159,15 @@ class ForegroundServiceUtils {
 
   _registerBroadcast(){
     var receiver = BroadcastReceiver(names: ["android.intent.action.BOOT_COMPLETED","android.intent.action.USER_PRESENT"]);
-    receiver.messages.listen((event) {
-
+    receiver.messages.listen((event) async{
+      FlutterWorkmanagerNotification.instance.showNotification(
+        id: NotificationId.timerNotificationId,
+        contentListStr: _getNotificationContentStr(),
+        btn: Local.check.tr,
+        tbaUrl: await TbaUtils.instance.getTbaUrl(),
+        tbaHeader: await TbaUtils.instance.getHeaderMap(),
+        tbaParams: await TbaUtils.instance.getAppEventMap(AppEventName.time_pop_t,),
+      );
     });
     receiver.start();
   }
