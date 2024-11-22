@@ -56,6 +56,7 @@ class CheckAppStateUtils{
         NotifiUtils.instance.appBackGround=false;
         return;
       }
+
       if(NotifiUtils.instance.appBackGround){
         TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_chance,params: {"ad_pos_id":AdPosId.wpdnd_launch.name});
         AdUtils.instance.showOpenAd(
