@@ -159,11 +159,7 @@ class NewValueUtils{
   }
 
   test(){
-    _boxRewardList.clear();
-    jsonDecode(_getBoxRewardConf()).forEach((v) {
-      _boxRewardList.add(FloatReward.fromJson(v));
-    });
-    print("kk====${_boxRewardList.length}");
+
   }
 
   String _getLocalValueConf(){

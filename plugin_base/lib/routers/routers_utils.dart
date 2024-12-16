@@ -51,6 +51,7 @@ class RoutersUtils{
       barrierColor: barrierColor??color000000.withOpacity(0.8),
       barrierDismissible: barrierDismissible ?? false,
       useSafeArea: useSafeArea,
+      transitionDuration: Duration.zero
     );
   }
 

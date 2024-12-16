@@ -16,6 +16,7 @@ import 'package:plugin_base/utils/utils.dart';
 import 'package:plugin_base/utils/withdraw_task_util.dart';
 
 class WheelCon extends RootController{
+  var playing=false;
   @override
   void onInit() {
     super.onInit();
@@ -53,6 +54,9 @@ class WheelCon extends RootController{
   }
 
   clickPlay(){
+    if(playing){
+      return;
+    }
     if(NumUtils.instance.wheelNum<=0){
       RoutersUtils.dialog(
         child: NoWheelDialog(
@@ -63,6 +67,7 @@ class WheelCon extends RootController{
       );
       return;
     }
+    playing=true;
     EventCode.playWheel.sendMsg();
   }
 
@@ -83,11 +88,15 @@ class WheelCon extends RootController{
             adPosId: AdPosId.wpdnd_int_spin_go,
             adShowListener: AdShowListener(
               onAdHidden: (ad){
+                playing=false;
                 Utils.showIncentDialog(
                     incentFrom: IncentFrom.wheel,
                     addNum: NewValueUtils.instance.getWheelAddNum()
                 );
               },
+              showAdFail: (ad,error){
+                playing=false;
+              }
             )
         );
         break;

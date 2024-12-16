@@ -120,6 +120,7 @@ class _TopMoneyWidgetState extends State<TopMoneyWidget>{
   }
 
   _showTopCashGuideOverlay(){
+    TbaUtils.instance.appEvent(AppEventName.home_guide_cash_s);
     var renderBox = topMoneyGlobalKey.currentContext!.findRenderObject() as RenderBox;
     var offset = renderBox.localToGlobal(Offset.zero);
     NewGuideUtils.instance.showGuideOver(
@@ -127,6 +128,7 @@ class _TopMoneyWidgetState extends State<TopMoneyWidget>{
       widget: TopCashGuideWidget(
         offset: offset,
         hideCall: (){
+          TbaUtils.instance.appEvent(AppEventName.home_guide_cash_c);
           NewGuideUtils.instance.updatePlanBNewUserStep(BPackageNewUserGuideStep.rightAnswerGuide);
         },
       ),

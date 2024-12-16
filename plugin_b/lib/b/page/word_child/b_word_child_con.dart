@@ -120,6 +120,7 @@ class BWordChildCon extends RootController{
     _stopWordsTipsTimer();
     _hideWordsGuide();
     _chooseAnswerIndex=index;
+    EventCode.notClickBubble.sendMsg();
     update(["answer"]);
     var result = _checkAnswerResult();
     if(result){
@@ -223,6 +224,7 @@ class BWordChildCon extends RootController{
         // );
       }
       _chooseAnswerIndex=-1;
+      EventCode.canClickBubble.sendMsg();
     });
   }
 
@@ -362,9 +364,9 @@ class BWordChildCon extends RootController{
       //   break;
       case EventCode.showHomeBubbleGuide:
         update(["bubble"]);
-        if(QuestionUtils.instance.bAnswerIndex==1){
-          _showBubbleGuideOverlay();
-        }
+        // if(QuestionUtils.instance.bAnswerIndex==1){
+        //   _showBubbleGuideOverlay();
+        // }
         break;
       case EventCode.signSuccess:
         _startSignDownCount();
@@ -573,6 +575,7 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
+    NewValueUtils.instance.test();
   }
 
   @override

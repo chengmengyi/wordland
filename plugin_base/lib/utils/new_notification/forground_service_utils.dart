@@ -18,6 +18,7 @@ import 'package:plugin_base/utils/utils.dart';
 class NotificationId{
   static const int timerNotificationId=100;
   static const int foregroundNotificationId=101;
+  static const int unlockNotificationId=102;
 }
 
 class ForegroundServiceUtils {
@@ -120,6 +121,9 @@ class ForegroundServiceUtils {
       case NotificationId.timerNotificationId:
         TbaUtils.instance.appEvent(AppEventName.time_pop_c);
         break;
+      case NotificationId.unlockNotificationId:
+        TbaUtils.instance.appEvent(AppEventName.unlock_pop_c);
+        break;
     }
   }
 
@@ -160,8 +164,9 @@ class ForegroundServiceUtils {
   _registerBroadcast(){
     var receiver = BroadcastReceiver(names: ["android.intent.action.BOOT_COMPLETED","android.intent.action.USER_PRESENT"]);
     receiver.messages.listen((event) async{
+      TbaUtils.instance.appEvent(AppEventName.unlocck_pop_t);
       FlutterWorkmanagerNotification.instance.showNotification(
-        id: NotificationId.timerNotificationId,
+        id: NotificationId.unlockNotificationId,
         contentListStr: _getNotificationContentStr(),
         btn: Local.check.tr,
         tbaUrl: await TbaUtils.instance.getTbaUrl(),

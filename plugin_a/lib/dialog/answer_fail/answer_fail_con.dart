@@ -40,6 +40,10 @@ class AnswerFailCon extends RootController{
           RoutersUtils.back();
           nextWordsCall.call(true);
         },
+          showAdFail: (ad,error){
+            RoutersUtils.back();
+            nextWordsCall.call(true);
+          }
       ),
     );
   }

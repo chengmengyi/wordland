@@ -145,4 +145,8 @@ class IntAd {
     return map;
   }
 
+  @override
+  String toString() {
+    return 'IntAd{firstNumber: $firstNumber, point: $point, endNumber: $endNumber}';
+  }
 }

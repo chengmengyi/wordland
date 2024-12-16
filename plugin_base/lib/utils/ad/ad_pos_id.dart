@@ -115,4 +115,8 @@ enum AppEventName{
   time_pop_c,
   time_pop_t,
   wpdnd_config_success,
+  home_guide_cash_s,
+  home_guide_cash_c,
+  unlock_pop_c,
+  unlocck_pop_t,
 }

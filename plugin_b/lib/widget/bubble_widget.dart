@@ -28,7 +28,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
   double width=360.w,currentX=0.0;
   double height=760.h,currentY=0.0;
   Timer? _timer;
-  bool right=true,down=true,showGuide=false,showBubble=true;
+  bool right=true,down=true,showGuide=false,showBubble=true,canClick=false;
   late StreamSubscription<EventCode>? _bus;
   var addNum=NewValueUtils.instance.getFloatAddNum();
 
@@ -40,6 +40,12 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
         setState(() {
           showGuide=true;
         });
+      }
+      if(event.name==EventCode.canClickBubble.name){
+        canClick=true;
+      }
+      if(event.name==EventCode.notClickBubble.name){
+        canClick=false;
       }
     });
     Future((){
@@ -137,6 +143,9 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
   }
 
   _clickBubble(){
+    if(!canClick){
+      return;
+    }
     TbaUtils.instance.appEvent(AppEventName.word_float_pop);
     setState(() {
       showGuide=false;

@@ -65,6 +65,12 @@ class IncentCon extends RootController{
             dismissDialog?.call();
           });
         },
+        showAdFail: (ad,error){
+          RoutersUtils.back();
+          NumUtils.instance.updateUserMoney(addNum, (){
+            dismissDialog?.call();
+          });
+        }
       ),
     );
   }

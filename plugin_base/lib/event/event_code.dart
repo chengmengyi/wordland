@@ -31,4 +31,6 @@ enum EventCode{
   refreshAchNum,
   showHomeTopCashGuide,
   newUserGuideShowRightAnswerGuide,
+  canClickBubble,
+  notClickBubble,
 }

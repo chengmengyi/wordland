@@ -308,9 +308,9 @@ class BWordChildCon extends RootController{
       //   break;
       case EventCode.showHomeBubbleGuide:
         update(["bubble"]);
-        if(QuestionUtils.instance.bAnswerIndex==1){
-          _showBubbleGuideOverlay();
-        }
+        // if(QuestionUtils.instance.bAnswerIndex==1){
+        //   _showBubbleGuideOverlay();
+        // }
         break;
       default:
 
