@@ -16,10 +16,12 @@ import 'package:plugin_base/utils/utils.dart';
 import 'package:plugin_base/utils/withdraw_task_util.dart';
 
 class WheelCon extends RootController{
-  var playing=false;
+  var playing=false,autoPlay=false;
   @override
   void onInit() {
     super.onInit();
+    autoPlay=RoutersUtils.getParams()["auto"]??false;
+
     FlutterMaxAd.instance.loadAdByType(AdType.reward);
     FlutterMaxAd.instance.loadAdByType(AdType.inter);
     TbaUtils.instance.appEvent(AppEventName.wheel_pop);
@@ -28,7 +30,7 @@ class WheelCon extends RootController{
   @override
   void onReady() {
     super.onReady();
-    if(RoutersUtils.getParams()["auto"]==true){
+    if(autoPlay){
       clickPlay();
     }
   }
@@ -83,22 +85,30 @@ class WheelCon extends RootController{
       case EventCode.stopWheel:
         NumUtils.instance.updateWheelNum(-1);
         WithdrawTaskUtils.instance.updateWheelNum();
-        AdUtils.instance.showAd(
-            adType: AdType.inter,
-            adPosId: AdPosId.wpdnd_int_spin_go,
-            adShowListener: AdShowListener(
-              onAdHidden: (ad){
-                playing=false;
-                Utils.showIncentDialog(
-                    incentFrom: IncentFrom.wheel,
-                    addNum: NewValueUtils.instance.getWheelAddNum()
-                );
-              },
-              showAdFail: (ad,error){
-                playing=false;
-              }
-            )
-        );
+        if(autoPlay){
+          playing=false;
+          Utils.showIncentDialog(
+              incentFrom: IncentFrom.wheel,
+              addNum: NewValueUtils.instance.getWheelAddNum()
+          );
+        }else{
+          AdUtils.instance.showAd(
+              adType: AdType.inter,
+              adPosId: AdPosId.wpdnd_int_spin_go,
+              adShowListener: AdShowListener(
+                  onAdHidden: (ad){
+                    playing=false;
+                    Utils.showIncentDialog(
+                        incentFrom: IncentFrom.wheel,
+                        addNum: NewValueUtils.instance.getWheelAddNum()
+                    );
+                  },
+                  showAdFail: (ad,error){
+                    playing=false;
+                  }
+              )
+          );
+        }
         break;
       default:
 

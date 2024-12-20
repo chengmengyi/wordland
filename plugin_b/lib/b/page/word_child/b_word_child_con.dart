@@ -575,7 +575,6 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
-    NewValueUtils.instance.test();
   }
 
   @override

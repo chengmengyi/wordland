@@ -289,10 +289,9 @@ packages:
   flutter_check_adjust_cloak:
     dependency: transitive
     description:
-      name: flutter_check_adjust_cloak
-      sha256: "65df40b3b14c8870a75e9595955e708d11e2804fcabfdaae9eedb3cb0c028bb9"
-      url: "https://pub.dev"
-    source: hosted
+      path: "/Users/jaydenniked/StudioProjects/flutter_check_adjust_cloak-0.3.2"
+      relative: false
+    source: path
     version: "0.3.2"
   flutter_lints:
     dependency: "direct dev"

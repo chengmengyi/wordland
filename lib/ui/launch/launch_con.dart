@@ -11,6 +11,8 @@ import 'package:plugin_base/event/event_code.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
+import 'package:plugin_base/storage/storage_name.dart';
+import 'package:plugin_base/storage/storage_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/ad/ad_utils.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
@@ -55,8 +57,9 @@ class LaunchCon extends RootController with WidgetsBindingObserver{
   }
 
   _checkResult()async{
+    var firstInstall = StorageUtils.read<bool>(StorageName.firstInstall)??true;
     var hasCache = FlutterMaxAd.instance.checkHasCache(AdType.inter);
-    if(hasCache){
+    if(hasCache&&!firstInstall){
       AdUtils.instance.showOpenAd(
         closeAd: (){
           _toHome();

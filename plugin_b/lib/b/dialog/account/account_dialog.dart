@@ -55,7 +55,6 @@ class AccountDialog extends RootDialog<AccountCon>{
             maxLength: 20,
             textAlign: TextAlign.center,
             controller: rootController.editingController,
-            keyboardType: TextInputType.number,
             style: TextStyle(
               fontSize: 14.sp,
               color: color333333,
