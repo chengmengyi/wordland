@@ -289,8 +289,8 @@ packages:
   flutter_check_adjust_cloak:
     dependency: transitive
     description:
-      path: "/Users/jaydenniked/StudioProjects/flutter_check_adjust_cloak-0.3.2"
-      relative: false
+      path: "plugin_base/plugins/flutter_check_adjust_cloak-0.3.2"
+      relative: true
     source: path
     version: "0.3.2"
   flutter_lints:
