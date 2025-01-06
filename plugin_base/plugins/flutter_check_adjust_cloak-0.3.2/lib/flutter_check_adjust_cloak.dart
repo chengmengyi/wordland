@@ -17,7 +17,8 @@ class FlutterCheckAdjustCloak {
   static final FlutterCheckAdjustCloak _instance = FlutterCheckAdjustCloak();
   static FlutterCheckAdjustCloak get instance => _instance;
 
-  bool _forceBuyUser=false,_hasSim=false,_isB=false;
+  //1.6号改成只有B包
+  bool _forceBuyUser=true,_hasSim=false,_isB=false;
   String _userTypeFirebaseStr="";
   String _adjustConfKey="1";
   final List<String> _referrerConfList=["fb4a"];

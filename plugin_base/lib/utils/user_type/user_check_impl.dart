@@ -2,6 +2,7 @@ import 'package:adjust_sdk/adjust_event_success.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_check_adjust_cloak/flutter_check_adjust_cloak.dart';
 import 'package:flutter_check_adjust_cloak/util/check_listener.dart';
+import 'package:flutter_max_ad/facebook_utils.dart';
 import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/utils/new_notification/forground_service_utils.dart';
 import 'package:plugin_base/utils/notifi/notifi_utils.dart';
@@ -54,6 +55,7 @@ class UserCheckImpl implements CheckListener{
     NewValueUtils.instance.getFirebaseInfo();
     AdjustPointUtils.instance.getFirebaseData();
     ForegroundServiceUtils.instance.getFirebaseConf();
+    _getFacebookConf();
   }
 
   @override
@@ -65,5 +67,10 @@ class UserCheckImpl implements CheckListener{
     if(!NotifiUtils.instance.launchShowing&&!NotifiUtils.instance.hasBuyHome&&!FlutterCheckAdjustCloak.instance.getUserType()&&FlutterCheckAdjustCloak.instance.checkType()){
       RoutersUtils.toNamed(routerName: RoutersData.bHome);
     }
+  }
+
+  _getFacebookConf()async{
+    var s = await FlutterCheckAdjustCloak.instance.getFirebaseStrValue("fb_inform");
+    FacebookUtils.instance.initFacebook(s);
   }
 }

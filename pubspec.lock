@@ -140,10 +140,9 @@ packages:
   facebook_app_events:
     dependency: transitive
     description:
-      name: facebook_app_events
-      sha256: "01c4f3ea5ec3e4bf492c8d782e569ca2251f2b67d34504efba24887e63dd42da"
-      url: "https://pub.dev"
-    source: hosted
+      path: "plugin_base/plugins/flutter_max_ad-0.3.9/plugins/facebook_app_events-0.19.2"
+      relative: true
+    source: path
     version: "0.19.2"
   fading_edge_scrollview:
     dependency: transitive
@@ -304,10 +303,9 @@ packages:
   flutter_max_ad:
     dependency: transitive
     description:
-      name: flutter_max_ad
-      sha256: "4e690012e3600eb6f524196c65bd6e38c1ade77de84fc88c9474fe293f1555a0"
-      url: "https://pub.dev"
-    source: hosted
+      path: "plugin_base/plugins/flutter_max_ad-0.3.9"
+      relative: true
+    source: path
     version: "0.3.9"
   flutter_screenutil:
     dependency: transitive
