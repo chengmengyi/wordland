@@ -8,6 +8,7 @@ import 'package:plugin_b/b/page/withdraw_child/b_withdraw_child_page.dart';
 import 'package:plugin_b/b/page/word_child/b_word_child_page.dart';
 import 'package:plugin_base/bean/home_bottom_bean.dart';
 import 'package:plugin_base/event/event_code.dart';
+import 'package:plugin_base/plugin_base.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
@@ -35,6 +36,7 @@ class BHomeCon extends RootController{
     NotifiUtils.instance.hasBuyHome=true;
     NotifiUtils.instance.initNotifi();
     TbaUtils.instance.appEvent(AppEventName.wl_word_page);
+    PluginBase.instance.openDDDD();
   }
 
   @override

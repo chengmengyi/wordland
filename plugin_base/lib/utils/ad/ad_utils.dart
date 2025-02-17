@@ -47,7 +47,7 @@ class AdUtils{
     FlutterMaxAd.instance.setLoadAdListener(
         LoadAdListener(
           startLoad: (){
-            TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_request);
+            // TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_request);
           },
           loadSuccess: (ad,info){
             TbaUtils.instance.appEvent(AppEventName.wpdnd_ad_fill,params: {"platform":info?.plat??"","networkName":ad?.networkName??""});

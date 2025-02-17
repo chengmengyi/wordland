@@ -20,21 +20,21 @@ class UserTypeUtils{
   UserTypeUtils._internal();
 
   init()async{
-    // var distinctId = await FlutterTbaInfo.instance.getDistinctId();
-    // var cloakStr = await _getCloakStr(distinctId);
-    // // FlutterCheckAdjustCloak.instance.forceBuyUser(true);
-    // FlutterCheckAdjustCloak.instance.initCheck(
-    //   cloakPath: cloakStr,
-    //   normalModeStr: "binaural",
-    //   blackModeStr: "middle",
-    //   adjustToken: adjustToken,
-    //   adjustSandbox: false,
-    //   distinctId: distinctId,
-    //   unknownFirebaseKey: "word_unknown",
-    //   referrerConfKey: "referr",
-    //   adjustConfKey: "wland_adjust_on",
-    //   checkListener: UserCheckImpl(),
-    // );
+    var distinctId = await FlutterTbaInfo.instance.getDistinctId();
+    var cloakStr = await _getCloakStr(distinctId);
+    // FlutterCheckAdjustCloak.instance.forceBuyUser(true);
+    FlutterCheckAdjustCloak.instance.initCheck(
+      cloakPath: cloakStr,
+      normalModeStr: "binaural",
+      blackModeStr: "middle",
+      adjustToken: adjustToken,
+      adjustSandbox: false,
+      distinctId: distinctId,
+      unknownFirebaseKey: "word_unknown",
+      referrerConfKey: "referr",
+      adjustConfKey: "wland_adjust_on",
+      checkListener: UserCheckImpl(),
+    );
   }
 
   Future<String> _getCloakStr(String distinctId)async{

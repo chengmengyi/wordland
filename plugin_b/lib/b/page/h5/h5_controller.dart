@@ -1,16 +1,20 @@
 import 'package:plugin_base/export.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
+import 'package:plugin_base/utils/num_utils.dart';
 
 class H5Controller extends RootController{
   late WebViewController webViewController;
+  var isLeftLucky=true;
 
   @override
   void onInit() {
     super.onInit();
-    webViewController=WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setNavigationDelegate(
+    isLeftLucky=RoutersUtils.getParams()["isLeftLucky"];
+    webViewController=WebViewController();
+    if(isLeftLucky){
+      webViewController.setJavaScriptMode(JavaScriptMode.unrestricted);
+      webViewController.setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
           },
@@ -27,6 +31,7 @@ class H5Controller extends RootController{
           },
         ),
       );
+    }
   }
 
   @override
@@ -36,10 +41,16 @@ class H5Controller extends RootController{
   }
 
   _loadUrl()async{
-    var gaid = await FlutterTbaInfo.instance.getGaid();
-    var distinctId = await FlutterTbaInfo.instance.getDistinctId();
-    var url="https://s.gamifyspace.com/tml?pid=12966&appk=jFnpPpaQq9bINJ22Wf0HF4SyKQMBS6R7&did=$gaid&cdid=$distinctId";
-    webViewController.loadRequest(Uri.parse(url));
+    if(isLeftLucky){
+      var gaid = await FlutterTbaInfo.instance.getGaid();
+      var distinctId = await FlutterTbaInfo.instance.getDistinctId();
+      var url="https://s.gamifyspace.com/tml?pid=12966&appk=jFnpPpaQq9bINJ22Wf0HF4SyKQMBS6R7&did=$gaid&cdid=$distinctId";
+      webViewController.loadRequest(Uri.parse(url));
+    }else{
+      webViewController.loadRequest(Uri.parse(NumUtils.instance.homeRightH5));
+    }
+
+
     // update(["web"]);
   }
 

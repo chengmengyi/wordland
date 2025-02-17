@@ -179,9 +179,9 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
     //Fyber
-    api "com.anythink.sdk:adapter-fyber:6.4.17"
-    api "com.fyber:marketplace-sdk:8.3.1"
-    api "com.google.android.gms:play-services-ads-identifier:18.0.1"
+//    api "com.anythink.sdk:adapter-fyber:6.4.17"
+//    api "com.fyber:marketplace-sdk:8.3.1"
+//    api "com.google.android.gms:play-services-ads-identifier:18.0.1"
 
 //Tramini
     api "com.anythink.sdk:tramini-plugin:6.4.17"
@@ -191,7 +191,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-base:16.1.0'
 
     implementation 'com.applovin.mediation:bigoads-adapter:4.9.1.1'
-    implementation 'com.applovin.mediation:fyber-adapter:8.3.1.1'
+//    implementation 'com.applovin.mediation:fyber-adapter:8.3.1.1'
     implementation 'com.applovin.mediation:google-ad-manager-adapter:23.5.0.0'
     implementation 'com.applovin.mediation:google-adapter:23.5.0.0'
     implementation 'com.applovin.mediation:inmobi-adapter:10.7.8.1'

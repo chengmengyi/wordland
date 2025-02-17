@@ -59,4 +59,5 @@ class StorageName {
   static const String localBoxRewardsStr="localBoxRewardsStr";
 
   static const String firstInstall="firstInstall";
+  static const String hasCash="hasCash";
 }

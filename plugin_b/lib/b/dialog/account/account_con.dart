@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
+import 'package:plugin_base/storage/storage_name.dart';
+import 'package:plugin_base/storage/storage_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/num_utils.dart';
 import 'package:plugin_base/utils/tba_utils.dart';
@@ -23,6 +25,7 @@ class AccountCon extends RootController{
       showToast("Please enter the correct withdrawal account number");
       return;
     }
+    StorageUtils.write(StorageName.hasCash, true);
     RoutersUtils.back();
     showToast("Congratulations on your successful withdrawal. Your money has arrived");
     NumUtils.instance.updateUserMoney(-chooseNum.toDouble(), (){});

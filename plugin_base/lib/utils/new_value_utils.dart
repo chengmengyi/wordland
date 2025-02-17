@@ -140,7 +140,8 @@ class NewValueUtils{
       return false;
     }
     var userMoney = NumUtils.instance.userMoneyNum;
-    if(userMoney>(list.last.endNumber??500)){
+    var hasCash = StorageUtils.read<bool>(StorageName.hasCash)??false;
+    if((adType==AdType.inter&&hasCash)||userMoney>(list.last.endNumber??500)){
       return _randomShowAd(list.last.point??0);
     }
     for (var value in list) {

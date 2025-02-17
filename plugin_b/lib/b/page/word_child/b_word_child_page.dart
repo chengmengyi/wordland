@@ -58,6 +58,7 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       ),
       MoneyAnimatorWidget(),
       _h5Widget(),
+      _h5RightWidget(),
     ],
   );
 
@@ -418,9 +419,23 @@ class BWordChildPage extends RootChild<BWordChildCon>{
       offstage: NumUtils.instance.h5_show=="0",
       child: InkWell(
         onTap: (){
-          RoutersUtils.toNamed(routerName: RoutersData.bH5);
+          RoutersUtils.toNamed(routerName: RoutersData.bH5,params: {"isLeftLucky":true});
         },
         child: Image.asset("images/h5.gif",width: 60,height: 60,),
+      ),
+    ),
+  );
+
+  _h5RightWidget()=>Positioned(
+    bottom: 10,
+    right: 0,
+    child: Offstage(
+      offstage: NumUtils.instance.homeRightH5.isEmpty,
+      child: InkWell(
+        onTap: (){
+          RoutersUtils.toNamed(routerName: RoutersData.bH5,params: {"isLeftLucky":false});
+        },
+        child: ImageWidget(image: "h5",width: 80.w,height: 80.w,),
       ),
     ),
   );
