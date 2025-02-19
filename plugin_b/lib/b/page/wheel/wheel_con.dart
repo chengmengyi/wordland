@@ -2,6 +2,7 @@ import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:plugin_b/b/dialog/no_wheel/no_wheel_dialog.dart';
+import 'package:plugin_b/utils/cash_task/cash_task_utils.dart';
 import 'package:plugin_b/utils/utils.dart';
 import 'package:plugin_base/enums/incent_from.dart';
 import 'package:plugin_base/event/event_code.dart';
@@ -83,6 +84,7 @@ class WheelCon extends RootController{
         update(["bottom"]);
         break;
       case EventCode.stopWheel:
+        CashTaskUtils.instance.updateCashTaskPro(CashTaskName.wheel);
         NumUtils.instance.updateWheelNum(-1);
         WithdrawTaskUtils.instance.updateWheelNum();
         if(autoPlay){

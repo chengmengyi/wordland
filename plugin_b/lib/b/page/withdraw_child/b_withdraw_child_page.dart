@@ -360,13 +360,17 @@ class BWithdrawChildPage extends RootChild<BWithdrawChildCon>{
   
   _cashBtnWidget()=>Container(
     margin: EdgeInsets.only(left: 12.w,right: 12.w,top: 12.h),
-    child: BtnWidget(
-        text: Local.cashOut.tr,
+    child: GetBuilder<BWithdrawChildCon>(
+      id: "cash_btn",
+      builder: (_)=>BtnWidget(
+        text: rootController.getCashBtnStr(),
         width: double.infinity,
         height: 44.h,
         click: (){
           rootController.clickWithdraw();
-        }),
+        },
+      ),
+    ),
   );
 
   _lineWidget()=>Container(

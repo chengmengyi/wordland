@@ -14,8 +14,10 @@ import 'package:plugin_base/widget/text_widget.dart';
 
 class AccountDialog extends RootDialog<AccountCon>{
   int chooseNum;
+  Function(String account) dismiss;
   AccountDialog({
     required this.chooseNum,
+    required this.dismiss,
   });
   @override
   AccountCon setController() => AccountCon();
@@ -77,7 +79,12 @@ class AccountDialog extends RootDialog<AccountCon>{
           child: TextWidget(text: Local.yourCashWill.tr, color: color8F7E53, size: 12.sp),
         ),
         SizedBox(height: 8.h,),
-        BtnWidget(text: Local.withdrawNow.tr, click: (){rootController.clickWithdraw(chooseNum);})
+        BtnWidget(
+          text: Local.withdrawNow.tr,
+          click: (){
+            rootController.clickWithdraw(dismiss);
+            },
+        )
       ],
     ),
   );

@@ -16,6 +16,7 @@ import 'package:plugin_b/guide/guide_step.dart';
 import 'package:plugin_b/guide/home_bubble_guide_widget.dart';
 import 'package:plugin_b/guide/new_guide_utils.dart';
 import 'package:plugin_b/guide/wheel_guide_widget.dart';
+import 'package:plugin_b/utils/cash_task/cash_task_utils.dart';
 import 'package:plugin_b/utils/progress/progress_bean.dart';
 import 'package:plugin_b/utils/progress/progress_utils.dart';
 import 'package:plugin_b/utils/task_utils.dart';
@@ -144,6 +145,7 @@ class BWordChildCon extends RootController{
         update(["pro"]);
         _checkProgressPosition();
         if(showBoxOrWheel==-1){
+          CashTaskUtils.instance.updateCashTaskPro(CashTaskName.quiz);
           RoutersUtils.dialog(
               child: AnswerRightDialog(
                 isBox: false,
@@ -162,6 +164,7 @@ class BWordChildCon extends RootController{
                 addNum: NewValueUtils.instance.getBoxAddNum(),
                 isBox: true,
                 call: (money){
+                  CashTaskUtils.instance.updateCashTaskPro(CashTaskName.box);
                   NumUtils.instance.updateUserMoney(money, (){
                     update(["level"]);
                     _updateQuestionData();
@@ -575,6 +578,8 @@ class BWordChildCon extends RootController{
     if(!kDebugMode){
       return;
     }
+    // NumUtils.instance.updateUserMoney(1000, (){});
+    CashTaskUtils.instance.updateCashTaskPro(CashTaskName.sign);
   }
 
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plugin_b/b/dialog/cash_congratulations/cash_congratulations_dialog.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
@@ -18,17 +19,15 @@ class AccountCon extends RootController{
     TbaUtils.instance.appEvent(AppEventName.withdraw_success_pop);
   }
   
-  clickWithdraw(int chooseNum){
+  clickWithdraw(Function(String account) dismiss){
     TbaUtils.instance.appEvent(AppEventName.withdraw_success_pop_c);
     var content = editingController.text.toString().trim();
     if(content.isEmpty){
       showToast("Please enter the correct withdrawal account number");
       return;
     }
-    StorageUtils.write(StorageName.hasCash, true);
     RoutersUtils.back();
-    showToast("Congratulations on your successful withdrawal. Your money has arrived");
-    NumUtils.instance.updateUserMoney(-chooseNum.toDouble(), (){});
+    dismiss.call(content);
   }
 
   @override

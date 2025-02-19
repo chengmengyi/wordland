@@ -71,4 +71,17 @@ class Local {
   static const String tryItNow = 'Try it now!';
   static const String answerCorrectly = 'Answer correctly to claim \$50.';
   static const String playGames = 'Play games to earn coins';
+
+
+  static const String weHaveCompletedThePayment = 'We have completed the payment, and the funds will be credited to your bank account within 7 business days.';
+  static const String instantlyCredited = 'Instantly credited';
+  static const String withdrawalUnlock = 'Withdrawal Unlock';
+  static const String abnormalActivityDetected = "Abnormal activity detected on your account.Complete the task to verify you're a real person.";
+  static const String complete = "Complete";
+  static const String collect10Balls = "Collect 10 balls";
+  static const String spinTheWheel5Times = "Spin the Wheel 5 times";
+  static const String tap10Chests = "Tap 10 Chests";
+  static const String answer20Questions = "Answer 20 questions";
+  static const String timeRewards2 = "Time Rewards 2";
+  static const String timeRewards10 = "Time Rewards 10";
 }

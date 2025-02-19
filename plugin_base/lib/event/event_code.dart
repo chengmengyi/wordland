@@ -33,4 +33,5 @@ enum EventCode{
   newUserGuideShowRightAnswerGuide,
   canClickBubble,
   notClickBubble,
+  updateCashTask,
 }

@@ -5,6 +5,7 @@ import 'package:flutter_max_ad/ad/ad_type.dart';
 import 'package:flutter_max_ad/ad/listener/ad_show_listener.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:plugin_b/utils/cash_task/cash_task_utils.dart';
 import 'package:plugin_base/event/event_code.dart';
 import 'package:plugin_base/event/event_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
@@ -146,6 +147,7 @@ class _BubbleWidgetState extends State<BubbleWidget> with SingleTickerProviderSt
     if(!canClick){
       return;
     }
+    CashTaskUtils.instance.updateCashTaskPro(CashTaskName.bubble);
     TbaUtils.instance.appEvent(AppEventName.word_float_pop);
     setState(() {
       showGuide=false;

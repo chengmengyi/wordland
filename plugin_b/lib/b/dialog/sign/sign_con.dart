@@ -5,6 +5,7 @@ import 'package:flutter_max_ad/flutter_max_ad.dart';
 import 'package:get/get.dart';
 import 'package:plugin_b/guide/guide_step.dart';
 import 'package:plugin_b/guide/new_guide_utils.dart';
+import 'package:plugin_b/utils/cash_task/cash_task_utils.dart';
 import 'package:plugin_b/utils/task_utils.dart';
 import 'package:plugin_base/enums/sign_from.dart';
 import 'package:plugin_base/event/event_code.dart';
@@ -78,6 +79,7 @@ class SignCon extends RootController{
         AppEventName.wl_signin_pop_c,
         params: {"sign_from":_signFrom==SignFrom.newUserGuide?"new":_signFrom==SignFrom.oldUserGuide?"old":"other"}
     );
+    CashTaskUtils.instance.updateCashTaskPro(CashTaskName.sign);
     AdUtils.instance.showAd(
         adType: AdType.reward,
         adPosId: AdPosId.wpdnd_rv_sign_in,

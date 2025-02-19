@@ -4,12 +4,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:plugin_b/b/dialog/account/account_dialog.dart';
+import 'package:plugin_b/b/dialog/cash_congratulations/cash_congratulations_dialog.dart';
+import 'package:plugin_b/b/dialog/cash_task/cash_task_dialog.dart';
 import 'package:plugin_b/b/dialog/incomplete/incomplete_dialog.dart';
 import 'package:plugin_b/b/dialog/no_money/no_money_dialog.dart';
 import 'package:plugin_b/guide/guide_step.dart';
 import 'package:plugin_b/guide/new_guide_utils.dart';
 import 'package:plugin_b/guide/withdraw_level20_guide_widget.dart';
 import 'package:plugin_b/guide/withdraw_sign_btn_guide_widget.dart';
+import 'package:plugin_b/utils/cash_task/cash_task_utils.dart';
 import 'package:plugin_b/utils/utils.dart';
 import 'package:plugin_base/bean/cash_bg_bean.dart';
 import 'package:plugin_base/bean/withdraw_task_bean.dart';
@@ -19,6 +22,8 @@ import 'package:plugin_base/language/local.dart';
 import 'package:plugin_base/root/root_controller.dart';
 import 'package:plugin_base/routers/routers_data.dart';
 import 'package:plugin_base/routers/routers_utils.dart';
+import 'package:plugin_base/storage/storage_name.dart';
+import 'package:plugin_base/storage/storage_utils.dart';
 import 'package:plugin_base/utils/ad/ad_pos_id.dart';
 import 'package:plugin_base/utils/new_value_utils.dart';
 import 'package:plugin_base/utils/num_utils.dart';
@@ -28,7 +33,7 @@ import 'package:plugin_base/utils/utils.dart';
 import 'package:plugin_base/utils/withdraw_task_util.dart';
 
 class BWithdrawChildCon extends RootController{
-  var chooseIndex=0,marqueeStr="";
+  var chooseIndex=0,marqueeStr="",_completedTask=false;
   List<int> withdrawNumList=NewValueUtils.instance.getCashList();
   List<WithdrawTaskBean> taskList=[];
 
@@ -63,6 +68,7 @@ class BWithdrawChildCon extends RootController{
       chooseIndex=index;
       update(["child"]);
     }
+    _updateCashBtn();
   }
 
   clickTask(WithdrawTaskBean bean){
@@ -94,30 +100,57 @@ class BWithdrawChildCon extends RootController{
   clickPayType(index){
     NumUtils.instance.updatePayType(index);
     update(["child"]);
+    _updateCashBtn();
   }
 
   clickWithdraw(){
     TbaUtils.instance.appEvent(AppEventName.withdraw_page_c);
     var chooseMoneyNum = withdrawNumList[chooseIndex];
+    _showCashTaskDialog(chooseMoneyNum);
+  }
+
+  _showCashTaskDialog(int chooseMoneyNum)async{
+    var caskTaskBean = await CashTaskUtils.instance.getCashTaskBeanByCashTypeNum(NumUtils.instance.payType, chooseMoneyNum);
+    if(null!=caskTaskBean){
+      if(caskTaskBean.taskComplete==1){
+        RoutersUtils.dialog(
+          child: CashCongratulationsDialog(
+            dismiss: ()async{
+              await CashTaskUtils.instance.deleteCashTask(NumUtils.instance.payType, chooseMoneyNum);
+              _updateCashBtn();
+            },
+          ),
+        );
+      }else{
+        RoutersUtils.dialog(
+            child: CashTaskDialog(caskTaskBean: caskTaskBean,)
+        );
+      }
+      return;
+    }
     if(NumUtils.instance.userMoneyNum<chooseMoneyNum){
       RoutersUtils.dialog(child: NoMoneyDialog());
       return;
     }
-    // if(taskList.isNotEmpty){
-    //   TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop);
-    //   RoutersUtils.dialog(
-    //     child: IncompleteDialog(
-    //       chooseNum: chooseMoneyNum,
-    //       bean: taskList.first,
-    //       clickGo: (){
-    //         TbaUtils.instance.appEvent(AppEventName.withdraw_task_pop_go);
-    //         clickTask(taskList.first);
-    //       },
-    //     ),
-    //   );
-    //   return;
-    // }
-    RoutersUtils.dialog(child: AccountDialog(chooseNum: chooseMoneyNum,));
+    _createCashTask(chooseMoneyNum);
+  }
+
+  _createCashTask(int chooseMoneyNum){
+    RoutersUtils.dialog(
+      child: AccountDialog(
+        chooseNum: chooseMoneyNum,
+        dismiss: (account)async{
+          StorageUtils.write(StorageName.hasCash, true);
+          NumUtils.instance.updateUserMoney(-chooseMoneyNum.toDouble(), (){});
+          var caskTaskBean = await CashTaskUtils.instance.createCashTask(NumUtils.instance.payType, chooseMoneyNum, account);
+          if(null!=caskTaskBean){
+            RoutersUtils.dialog(
+                child: CashTaskDialog(caskTaskBean: caskTaskBean,)
+            );
+          }
+        },
+      ),
+    );
   }
 
   @override
@@ -136,11 +169,22 @@ class BWithdrawChildCon extends RootController{
       case EventCode.bPackageShowCashLevel20Overlay:
         _showLevel20Overlay();
         break;
+      case EventCode.updateCashTask:
+        _updateCashBtn();
+        break;
       default:
 
         break;
     }
   }
+
+  _updateCashBtn()async{
+    var chooseMoneyNum = withdrawNumList[chooseIndex];
+    _completedTask=await CashTaskUtils.instance.checkCompletedTask(NumUtils.instance.payType, chooseMoneyNum);
+    update(["cash_btn"]);
+  }
+
+  String getCashBtnStr()=>_completedTask?Local.claimNow.tr:Local.cashOut.tr;
 
   _showLevel20Overlay(){
     var indexWhere = taskList.indexWhere((element) => element.type==WithdrawTaskType.level20);
